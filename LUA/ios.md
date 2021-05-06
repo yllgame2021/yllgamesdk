@@ -34,9 +34,11 @@ pod 'Firebase/Messaging', '~> 6.34.0'
 
 3. 取消 `platform :ios, '9.0'`注释，并将其改为`platform :ios, '10.0'`
 
-4. 打开项目`Target`-->`building settings`中搜索`Header Search Paths`和`Other Linker Flags` ，添加`$(inherited)`。然后执行 pod update
+4. 打开 `use_frameworks`选项
 
-5. 配置登陆和推送
+5. 打开项目`Target`-->`building settings`中搜索`Header Search Paths`和`Other Linker Flags` ，添加`$(inherited)`。然后执行 pod update
+
+6. 配置登陆和推送
 - 添加以下几种登陆方式(苹果账号登陆&GameCenter登陆)
 
 ![登陆配置](IOS/img/login.jpg)
@@ -45,7 +47,7 @@ pod 'Firebase/Messaging', '~> 6.34.0'
 
 ![推送配置](IOS/img/push.jpg)
 
-6. 右键`ios/info.list`，选择`open AS`->`Scoure Code`，在dict中添加以为值    
+7. 右键`ios/info.list`，选择`open AS`->`Scoure Code`，在dict中添加以为值    
 
 ```xml
 <key>CFBundleURLTypes</key>
