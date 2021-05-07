@@ -1,6 +1,0 @@
-framework module YllGameSDK {
-  umbrella header "YllGameSDK.h"
-
-  export *
-  module * { export * }
-}
