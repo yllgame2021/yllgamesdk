@@ -1,5 +1,5 @@
-|上报事件 | 事件描述 | 上报时机 | EventName(事件名) | Info属性简写 | 统计说明 | 示例|
-| ------------ | ------------ | ------------ | ------------ | ------------ | ------------ |
+|上报事件 | 事件描述 | 上报时机 | EventName(事件名) | Info属性简写 | 统计说明 | 示例
+| ------------ | ------------ | ------------ | ------------ | ------------ | ------------ |------------ |
 |updateBegin | 更新游戏开始 | 启动游戏开始安装更新时触发 | YGEventGameUpdateBegin |  | 当游戏有版本更新时，更新起始位置做一次时间戳统计记录，单位：毫秒。并且记录更新 | [[YGEventManager getInstance] onEvent:YGEventGameUpdateBegin params:nil];
 |updateEnd | 更新游戏结束 | 启动游戏安装更新完成时触发 | YGEventGameUpdateEnd | tt：总耗时时间戳 | 当更新结束时，计算开始时间-结束时间的耗时，并上报 | [[YGEventManager getInstance] onEvent:YGEventGameUpdateEnd params:@{@"tt": @"tt"}];
 |gameLoginSuccess_socket | 游戏服登录成功 | 收到socket登录成功时触发 | YGEventGameSocketLoginSuccess | si：区服id" |  | [[YGEventManager getInstance] onEvent:YGEventGameSocketLoginSuccess params:@{@"si": @"si"}];
