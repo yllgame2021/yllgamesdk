@@ -289,22 +289,26 @@ pod 'Firebase/Messaging', '~> 6.34.0'
 
 ### 3.6打开修改昵称界面
 
-```java
+```obj-c
 +(void) showModifyName:(NSDictionary *)dic{
-    [[RootViewController getInstance] showModifyNameCall:dic];
+    [[YllGameSDK getInstance] yg_showNicknameView];
 }
 ```
 
 ### 3.7打开用户管理界面
 
-```java
-YGUserApi.getInstance().openAccountManager(cocos2dxActivity);
+```obj-c
++(void) showAccountManage:(NSDictionary *)dic{
+    [[YllGameSDK getInstance] yg_showAccountManagementView];
+}
 ```
 
 ### 3.8检查账号绑定
 
-```java
-YGLoginApi.getInstance().checkBindStat(cocos2dxActivity);
+```obj-c
++(void) showAccountManage:(NSDictionary *)dic{
+    [[YllGameSDK getInstance] yg_checkBindState];
+}
 ```
 
 ### 3.9设置SDK语言
@@ -314,13 +318,21 @@ YGLoginApi.getInstance().checkBindStat(cocos2dxActivity);
 +(void) setLanguage:(NSDictionary *)dic{
     NSString *lan = [dic objectForKey:@"lan"];
     [YllGameSDK getInstance].localLanguage = lan;
-    
 }
 ```
 
 ### 3.10检查SDK版本(非必要)
-
-```java
-YGLoginApi.getInstance().getVersionInfo();
+```obj-c
++(void) getSDKInfo:(NSDictionary *)dic{
+    [[YllGameSDK getInstance] yg_checkSDKVersion];
+}
 ```
-
+### 3.11自定义埋点
+```obj-c
++(void) onEvent:(NSDictionary *)dic{
+    NSString *evName = [dic objectForKey:@"evName"];
+    NSString * jsStr = [dic objectForKey:@"jsStr"];
+    NSDictionary *dicstr = [[RootViewController getInstance] dictForJSONString:jsStr];
+    [[YGEventManager getInstance] onEvent:evName params:dicstr];
+}
+```

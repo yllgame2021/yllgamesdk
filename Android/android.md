@@ -315,6 +315,12 @@ YllGameSdk.setLanguage("ar");
 YGLoginApi.getInstance().getVersionInfo();
 ```
 
+### 3.11通用事件埋点
+```java
+//event_name 参照埋点文档中的埋点名称，支持自定义
+YGEventApi.onEvent(String event_name)
+```
+
 ## 4.推送
 
 ### 4.1推送环境配置

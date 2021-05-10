@@ -41,11 +41,11 @@ pod 'Firebase/Messaging', '~> 6.34.0'
 6. 配置登陆和推送
 - 添加以下几种登陆方式(苹果账号登陆&GameCenter登陆)
 
-![登陆配置](img/login.jpg)
+![登陆配置](IOS/img/login.jpg)
 
 - 将`GoogleService-Info.plist`文件拖入项目。并配置以下选项
 
-![推送配置](img/push.jpg)
+![推送配置](IOS/img/push.jpg)
 
 7. 右键`ios/info.list`，选择`open AS`->`Scoure Code`，在dict中添加以为值    
 
@@ -289,22 +289,26 @@ pod 'Firebase/Messaging', '~> 6.34.0'
 
 ### 3.6打开修改昵称界面
 
-```java
+```obj-c
 +(void) showModifyName:(NSDictionary *)dic{
-    [[RootViewController getInstance] showModifyNameCall:dic];
+    [[YllGameSDK getInstance] yg_showNicknameView];
 }
 ```
 
 ### 3.7打开用户管理界面
 
-```java
-YGUserApi.getInstance().openAccountManager(cocos2dxActivity);
+```obj-c
++(void) showAccountManage:(NSDictionary *)dic{
+    [[YllGameSDK getInstance] yg_showAccountManagementView];
+}
 ```
 
 ### 3.8检查账号绑定
 
-```java
-YGLoginApi.getInstance().checkBindStat(cocos2dxActivity);
+```obj-c
++(void) showAccountManage:(NSDictionary *)dic{
+    [[YllGameSDK getInstance] yg_checkBindState];
+}
 ```
 
 ### 3.9设置SDK语言
@@ -314,13 +318,21 @@ YGLoginApi.getInstance().checkBindStat(cocos2dxActivity);
 +(void) setLanguage:(NSDictionary *)dic{
     NSString *lan = [dic objectForKey:@"lan"];
     [YllGameSDK getInstance].localLanguage = lan;
-    
 }
 ```
 
 ### 3.10检查SDK版本(非必要)
-
-```java
-YGLoginApi.getInstance().getVersionInfo();
+```obj-c
++(void) getSDKInfo:(NSDictionary *)dic{
+    [[YllGameSDK getInstance] yg_checkSDKVersion];
+}
 ```
-
+### 3.11自定义埋点
+```obj-c
++(void) onEvent:(NSDictionary *)dic{
+    NSString *evName = [dic objectForKey:@"evName"];
+    NSString * jsStr = [dic objectForKey:@"jsStr"];
+    NSDictionary *dicstr = [[RootViewController getInstance] dictForJSONString:jsStr];
+    [[YGEventManager getInstance] onEvent:evName params:dicstr];
+}
+```
