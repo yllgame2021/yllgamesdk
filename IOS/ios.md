@@ -138,6 +138,7 @@ pod 'Firebase/Messaging', '~> 6.34.0'
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url options:(nonnull NSDictionary<UIApplicationOpenURLOptionsKey, id> *)options {
     return [[YllGameSDK getInstance] yg_application:application openURL:url options:options];
 }
+
 - (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray<id<UIUserActivityRestoring>> * _Nullable))restorationHandler {
     return [[YllGameSDK getInstance] yg_application:application continueUserActivity:userActivity restorationHandler:restorationHandler];
 }
@@ -145,8 +146,21 @@ pod 'Firebase/Messaging', '~> 6.34.0'
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
     [[YllGameSDK getInstance] yg_application:application didReceiveRemoteNotification:userInfo fetchCompletionHandler:completionHandler];
 }
+
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     [[YllGameSDK getInstance] yg_application:application didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
+}
+
+- (void)applicationDidBecomeActive:(UIApplication *)application {
+    [[YllGameSDK getInstance] yg_applicationDidBecomeActive:application];
+}
+
+- (void)applicationDidEnterBackground:(UIApplication *)application {
+    [[YllGameSDK getInstance] yg_applicationDidEnterBackground:application];
+}
+
+- (void)applicationWillTerminate:(UIApplication *)application {
+    [[YllGameSDK getInstance] yg_applicationWillTerminate:application];
 }
 // YllSDK---------func End
 ```
