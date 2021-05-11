@@ -1,4 +1,4 @@
-# Cocos2d-x（IOS）接入文档
+# Cocos2d-x（iOS）接入文档
 
 SDK下载地址(https://www.baidu.com)
 
@@ -8,11 +8,11 @@ SDK下载地址(https://www.baidu.com)
 
 **Xcode12.0+**
 
-## 2.IOS项目修改
+## 2.iOS项目修改
 
 ### 2.1添加资源
 
-- 将 IOS 目录下的 YllGameSDK.framework 文件夹拷贝到项目的 相对应的 targets 下
+- 将 iOS 目录下的 YllGameSDK.framework 文件夹拷贝到项目的 相对应的 targets 下
 - 右键项目，选择 Add File to "XXX" , 选择刚才添加的framework，勾选 "Copy items if needed"，选择 "Create groups"，targets勾选mobile。
 - 导入 `YllGameHelper.lua` 文件到工程里，并在调用方法的时候引用，例如：
 
