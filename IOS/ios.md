@@ -53,14 +53,6 @@ pod 'Firebase/Messaging', '~> 6.34.0'
             <string>fb157932462436275</string>
         </array>
     </dict>
-    <dict>
-        <key>CFBundleTypeRole</key>
-        <string>Editor</string>
-        <key>CFBundleURLSchemes</key>
-        <array>
-            <string>com.googleusercontent.apps.301774558106-ihpd76lup5rib2bmeqjpvtqtnehlhtt7</string>
-        </array>
-    </dict>
 </array>
 
 <key>FacebookAdvertiserIDCollectionEnabled</key>
