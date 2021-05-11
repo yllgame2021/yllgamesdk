@@ -31,12 +31,16 @@ pod 'Firebase/Messaging', '~> 6.34.0'
 
 4. 打开项目`Target`-->`building settings`中搜索`Header Search Paths`和`Other Linker Flags` ，添加`$(inherited)`。然后执行 pod install
 
-5. 配置登陆和推送
+5. 配置登陆、推送和内购配置
 - 添加以下几种登陆方式(苹果账号登陆&GameCenter登陆)
 
 ![登陆配置](IOS/img/login.jpg)
 
 - 将`GoogleService-Info.plist`文件拖入项目。并配置以下选项
+
+![推送配置](IOS/img/push.jpg)
+
+- 添加内购配置
 
 ![推送配置](IOS/img/push.jpg)
 
