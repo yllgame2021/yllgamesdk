@@ -19,17 +19,7 @@ SDK下载地址(https://www.baidu.com)
 
 1. cd 到 xxx.xcodeproj 目录下，pod init 创建pod管理文件
 2. 在podfile文件中添加以下依赖库
-
-```pod
-pod 'FBSDKLoginKit', '~> 9.1.0'
-pod 'AppsFlyerFramework', '~> 6.2.5'
-pod 'Firebase/Analytics', '~> 6.34.0'
-pod 'Firebase/Messaging', '~> 6.34.0'
-```
-
-3. 打开podfile文件中 `use_frameworks` 选项
-
-4. 打开项目`Target`-->`building settings`中搜索`Header Search Paths`和`Other Linker Flags` ，添加`$(inherited)`。然后执行 pod install
+ 和`Other Linker Flags` ，添加`$(inherited)`。然后执行 pod install
 
 5. 配置登陆、推送和内购配置
 - 将`GoogleService-Info.plist`文件拖入项目。并配置以下选项
@@ -142,6 +132,7 @@ pod 'Firebase/Messaging', '~> 6.34.0'
 ```
 
 ### 3.2登陆与回调
+- SDK为游戏方提供了两种登录获取账号信息方式, 即代理和闭包, 本文档的登录是用闭包, 如需使用代理, 请自行跳转到YllGameSDK.h文件进行查阅 
 - 在项目中需要进行登录操作的xxx.h或xxx.m文件中导入 #import <YllGameSDK/YllGameSDK.h>
 
 ```obj-c
