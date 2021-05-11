@@ -142,14 +142,10 @@ pod 'Firebase/Messaging', '~> 6.34.0'
 ```
 
 ### 3.2登陆与回调
-- 在`RootViewController.h`文件中，添加头文件引用，并定义回调
+- 在项目中需要进行登录操作的xxx.h或xxx.m文件中导入 #import <YllGameSDK/YllGameSDK.h>
 
 ```obj-c
 #import <YllGameSDK/YllGameSDK.h>
-@property(nonatomic,assign) int loginCallBack; //登陆回调
-@property(nonatomic,assign) int modifyNameCallBack;//修改昵称回调
-@property(nonatomic,assign) int syncRoleCallBack; //同步角色回调
-@property(nonatomic,assign) int payCallBack;//支付回调
 ```
 
 - 在`RootViewController.mm`文件中，实现对应的方法
