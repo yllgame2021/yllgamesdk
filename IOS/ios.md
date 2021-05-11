@@ -23,7 +23,7 @@ SDK下载地址(https://www.baidu.com)
 
 ### 2.2配置项目
 
-1. cd到proj.ios_mac目录下，pod init 创建pod管理文件
+1. cd到 xxx.xcodeproj 目录下，pod init 创建pod管理文件
 2. 在podfile文件中,mobile中添加以下依赖库
 
 ```pod
