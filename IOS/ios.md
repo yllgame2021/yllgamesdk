@@ -115,18 +115,15 @@ pod 'Firebase/Messaging', '~> 6.34.0'
 ```obj-c
 //YllSDK-------Begin。appid，key这些参数需要联系游戏发行方获取，改为自己的！
 [YllGameSDK getInstance].gameAppId = @"202012031818";
-[YllGameSDK getInstance].appleAppId = @"1547226212";
+[YllGameSDK getInstance].appleAppId = @"1564017878";
 [YllGameSDK getInstance].appsFlyerDevKey = @"SXxcrcc7oqnPXV9ycDerVP";
-
 // languageList 语言集合  游戏支持语言集合 现支持 ar 阿语 en 英语 该集合默认第一个是SDK的默认语言
 [YllGameSDK getInstance].languageList = @[@"ar", @"en"];
-
 // 当前设置的语言, 不传以 languageList 的第一个值为默认语言, 若 languageList 为 null, 默认为 ar
-[YllGameSDK getInstance].localLanguage = @"en";
-
+[YllGameSDK getInstance].localLanguage = @"ar";
+    
 // 设置完以上属性之后再调用该方法, 不然对于语区统计会有影响
 [[YllGameSDK getInstance] yg_application:application didFinishLaunchingWithOptions:launchOptions];
-
 // 初始化SDK
 [[YllGameSDK getInstance] yg_init];
 //YllSDK------end
