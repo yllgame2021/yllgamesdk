@@ -37,7 +37,7 @@ pod 'Firebase/Messaging', '~> 6.34.0'
 
 4. 打开 `use_frameworks`选项
 
-5. 打开项目`Target`-->`building settings`中搜索`Header Search Paths`和`Other Linker Flags` ，添加`$(inherited)`。然后执行 pod update
+5. 打开项目`Target`-->`building settings`中搜索`Header Search Paths`和`Other Linker Flags` ，添加`$(inherited)`。然后执行 pod install
 
 6. 配置登陆和推送
 - 添加以下几种登陆方式(苹果账号登陆&GameCenter登陆)
