@@ -14,17 +14,11 @@ SDK下载地址(https://www.baidu.com)
 
 - 将 iOS 目录下的 YllGameSDK.framework 文件夹拷贝到项目的 相对应的 targets 下
 - 右键项目，选择 Add File to "XXX" , 选择刚才添加的framework，勾选 "Copy items if needed"，选择 "Create groups"，targets勾选mobile。
-- 导入 `YllGameHelper.lua` 文件到工程里，并在调用方法的时候引用，例如：
-
-``` lua
-  local YllGameHelper = require("app.models.YllGameHelper")
-  --require里面是YllGameHelper.lua所在目录
-```
 
 ### 2.2配置项目
 
-1. cd到 xxx.xcodeproj 目录下，pod init 创建pod管理文件
-2. 在podfile文件中,mobile中添加以下依赖库
+1. cd 到 xxx.xcodeproj 目录下，pod init 创建pod管理文件
+2. 在podfile文件中添加以下依赖库
 
 ```pod
 pod 'FBSDKLoginKit', '~> 9.1.0'
@@ -33,13 +27,11 @@ pod 'Firebase/Analytics', '~> 6.34.0'
 pod 'Firebase/Messaging', '~> 6.34.0'
 ```
 
-3. 取消 `platform :ios, '9.0'`注释，并将其改为`platform :ios, '10.0'`
+3. 打开 `use_frameworks`选项
 
-4. 打开 `use_frameworks`选项
+4. 打开项目`Target`-->`building settings`中搜索`Header Search Paths`和`Other Linker Flags` ，添加`$(inherited)`。然后执行 pod install
 
-5. 打开项目`Target`-->`building settings`中搜索`Header Search Paths`和`Other Linker Flags` ，添加`$(inherited)`。然后执行 pod install
-
-6. 配置登陆和推送
+5. 配置登陆和推送
 - 添加以下几种登陆方式(苹果账号登陆&GameCenter登陆)
 
 ![登陆配置](IOS/img/login.jpg)
@@ -48,7 +40,7 @@ pod 'Firebase/Messaging', '~> 6.34.0'
 
 ![推送配置](IOS/img/push.jpg)
 
-7. 右键`ios/info.list`，选择`open AS`->`Scoure Code`，在dict中添加以为值    
+6. 右键`ios/info.list`，选择`open AS`->`Scoure Code`，在dict中添加以为值    
 
 ```xml
 <key>CFBundleURLTypes</key>
