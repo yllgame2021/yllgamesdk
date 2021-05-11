@@ -34,7 +34,7 @@ pod 'Firebase/Messaging', '~> 6.34.0'
 5. 配置登陆、推送和内购配置
 - 将`GoogleService-Info.plist`文件拖入项目。并配置以下选项
 
-![登陆配置](IOS/img/Signing & Capabilities.jpg)
+![配置](IOS/img/Signing&Capabilities.jpg)
 
 6. 右键`ios/info.list`，选择`open AS`->`Scoure Code`，在dict中添加以为值    
 
