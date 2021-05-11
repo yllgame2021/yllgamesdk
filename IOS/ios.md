@@ -12,7 +12,7 @@ SDK下载地址(https://www.baidu.com)
 
 ### 2.1添加资源
 
-- 将 iOS 目录下的 YllGameSDK.framework 文件夹拷贝到项目的 相对应的 targets 下
+- 将 iOS 目录下的 YllGameSDK.framework 文件夹拷贝到项目中正确目录下
 - 右键项目，选择 Add File to "XXX" , 选择刚才添加的framework，勾选 "Copy items if needed"，选择 "Create groups"，targets勾选mobile。
 
 ### 2.2配置项目
@@ -27,7 +27,7 @@ pod 'Firebase/Analytics', '~> 6.34.0'
 pod 'Firebase/Messaging', '~> 6.34.0'
 ```
 
-3. 打开 `use_frameworks`选项
+3. 打开podfile文件中 `use_frameworks` 选项
 
 4. 打开项目`Target`-->`building settings`中搜索`Header Search Paths`和`Other Linker Flags` ，添加`$(inherited)`。然后执行 pod install
 
