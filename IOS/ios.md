@@ -84,13 +84,13 @@ pod 'Firebase/Messaging', '~> 6.34.0'
 
 ### 3.1 SDK初始化
 
-- 在`AppController.mm`中添加头文件引用
+- 在`AppController.m`中添加头文件引用
 
 ```obj-c
 #import <YllGameSDK/YllGameSDK.h>
 ```
 
-- 在`AppController.mm`的`didFinishLaunchingWithOptions`方法中添加以下代码
+- 在`AppController.m`的`didFinishLaunchingWithOptions`方法中添加以下代码
 ```obj-c
 //YllSDK-------Begin。appid，key这些参数需要联系游戏发行方获取，改为自己的！
 [YllGameSDK getInstance].gameAppId = @"202012031818";
@@ -140,9 +140,6 @@ pod 'Firebase/Messaging', '~> 6.34.0'
 }
 // YllSDK---------func End
 ```
-
-- 在`MyAppLication`的`Oncreator`中，为SDK初始化函数，修改自己对应的参数，完成SDK初始化
-- 将 AppActivity继承自YllSDKActivity
 
 ### 3.2登陆与回调
 - 在`RootViewController.h`文件中，添加头文件引用，并定义回调
