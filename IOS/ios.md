@@ -63,8 +63,6 @@ pod 'Firebase/Messaging', '~> 6.34.0'
     </dict>
 </array>
 
-<key>CLIENT_ID</key>
-<string>301774558106-ihpd76lup5rib2bmeqjpvtqtnehlhtt7.apps.googleusercontent.com</string>
 <key>FacebookAdvertiserIDCollectionEnabled</key>
 <string>TRUE</string>
 <key>FacebookAppID</key>
