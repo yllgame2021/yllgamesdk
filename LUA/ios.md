@@ -10,8 +10,8 @@ SDK下载地址(https://www.baidu.com)
 
 ### 2.1添加资源
 
-- 将 IOS 目录下的 YllGameSDK.framework 文件夹拷贝到项目的 proj.ios_mac 目录下
-- 右键项目，选择 Add File to "XXX" , 选择刚才添加的framework，勾选 "Copy items if needed"，选择 "Create groups"，targets勾选mobile。
+- 将 IOS 目录下的 `YllGameSDK.framework` 文件夹和`YllGameResource.bundle`拷贝到项目的 `proj.ios_mac/ios`目录下
+- 右键`项目/ios`，选择 Add File to "XXX" , 选择刚才添加的framework和bundle，勾选 "Copy items if needed"，选择 "Create groups"，targets勾选mobile。
 - 导入 `YllGameHelper.lua` 文件到工程里，并在调用方法的时候引用，例如：
 
 ``` lua
@@ -26,28 +26,29 @@ SDK下载地址(https://www.baidu.com)
 
 ```pod
 pod 'FBSDKLoginKit', '~> 9.1.0'
-pod 'GoogleSignIn', '~> 5.0.2'
-pod 'AppsFlyerFramework', '~> 6.1.4'
+pod 'AppsFlyerFramework', '~> 6.2.5'
 pod 'Firebase/Analytics', '~> 6.34.0'
 pod 'Firebase/Messaging', '~> 6.34.0'
 ```
 
-3. 取消 `platform :ios, '9.0'`注释，并将其改为`platform :ios, '10.0'`
+3. 取消 `platform :ios, '9.0'`注释,并更改项目`targets->build Setting-> IOS Deployment Target`为 `ios 9.0`
 
-4. 打开 `use_frameworks`选项
+4. 取消 `use_frameworks` 前面的注释，然后执行 pod update
 
-5. 打开项目`Target`-->`building settings`中搜索`Header Search Paths`和`Other Linker Flags` ，添加`$(inherited)`。然后执行 pod update
+5. 关闭项目，重新打开 `project.xcworkspace`
 
-6. 配置登陆和推送
+6. 打开项目`Target`-->`building settings`中搜索`Header Search Paths`和`Other Linker Flags` ，添加`$(inherited)`。
+
+7. 配置登陆和推送
 - 添加以下几种登陆方式(苹果账号登陆&GameCenter登陆)
 
 ![登陆配置](IOS/img/login.jpg)
 
-- 将`GoogleService-Info.plist`文件拖入项目。并配置以下选项
+- 配置以下选项后，将`GoogleService-Info.plist`文件拖入项目。
 
 ![推送配置](IOS/img/push.jpg)
 
-7. 右键`ios/info.list`，选择`open AS`->`Scoure Code`，在dict中添加以为值    
+8. 右键`ios/info.list`，选择`open AS`->`Scoure Code`，在dict中添加以为值    
 
 ```xml
 <key>CFBundleURLTypes</key>
@@ -99,6 +100,10 @@ pod 'Firebase/Messaging', '~> 6.34.0'
     <string>fbauth2</string>
     <string>fbshareextension</string>
 </array>
+<key>Privacy - Photo Library Usage Description</key>
+<string>Photos will be used in Personal info, Discovery, Message and Album.</string>
+<key>Privacy - Tracking Usage Description</key>
+<string>سيتم استخدام بياناتك لتزويدك بخدمة أفضل وتجربة إعلانية مخصصة</string>
 ```
 
 ## 3.SDK初始化与API接口
@@ -150,9 +155,6 @@ pod 'Firebase/Messaging', '~> 6.34.0'
 }
 // YllSDK---------func End
 ```
-
-- 在`MyAppLication`的`Oncreator`中，为SDK初始化函数，修改自己对应的参数，完成SDK初始化
-- 将 AppActivity继承自YllSDKActivity
 
 ### 3.2登陆与回调
 - 在`RootViewController.h`文件中，添加头文件引用，并定义回调
