@@ -1,53 +1,32 @@
-# Cocos2d-x（IOS）接入文档
+# Cocos2d-x（iOS）接入文档
 
 SDK下载地址(https://www.baidu.com)
 
 ## 1.接入前环境配置
 
-**需要安装pod管理工具**
+**需要安装cocoapods管理工具**
 
-## 2.IOS项目修改
+**Xcode12.0+**
+
+## 2.iOS项目修改
 
 ### 2.1添加资源
 
-- 将 IOS 目录下的 YllGameSDK.framework 文件夹拷贝到项目的 proj.ios_mac 目录下
+- 将 iOS 目录下的 YllGameSDK.framework 文件夹拷贝到项目中正确目录下
 - 右键项目，选择 Add File to "XXX" , 选择刚才添加的framework，勾选 "Copy items if needed"，选择 "Create groups"，targets勾选mobile。
-- 导入 `YllGameHelper.lua` 文件到工程里，并在调用方法的时候引用，例如：
-
-``` lua
-  local YllGameHelper = require("app.models.YllGameHelper")
-  --require里面是YllGameHelper.lua所在目录
-```
 
 ### 2.2配置项目
 
-1. cd到proj.ios_mac目录下，pod init 创建pod管理文件
-2. 在podfile文件中,mobile中添加以下依赖库
+1. cd 到 xxx.xcodeproj 目录下，pod init 创建pod管理文件
+2. 在podfile文件中添加以下依赖库
+ 和`Other Linker Flags` ，添加`$(inherited)`。然后执行 pod install
 
-```pod
-pod 'FBSDKLoginKit', '~> 9.1.0'
-pod 'GoogleSignIn', '~> 5.0.2'
-pod 'AppsFlyerFramework', '~> 6.1.4'
-pod 'Firebase/Analytics', '~> 6.34.0'
-pod 'Firebase/Messaging', '~> 6.34.0'
-```
-
-3. 取消 `platform :ios, '9.0'`注释，并将其改为`platform :ios, '10.0'`
-
-4. 打开 `use_frameworks`选项
-
-5. 打开项目`Target`-->`building settings`中搜索`Header Search Paths`和`Other Linker Flags` ，添加`$(inherited)`。然后执行 pod update
-
-6. 配置登陆和推送
-- 添加以下几种登陆方式(苹果账号登陆&GameCenter登陆)
-
-![登陆配置](IOS/img/login.jpg)
-
+5. 配置登陆、推送和内购配置
 - 将`GoogleService-Info.plist`文件拖入项目。并配置以下选项
 
-![推送配置](IOS/img/push.jpg)
+![配置](IOS/img/Signing&Capabilities.jpg)
 
-7. 右键`ios/info.list`，选择`open AS`->`Scoure Code`，在dict中添加以为值    
+6. 右键`ios/info.list`，选择`open AS`->`Scoure Code`，在dict中添加以为值    
 
 ```xml
 <key>CFBundleURLTypes</key>
@@ -60,18 +39,8 @@ pod 'Firebase/Messaging', '~> 6.34.0'
             <string>fb157932462436275</string>
         </array>
     </dict>
-    <dict>
-        <key>CFBundleTypeRole</key>
-        <string>Editor</string>
-        <key>CFBundleURLSchemes</key>
-        <array>
-            <string>com.googleusercontent.apps.301774558106-ihpd76lup5rib2bmeqjpvtqtnehlhtt7</string>
-        </array>
-    </dict>
 </array>
 
-<key>CLIENT_ID</key>
-<string>301774558106-ihpd76lup5rib2bmeqjpvtqtnehlhtt7.apps.googleusercontent.com</string>
 <key>FacebookAdvertiserIDCollectionEnabled</key>
 <string>TRUE</string>
 <key>FacebookAppID</key>
@@ -105,28 +74,25 @@ pod 'Firebase/Messaging', '~> 6.34.0'
 
 ### 3.1 SDK初始化
 
-- 在`AppController.mm`中添加头文件引用
+- 在`AppController.m`中添加头文件引用
 
 ```obj-c
 #import <YllGameSDK/YllGameSDK.h>
 ```
 
-- 在`AppController.mm`的`didFinishLaunchingWithOptions`方法中添加以下代码
+- 在`AppController.m`的`didFinishLaunchingWithOptions`方法中添加以下代码
 ```obj-c
 //YllSDK-------Begin。appid，key这些参数需要联系游戏发行方获取，改为自己的！
 [YllGameSDK getInstance].gameAppId = @"202012031818";
-[YllGameSDK getInstance].appleAppId = @"1547226212";
+[YllGameSDK getInstance].appleAppId = @"1564017878";
 [YllGameSDK getInstance].appsFlyerDevKey = @"SXxcrcc7oqnPXV9ycDerVP";
-
 // languageList 语言集合  游戏支持语言集合 现支持 ar 阿语 en 英语 该集合默认第一个是SDK的默认语言
 [YllGameSDK getInstance].languageList = @[@"ar", @"en"];
-
 // 当前设置的语言, 不传以 languageList 的第一个值为默认语言, 若 languageList 为 null, 默认为 ar
-[YllGameSDK getInstance].localLanguage = @"en";
-
+[YllGameSDK getInstance].localLanguage = @"ar";
+    
 // 设置完以上属性之后再调用该方法, 不然对于语区统计会有影响
 [[YllGameSDK getInstance] yg_application:application didFinishLaunchingWithOptions:launchOptions];
-
 // 初始化SDK
 [[YllGameSDK getInstance] yg_init];
 //YllSDK------end
@@ -138,6 +104,7 @@ pod 'Firebase/Messaging', '~> 6.34.0'
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url options:(nonnull NSDictionary<UIApplicationOpenURLOptionsKey, id> *)options {
     return [[YllGameSDK getInstance] yg_application:application openURL:url options:options];
 }
+
 - (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray<id<UIUserActivityRestoring>> * _Nullable))restorationHandler {
     return [[YllGameSDK getInstance] yg_application:application continueUserActivity:userActivity restorationHandler:restorationHandler];
 }
@@ -145,24 +112,31 @@ pod 'Firebase/Messaging', '~> 6.34.0'
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
     [[YllGameSDK getInstance] yg_application:application didReceiveRemoteNotification:userInfo fetchCompletionHandler:completionHandler];
 }
+
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     [[YllGameSDK getInstance] yg_application:application didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
+}
+
+- (void)applicationDidBecomeActive:(UIApplication *)application {
+    [[YllGameSDK getInstance] yg_applicationDidBecomeActive:application];
+}
+
+- (void)applicationDidEnterBackground:(UIApplication *)application {
+    [[YllGameSDK getInstance] yg_applicationDidEnterBackground:application];
+}
+
+- (void)applicationWillTerminate:(UIApplication *)application {
+    [[YllGameSDK getInstance] yg_applicationWillTerminate:application];
 }
 // YllSDK---------func End
 ```
 
-- 在`MyAppLication`的`Oncreator`中，为SDK初始化函数，修改自己对应的参数，完成SDK初始化
-- 将 AppActivity继承自YllSDKActivity
-
 ### 3.2登陆与回调
-- 在`RootViewController.h`文件中，添加头文件引用，并定义回调
+- SDK为游戏方提供了两种登录获取账号信息方式, 即代理和闭包, 本文档的登录是用闭包, 如需使用代理, 请自行跳转到YllGameSDK.h文件进行查阅 
+- 在项目中需要进行登录操作的xxx.h或xxx.m文件中导入 #import <YllGameSDK/YllGameSDK.h>
 
 ```obj-c
 #import <YllGameSDK/YllGameSDK.h>
-@property(nonatomic,assign) int loginCallBack; //登陆回调
-@property(nonatomic,assign) int modifyNameCallBack;//修改昵称回调
-@property(nonatomic,assign) int syncRoleCallBack; //同步角色回调
-@property(nonatomic,assign) int payCallBack;//支付回调
 ```
 
 - 在`RootViewController.mm`文件中，实现对应的方法
