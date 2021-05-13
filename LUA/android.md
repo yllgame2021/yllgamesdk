@@ -325,7 +325,16 @@ YGLoginApi.getInstance().getVersionInfo();
 [YllSDK Android埋点文档](https://github.com/yllgame2021/yllgamesdk/blob/085c8905c886073dcd4e069ec2617084f2153600/%E5%9F%8B%E7%82%B9%E9%9C%80%E6%B1%82/Android/%E7%BB%9F%E8%AE%A1%E5%9F%8B%E7%82%B9Android.md)
 ```java
 //event_name 参照埋点文档中的埋点名称，支持自定义
-YGEventApi.onEvent(String event_name)
+public static void onEvent(String eventName, String jsonData) {
+    Map paramsMap = converJsonToMap(jsonData);
+    YGEventApi.onEvent(eventName, paramsMap);
+}
+public static Map converJsonToMap(String json) {
+    Gson gson = new GsonBuilder().serializeNulls().create();
+    Map map = gson.fromJson(json, new TypeToken<Map>() {
+    }.getType());
+    return map;
+}
 ```
 
 ## 4.推送
