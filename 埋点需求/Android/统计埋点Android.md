@@ -98,3 +98,27 @@ YGEventApi.onEvent(YGEventConstants.YG_GAME_USER_LOGIN_FAILED,gameLoginFailed);
 ```java
 YGEventApi.onEvent(YGEventConstants.YG_GAME_ROLE_LEVEL_UP);
 ```
+
+## 10. 角色VIP升级(自定义)
+- 上报时机：`角色VIP升级时触发`
+- EventName(事件名): `Android:YGEventConstants.YG_GAME_ROLE_LEVEL_UP`
+- Info属性简写: `无`
+- 统计说明: `角色等级升级时上报`
+- 示例: 
+```java
+//    ui：用户id
+//    ri：角色id
+//    si：区服id
+//    rl：角色等级
+//    vl：vip等级
+//    cl：城堡等级
+HashMap<String, String> data_ = new HashMap<>();
+data_.put("ui", ui);
+data_.put("ri", ri);
+data_.put("si", si);
+data_.put("rl", rl);
+data_.put("vl", vl);
+data_.put("cl", cl);
+
+YGEventApi.onEvent("game_vip_level_up", data_);
+```
