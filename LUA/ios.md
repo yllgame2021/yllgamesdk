@@ -185,6 +185,7 @@ pod 'Firebase/Messaging', '~> 6.34.0'
 //    YGLogout, // 退出登录
 //};
 
+//登陆
 +(void) login:(NSDictionary *)dic{
     [[RootViewController getInstance] loginCall:dic];
 }
@@ -193,9 +194,9 @@ pod 'Firebase/Messaging', '~> 6.34.0'
     [YllGameSDK getInstance].delegate = self;
     [[YllGameSDK getInstance] yg_login];
 }
-//登陆回调，将回调结果以jsonString的方式传给lua层
+//登陆回调
 - (void)yg_getUserInfo:(YGUserInfoModel *)userInfoModel {
-    NSDictionary *info=@{@"accessToken":userInfoModel.accessToken,
+    NSDictionary *info=@{@"accessToken":userInfoModel.accessToken ,
                          @"nickName":userInfoModel.nickname,
                          @"openUserId":userInfoModel.userOpenId,
                          @"loginCode":[NSString stringWithFormat:@"%d",(int)userInfoModel.state]};
@@ -210,12 +211,13 @@ pod 'Firebase/Messaging', '~> 6.34.0'
     cocos2d::LuaObjcBridge::pushLuaFunctionById(self.loginCallBack);
     cocos2d::LuaObjcBridge::getStack()->pushString([jsonString UTF8String]);//返回json字串
     cocos2d::LuaObjcBridge::getStack()->executeFunction(1);//1个参数
-    cocos2d::LuaObjcBridge::releaseLuaFunctionById(self.loginCallBack);//释放
+//    cocos2d::LuaObjcBridge::releaseLuaFunctionById(self.loginCallBack);//释放
 }
 ```
 
-返回登陆失败和Token失效建议游戏内再调一次登陆Api重试！
-退出登录要退出到登陆界面并且清除本地用户信息
+**返回登陆失败和Token失效建议游戏内再调一次登陆Api重试**
+
+**退出登录要退出到登陆界面并且清除本地用户信息!**
 
 ### 3.2同步角色与回调
 
@@ -235,7 +237,7 @@ pod 'Firebase/Messaging', '~> 6.34.0'
             cocos2d::LuaObjcBridge::pushLuaFunctionById(self.syncRoleCallBack);
             cocos2d::LuaObjcBridge::getStack()->pushString("success");//返回同步成功
             cocos2d::LuaObjcBridge::getStack()->executeFunction(1);//1个参数
-            cocos2d::LuaObjcBridge::releaseLuaFunctionById(self.syncRoleCallBack);//释放
+            //cocos2d::LuaObjcBridge::releaseLuaFunctionById(self.syncRoleCallBack);//释放
         }
     }];
 }
@@ -264,7 +266,7 @@ pod 'Firebase/Messaging', '~> 6.34.0'
         cocos2d::LuaObjcBridge::pushLuaFunctionById(self.payCallBack);
         cocos2d::LuaObjcBridge::getStack()->pushString([[NSString stringWithFormat:@"%.2f", pointID] UTF8String]);//返回同步成功
         cocos2d::LuaObjcBridge::getStack()->executeFunction(1);//1个参数
-        cocos2d::LuaObjcBridge::releaseLuaFunctionById(self.payCallBack);//释放
+//        cocos2d::LuaObjcBridge::releaseLuaFunctionById(self.payCallBack);//释放
     } failedBlock:^(YGPaymentFailedType type, NSString * _Nonnull errorDescription) {
         
     }];
@@ -285,6 +287,7 @@ pod 'Firebase/Messaging', '~> 6.34.0'
 ### 3.5 打开SDK设置界面
 
 ```obj-c
+//设置界面
 +(void) showSetting:(NSDictionary *)dic{
     NSString *roleid = [dic objectForKey:@"rid"];
     double serverId = [[dic objectForKey:@"sid"] integerValue];
@@ -303,6 +306,7 @@ pod 'Firebase/Messaging', '~> 6.34.0'
 ### 3.7打开用户管理界面
 
 ```obj-c
+//账号管理界面
 +(void) showAccountManage:(NSDictionary *)dic{
     [[YllGameSDK getInstance] yg_showAccountManagementView];
 }
@@ -311,7 +315,8 @@ pod 'Firebase/Messaging', '~> 6.34.0'
 ### 3.8检查账号绑定
 
 ```obj-c
-+(void) showAccountManage:(NSDictionary *)dic{
+//检查账号绑定
++(void) checkBind:(NSDictionary *)dic{
     [[YllGameSDK getInstance] yg_checkBindState];
 }
 ```
@@ -333,11 +338,21 @@ pod 'Firebase/Messaging', '~> 6.34.0'
 }
 ```
 ### 3.11自定义埋点
+evName和params参照[YllSDK IOS埋点](https://github.com/yllgame2021/yllgamesdk/blob/master/%E5%9F%8B%E7%82%B9%E9%9C%80%E6%B1%82/IOS/%E7%BB%9F%E8%AE%A1%E5%9F%8B%E7%82%B9IOS.md)
 ```obj-c
 +(void) onEvent:(NSDictionary *)dic{
     NSString *evName = [dic objectForKey:@"evName"];
     NSString * jsStr = [dic objectForKey:@"jsStr"];
     NSDictionary *dicstr = [[RootViewController getInstance] dictForJSONString:jsStr];
     [[YGEventManager getInstance] onEvent:evName params:dicstr];
+}
+- (NSDictionary *)dictForJSONString:(NSString *)str
+{
+    NSData *jsonData = [str dataUsingEncoding:NSUTF8StringEncoding];
+    NSError *err;
+    NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:jsonData
+                                                        options:NSJSONReadingMutableContainers
+                                                          error:nil];
+    return dic;
 }
 ```
