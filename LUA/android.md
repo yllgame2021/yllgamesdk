@@ -1,6 +1,12 @@
 # Cocos2d-x（Android）接入文档
 
 SDK下载地址(https://www.baidu.com)
+## 环境
+- Cocos2d-x 3.17
+- Android Studio 4.1.3
+- Gradle Version 5.1.1
+- Gradle Plugin Version 3.4.0
+
 
 ## 1.接入前项目检查
 
