@@ -45,11 +45,11 @@ pod 'Firebase/Messaging', '~> 6.34.0'
 7. 配置登陆和推送
 - 添加以下几种登陆方式(苹果账号登陆&GameCenter登陆)
 
-![登陆配置](IOS/img/login.jpg)
+![登陆配置](img/login.jpg)
 
 - 配置以下选项后，将`GoogleService-Info.plist`文件拖入项目。
 
-![推送配置](IOS/img/push.jpg)
+![推送配置](img/push.jpg)
 
 8. 右键`ios/info.list`，选择`open AS`->`Scoure Code`，在dict中添加以为值    
 
