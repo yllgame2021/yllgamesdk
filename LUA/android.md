@@ -315,13 +315,14 @@ YllGameSdk.setLanguageList(Arrays.asList("ar", "en"));
 YllGameSdk.setLanguage("ar");
 ```
 
-### 3.10检查SDK版本(非必要)
+### 3.10获取SDK版本(非必要)
 
 ```java
 YGLoginApi.getInstance().getVersionInfo();
 ```
 
 ### 3.11通用事件埋点
+[YllSDK Android埋点文档](https://github.com/yllgame2021/yllgamesdk/blob/085c8905c886073dcd4e069ec2617084f2153600/%E5%9F%8B%E7%82%B9%E9%9C%80%E6%B1%82/Android/%E7%BB%9F%E8%AE%A1%E5%9F%8B%E7%82%B9Android.md)
 ```java
 //event_name 参照埋点文档中的埋点名称，支持自定义
 YGEventApi.onEvent(String event_name)
