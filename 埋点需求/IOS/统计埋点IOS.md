@@ -96,5 +96,5 @@
 - 统计说明: `角色vip升级时上报`
 - 示例: 
 ```java
-[[YGEventManager getInstance] onEvent:game_vip_level_up params:nil];
+[[YGEventManager getInstance] onEvent:“game_vip_level_up” params:nil];
 ```
