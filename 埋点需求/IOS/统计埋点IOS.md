@@ -89,3 +89,12 @@
 ```obj-c
 [[YGEventManager getInstance] onEvent:YGEventGameRoleLevelUp params:nil];
 ```
+## 10. 角色VIP升级(自定义)
+- 上报时机：`角色VIP升级时触发`
+- EventName(事件名): `game_vip_level_up`
+- Info属性简写: `无`
+- 统计说明: `角色vip升级时上报`
+- 示例: 
+```java
+[[YGEventManager getInstance] onEvent:game_vip_level_up params:nil];
+```

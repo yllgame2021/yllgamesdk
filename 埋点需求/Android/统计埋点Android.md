@@ -101,9 +101,9 @@ YGEventApi.onEvent(YGEventConstants.YG_GAME_ROLE_LEVEL_UP);
 
 ## 10. 角色VIP升级(自定义)
 - 上报时机：`角色VIP升级时触发`
-- EventName(事件名): `Android:YGEventConstants.YG_GAME_ROLE_LEVEL_UP`
+- EventName(事件名): `game_vip_level_up`
 - Info属性简写: `无`
-- 统计说明: `角色等级升级时上报`
+- 统计说明: `角色vip升级时上报`
 - 示例: 
 ```java
 //    ui：用户id
