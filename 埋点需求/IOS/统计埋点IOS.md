@@ -87,7 +87,7 @@
 - 统计说明: `角色等级升级时上报`
 - 示例: 
 ```obj-c
-[[YGEventManager getInstance] onEvent:YGEventGameRoleLevelUp params:nil];
+[[YGEventManager getInstance] onEvent:YGEventGameRoleLevelUp params:@{@"rl": @"rl"}];
 ```
 ## 10. 角色VIP升级(自定义)
 - 上报时机：`角色VIP升级时触发`
@@ -96,5 +96,5 @@
 - 统计说明: `角色vip升级时上报`
 - 示例: 
 ```java
-[[YGEventManager getInstance] onEvent:“game_vip_level_up” params:nil];
+[[YGEventManager getInstance] onEvent:“game_vip_level_up” params:@{@"vl": @"vl"}];
 ```
