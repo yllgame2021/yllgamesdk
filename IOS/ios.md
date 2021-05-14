@@ -257,10 +257,5 @@ SDK下载地址(https://www.baidu.com)
 ```
 ### 3.11自定义埋点
 ```obj-c
-+(void) onEvent:(NSDictionary *)dic {
-    NSString *evName = [dic objectForKey:@"evName"];
-    NSString * jsStr = [dic objectForKey:@"jsStr"];
-    NSDictionary *dicstr = [[RootViewController getInstance] dictForJSONString:jsStr];
-    [[YGEventManager getInstance] onEvent:evName params:dicstr];
-}
+evName和params参照[YllSDK IOS埋点](https://github.com/yllgame2021/yllgamesdk/blob/master/%E5%9F%8B%E7%82%B9%E9%9C%80%E6%B1%82/IOS/%E7%BB%9F%E8%AE%A1%E5%9F%8B%E7%82%B9IOS.md)
 ```
