@@ -83,7 +83,7 @@
 ## 9.角色等级升级
 - 上报时机：`角色等级升级时触发`
 - EventName(事件名): `YGEventGameRoleLevelUp`
-- Info属性简写: `无`
+- Info属性简写: `rl:角色等级`
 - 统计说明: `角色等级升级时上报`
 - 示例: 
 ```obj-c
@@ -92,7 +92,7 @@
 ## 10. 角色VIP升级(自定义)
 - 上报时机：`角色VIP升级时触发`
 - EventName(事件名): `game_vip_level_up`
-- Info属性简写: `无`
+- Info属性简写: `vl:Vip等级`
 - 统计说明: `角色vip升级时上报`
 - 示例: 
 ```obj-c
