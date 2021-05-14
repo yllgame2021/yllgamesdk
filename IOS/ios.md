@@ -26,7 +26,8 @@ SDK下载地址(https://www.baidu.com)
 
 ![配置](IOS/img/Signing&Capabilities.jpg)
 
-6. 右键`ios/info.list`，选择`open AS`->`Scoure Code`，在dict中添加以为值    
+6. 右键`ios/info.list`，选择`open AS`->`Scoure Code`，在dict中添加以为值
+** `CFBundleURLSchemes` 和 `FacebookAppID` 的 value 需要替换成SDK方提供的正确的值 **    
 
 ```xml
 <key>CFBundleURLTypes</key>
