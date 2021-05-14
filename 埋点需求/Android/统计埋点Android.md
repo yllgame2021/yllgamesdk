@@ -113,12 +113,12 @@ YGEventApi.onEvent(YGEventConstants.YG_GAME_ROLE_LEVEL_UP);
 //    vl：vip等级
 //    cl：城堡等级
 HashMap<String, String> data_ = new HashMap<>();
-data_.put("ui", ui);
-data_.put("ri", ri);
-data_.put("si", si);
-data_.put("rl", rl);
-data_.put("vl", vl);
-data_.put("cl", cl);
+//data_.put("ui", ui);
+//data_.put("ri", ri);
+//data_.put("si", si);
+//data_.put("rl", rl);
+//data_.put("vl", vl);
+//data_.put("cl", cl);
 
 YGEventApi.onEvent("game_vip_level_up", data_);
 ```
