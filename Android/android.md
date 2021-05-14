@@ -1,34 +1,87 @@
 # Android接入文档
 
-## 1.接入前项目检查
+## SDK结构
+支持平台：Android</br>
+系统要求: Android5.0+ </br>
+环境要求: Android Studio</br>
+支持语言：阿语，英语</br>
 
-**根据以往游戏接入后出现的各种问题，YllSDK对游戏项目做以下几点建议：**
+## 1.接入流程
+### 1.1集成AAR包
+首先把AAR包复制到项目的lib目录下，然后在主项目APP的工程下build.gradle 中的dependencies加入
+ ``` Groovy
+ //SDK基础库
+ implementation(name: 'YllGameSdk_1.0.1', ext: 'aar') 
+ ```
+ ### 1.2设置项目的libs文件目录和过滤so
+ 在主项目APP的工程下build.gradle 中的android加入
+  ``` Groovy
+ repositories {
+        flatDir {
+            dirs 'libs'
+        }
+    }
+    packagingOptions {
+        doNotStrip "*/*/libijiami*.so"
+    }
+ ```
+ ### 1.3 导入SDK中所需第三方库
+   ``` Groovy
+   //Android X支持库  必须添加
+    api 'androidx.appcompat:appcompat:1.2.0'
+    //okhttp网络请求库 必须添加
+    api("com.squareup.okhttp3:okhttp:4.9.0")
+    //gson数据解析库 必须添加
+    api 'com.google.code.gson:gson:2.8.5'
+    //Facebook登陆依赖库 必须添加
+    api 'com.facebook.android:facebook-login:9.0.0'
+    //Google登陆依赖库 必须添加
+    api 'com.google.android.gms:play-services-auth:19.0.0'
+    api "com.google.android.gms:play-services-ads-identifier:17.0.0"
+    //Google支付依赖库 必须添加
+    api "com.android.billingclient:billing:3.0.0"
+    //数据库依赖库 必须添加
+    def room_version = "2.2.5"
+    api "androidx.room:room-runtime:$room_version"
+    api "androidx.room:room-compiler:$room_version"
+    api "net.zetetic:android-database-sqlcipher:4.4.2"
+    //数据统计依赖库 必须添加
+    api 'com.appsflyer:af-android-sdk:5.0.0'
+    api 'com.appsflyer:af-android-sdk:5.+'
+    api 'com.android.installreferrer:installreferrer:1.1'
+    //FCM 推送相关
+    api platform('com.google.firebase:firebase-bom:26.4.0')
+    api 'com.google.firebase:firebase-messaging'
+    api 'com.google.firebase:firebase-analytics'
+ ```
 
-### 1.1修改 `gradle.properties` 文件中
+## 2.项目配置，初始化
 
-```js
-PROP_COMPILE_SDK_VERSION=28
-PROP_MIN_SDK_VERSION=21
-PROP_TARGET_SDK_VERSION=28
-PROP_BUILD_TOOLS_VERSION=28.0.1
+### 2.1Androidmanifest.xml中添加权限
+``` xml
+<uses-permission android:name="android.permission.INTERNET"/>
+<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+<uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
 ```
-
-### 1.2. 解决渠道sdk不兼容android 5.0的问题
-
-如果`androidManifest.xml`有`installLocation`选项时，参数设置为`auto`
-
-## 2.Android项目修改
-
-### 2.1添加资源
-
-- 将 Android 目录下的 src 文件夹下的内容拷贝到项目的 app/src 目录下
-- 将 Android 目录下的 libs 文件夹下的 aar 文件拷贝到项目的 app/libs 目录下
-- 导入 `YllGameHelper.lua` 文件到工程里，并在调用方法的时候引用，例如：
-
-``` lua
-  local YllGameHelper = require("app.models.YllGameHelper")
-  --require里面是YllGameHelper.lua所在目录
+### 2.2初始化Application
+在项目的application的onCreate函数中调用SDK的初始化函数，并且调用SDK的设置语言函数。
+``` java 
+SDK初始化函数：YllGameSdk.getInstance().init();
+SDK 设置语言集合函数：YllGameSdk.setLanguageList();
+SDK设置语言函数函数：YllGameSdk.setLanguage();
 ```
+（注：项目的application要在AndroidManifest中注册，项目中初始化参数的key 找运营方。Google登陆官方开发者地址）
+### 2.3配置Facebook（官方开发者地址）
+在项目中的AndroidManifest中添加
+ 
+2.4配置登陆Receiver
+在项目中的AndroidManifest中添加
+ 
+ 
+注：项目中所有登陆以及切换账号都会通过广播通知并且在下发用户信息，YGLoginReceiver为固定写法，该广播放在项目包名.ygapi下
+返回登陆失败和Token失效建议游戏内再调一次登陆Api重试！
+退出登录要退出到登陆界面并且清除本地用户信息
+
 
 ### 2.2配置清单文件
 
