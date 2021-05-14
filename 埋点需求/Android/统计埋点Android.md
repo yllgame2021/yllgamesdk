@@ -114,3 +114,15 @@ HashMap<String, String> data_ = new HashMap<>();
 data_.put("vl", vl);
 YGEventApi.onEvent("game_vip_level_up", data_);
 ```
+
+## 11. 自定义埋点
+- 上报时机：`游戏方在合适的时候自行调用`
+- EventName(事件名): `String类型，需要统计的事件`
+- 埋点需要上报的参数`"key1": val1`
+- 统计说明: `游戏方在合适的时候自行调用`
+- 示例: 
+```java
+HashMap<String, String> data_ = new HashMap<>();
+data_.put("key1", val1);
+YGEventApi.onEvent(EventName, data_);
+```

@@ -89,7 +89,7 @@
 ```obj-c
 [[YGEventManager getInstance] onEvent:YGEventGameRoleLevelUp params:@{@"rl": @"rl"}];
 ```
-## 10. 角色VIP升级(自定义)
+## 10. 角色VIP升级
 - 上报时机：`角色VIP升级时触发`
 - EventName(事件名): `game_vip_level_up`
 - Info属性简写: `vl:Vip等级`
@@ -97,4 +97,14 @@
 - 示例: 
 ```obj-c
 [[YGEventManager getInstance] onEvent:“game_vip_level_up” params:@{@"vl": @"vl"}];
+```
+
+## 11. 自定义埋点
+- 上报时机：`游戏方在合适的时候自行调用`
+- EventName(事件名): `String类型，需要统计的事件`
+- 埋点需要上报的参数: `@{@"key1": val1, @"key2": val2}`
+- 统计说明: `游戏方在合适的时候自行调用`
+- 示例: 
+```obj-c
+[[YGEventManager getInstance] onEvent:EventName params:@{@"key1": val1, @"key2": val2}];
 ```
