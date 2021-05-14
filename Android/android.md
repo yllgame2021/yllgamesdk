@@ -1,6 +1,4 @@
-# Cocos2d-x（Android）接入文档
-
-SDK下载地址(https://www.baidu.com)
+# Android接入文档
 
 ## 1.接入前项目检查
 
