@@ -21,12 +21,12 @@ SDK下载地址(https://www.baidu.com)
 2. 在podfile文件中添加以下依赖库
  和`Other Linker Flags` ，添加`$(inherited)`。然后执行 pod install
 
-5. 配置登陆、推送和内购配置
+3. 配置登陆、推送和内购配置
 - 将`GoogleService-Info.plist`文件拖入项目。并配置以下选项
 
-![配置](IOS/img/Signing&Capabilities.jpg)
+![配置](img/Signing&Capabilities.jpg)
 
-6. 右键`ios/info.list`，选择`open AS`->`Scoure Code`，在dict中添加以为值,其中</br>
+4. 右键`info.list`，选择`open AS`->`Scoure Code`，在dict中添加以为值,其中</br>
 **`CFBundleURLSchemes` 和 `FacebookAppID` 的 value 需要替换成SDK方提供的正确的值** 
 
 ```xml
@@ -70,6 +70,8 @@ SDK下载地址(https://www.baidu.com)
     <string>fbshareextension</string>
 </array>
 ```
+
+5. SDK需要访问 Privacy - Photo Library Usage Description 和 Privacy - Tracking Usage Description 权限, 需要在info.plist添加
 
 ## 3.SDK初始化与API接口
 
@@ -202,7 +204,14 @@ SDK下载地址(https://www.baidu.com)
 }];
 ```
 
-### 3.4 打开客服界面
+### 3.4 打开登录页面
+
+```obj-c
+/// 展示登录页面
+[[YllGameSDK getInstance] yg_showLoginView];
+```
+
+### 3.5 打开客服界面
 
 ```obj-c
 /// 展示客服中心页面
@@ -211,7 +220,7 @@ SDK下载地址(https://www.baidu.com)
 [[YllGameSDK getInstance] yg_showServiceChatViewWithRoleId:<#(nonnull NSString *)#> gameServerId:<#(NSInteger)#>];
 ```
 
-### 3.5 打开SDK设置界面
+### 3.6 打开SDK设置界面
 
 ```obj-c
 /// 展示设置中心
@@ -220,28 +229,28 @@ SDK下载地址(https://www.baidu.com)
 [[YllGameSDK getInstance] yg_showSettingsViewWithRoleId:<#(nonnull NSString *)#> gameServerId:<#(NSInteger)#>];
 ```
 
-### 3.6打开修改昵称界面
+### 3.7 打开修改昵称界面
 
 ```obj-c
 /// 展示昵称修改页面
 [[YllGameSDK getInstance] yg_showNicknameView];
 ```
 
-### 3.7打开用户管理界面
+### 3.8 打开用户管理界面
 
 ```obj-c
 /// 展示账户管理
 [[YllGameSDK getInstance] yg_showAccountManagementView];
 ```
 
-### 3.8检查账号绑定
+### 3.9 检查账号绑定
 
 ```obj-c
 /// 检查游客账号是否绑定第三方账号, true == 绑定, false == 未绑定
 - (BOOL)yg_checkBindState;
 ```
 
-### 3.9设置SDK语言
+### 3.10 设置SDK语言
 
 ```obj-c
 // languageList 语言集合  游戏支持语言集合 现支持 ar 阿语 en 英语 该集合默认第一个是SDK的默认语言
@@ -250,12 +259,18 @@ SDK下载地址(https://www.baidu.com)
 [YllGameSDK getInstance].localLanguage = @"ar";
 ```
 
-### 3.10检查SDK版本(非必要)
+### 3.11 检查SDK版本(非必要)
 ```obj-c
 // 调用该方法, 在控制台显示当前SDK的版本信息
 [[YllGameSDK getInstance] yg_checkSDKVersion];
 ```
-### 3.11自定义埋点
+
+### 3.12 自定义埋点
 ```obj-c
 evName和params参照[YllSDK IOS埋点](https://github.com/yllgame2021/yllgamesdk/blob/master/%E5%9F%8B%E7%82%B9%E9%9C%80%E6%B1%82/IOS/%E7%BB%9F%E8%AE%A1%E5%9F%8B%E7%82%B9IOS.md)
+```
+
+### 3.13 获取推送token
+```obj-c
+[[YllGameSDK getInstance] yg_getPushToken:<#^(NSString * _Nullable, NSError * _Nullable)pushToken#>];
 ```
