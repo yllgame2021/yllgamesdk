@@ -26,8 +26,8 @@ SDK下载地址(https://www.baidu.com)
 
 ![配置](IOS/img/Signing&Capabilities.jpg)
 
-6. 右键`ios/info.list`，选择`open AS`->`Scoure Code`，在dict中添加以为值
-** `CFBundleURLSchemes` 和 `FacebookAppID` 的 value 需要替换成SDK方提供的正确的值 **    
+6. 右键`ios/info.list`，选择`open AS`->`Scoure Code`，在dict中添加以为值,其中</br>
+**`CFBundleURLSchemes` 和 `FacebookAppID` 的 value 需要替换成SDK方提供的正确的值** 
 
 ```xml
 <key>CFBundleURLTypes</key>
@@ -75,13 +75,13 @@ SDK下载地址(https://www.baidu.com)
 
 ### 3.1 SDK初始化
 
-- 在`AppController.m`中添加头文件引用
+- 在`AppDelegate.m`中添加头文件引用
 
 ```obj-c
 #import <YllGameSDK/YllGameSDK.h>
 ```
 
-- 在`AppController.m`的`didFinishLaunchingWithOptions`方法中添加以下代码
+- 在`AppDelegate.m`的`didFinishLaunchingWithOptions`方法中添加以下代码
 ```obj-c
 //YllSDK-------Begin。gameAppId, appleAppId, appsFlyerDevKey这些参数需要联系游戏发行方获取，改为自己的！
 [YllGameSDK getInstance].gameAppId = @"";
@@ -99,7 +99,7 @@ SDK下载地址(https://www.baidu.com)
 //YllSDK------end
 ```
 
-- 在`AppController.mm`中添加以下方法
+- 在`AppDelegate.m`中添加以下方法
 ```obj-c
 //YllSDK-----fun Begin-------
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url options:(nonnull NSDictionary<UIApplicationOpenURLOptionsKey, id> *)options {
@@ -161,127 +161,103 @@ SDK下载地址(https://www.baidu.com)
  }];
 ```
 
-返回登陆失败或者Token失效建议游戏内再调一次登陆Api重试！
-退出登录要退出到登陆界面并且清除本地用户信息
+登陆失败建议游戏内再调一次登陆Api重试！
+退出登录或者token过期要退出到登陆界面并且清除本地用户信息, 再调用登录Api
+
 
 ### 3.2同步角色与回调
 
 ```obj-c
-//同步角色
-+(void) syncRoleInfo:(NSDictionary *)dic{
-    [[RootViewController getInstance] syncRoleInfoCall:dic];
-}
--(void) syncRoleInfoCall:(NSDictionary *)dic{
-    NSString *roleid = [dic objectForKey:@"rid"];
-    NSInteger serverId = [[dic objectForKey:@"sid"] integerValue];
-    self.syncRoleCallBack = [[dic objectForKey:@"luaFun"] intValue];
-    [[YllGameSDK getInstance] yg_synchroRoleWithRoleId:roleid roleName:@"5" roleLevel:5 roleVipLevel:5 serverId:serverId roleCastleLevel:999 completeHandle:^(NSError * _Nonnull error) {
-        if (!error) {
-            //同步角色回调
-            //将需要传递给 Lua function 的参数放入 Lua stack
-            cocos2d::LuaObjcBridge::pushLuaFunctionById(self.syncRoleCallBack);
-            cocos2d::LuaObjcBridge::getStack()->pushString("success");//返回同步成功
-            cocos2d::LuaObjcBridge::getStack()->executeFunction(1);//1个参数
-            cocos2d::LuaObjcBridge::releaseLuaFunctionById(self.syncRoleCallBack);//释放
-        }
-    }];
-}
+/// 同步游戏角色(游戏登录之后必须调用)
+/// @param roleId 游戏角色
+/// @param roleName 角色名
+/// @param roleLevel 角色等级
+/// @param roleVipLevel 角色vip等级
+/// @param serverId 所在游戏服
+/// @param roleCastleLevel 城堡等级
+/// @param completeHandle  error == nil  成功 (SDKV1.0.1 版本新增结果回调)
+[[YllGameSDK getInstance] yg_synchroRoleWithRoleId:<#(nonnull NSString *)#> roleName:<#(nonnull NSString *)#> roleLevel:<#(NSInteger)#> roleVipLevel:<#(NSInteger)#> serverId:<#(NSInteger)#> roleCastleLevel:<#(NSInteger)#> completeHandle:^(NSError * _Nullable) {
+     if (!error) {
+     
+     }
+}];
 ```
 
 ### 3.3 充值与回调
 
 ```obj-c
-//商品充值
-+(void) pay:(NSDictionary *)dic{
-    [[RootViewController getInstance] payCall:dic];
-}
--(void) payCall:(NSDictionary *)dic{
-    NSString *roleid = [dic objectForKey:@"rid"];
-    NSInteger serverId = [[dic objectForKey:@"sid"] integerValue];
-    NSString *sku = [dic objectForKey:@"sku"];
-    NSString *price = [dic objectForKey:@"pri"];
-    double pointID = [[dic objectForKey:@"pid"] integerValue];
-    self.payCallBack = [[dic objectForKey:@"luaFun"] intValue];
-    //其他参数
-    NSDate* date = [NSDate dateWithTimeIntervalSinceNow:0];
-    NSTimeInterval time=[date timeIntervalSince1970]*1000;
-    NSString *timeString = [NSString stringWithFormat:@"%.0f", time];
-    // 创建订单
-    [[YllGameSDK getInstance] yg_createOrderWithRoleId:roleid gameServerId:serverId cpno:timeString cptime:timeString sku:sku amount:price pointId:pointID successBlock:^{
-        cocos2d::LuaObjcBridge::pushLuaFunctionById(self.payCallBack);
-        cocos2d::LuaObjcBridge::getStack()->pushString([[NSString stringWithFormat:@"%.2f", pointID] UTF8String]);//返回同步成功
-        cocos2d::LuaObjcBridge::getStack()->executeFunction(1);//1个参数
-        cocos2d::LuaObjcBridge::releaseLuaFunctionById(self.payCallBack);//释放
+/// 商品充值
+/// 创建支付清单
+/// @param roleId 游戏角色Id
+/// @param gameServerId 角色所在区服Id
+/// @param cpno 订单号
+/// @param cptime 订单生成时间
+/// @param sku sku
+/// @param amount amount
+/// @param pointId 消费点Id
+[[YllGameSDK getInstance] yg_createOrderWithRoleId:<#(nonnull NSString *)#> gameServerId:<#(NSInteger)#> cpno:<#(nonnull NSString *)#> cptime:<#(nonnull NSString *)#> sku:<#(nonnull NSString *)#> amount:<#(nonnull NSString *)#> pointId:<#(NSInteger)#> successBlock:^{
+        <#code#>
     } failedBlock:^(YGPaymentFailedType type, NSString * _Nonnull errorDescription) {
-        
-    }];
-}
+        <#code#>
+}];
 ```
 
 ### 3.4 打开客服界面
 
 ```obj-c
-//客服
-+(void) showserviceChat:(NSDictionary *)dic{
-    double   rsid = [[dic objectForKey:@"rsid"] doubleValue];
-    NSString *rid = [dic objectForKey:@"rid"];
-    [[YllGameSDK getInstance] yg_showServiceChatViewWithRoleId:rid gameServerId:rsid];
-}
+/// 展示客服中心页面
+/// @param roleId 游戏角色Id
+/// @param gameServerId 角色所在区服Id
+[[YllGameSDK getInstance] yg_showServiceChatViewWithRoleId:<#(nonnull NSString *)#> gameServerId:<#(NSInteger)#>];
 ```
 
 ### 3.5 打开SDK设置界面
 
 ```obj-c
-+(void) showSetting:(NSDictionary *)dic{
-    NSString *roleid = [dic objectForKey:@"rid"];
-    double serverId = [[dic objectForKey:@"sid"] integerValue];
-    [[YllGameSDK getInstance] yg_showSettingsViewWithRoleId:roleid gameServerId:serverId];
-}
+/// 展示设置中心
+/// @param roleId 游戏角色Id
+/// @param gameServerId 角色所在区服Id
+[[YllGameSDK getInstance] yg_showSettingsViewWithRoleId:<#(nonnull NSString *)#> gameServerId:<#(NSInteger)#>];
 ```
 
 ### 3.6打开修改昵称界面
 
 ```obj-c
-+(void) showModifyName:(NSDictionary *)dic{
-    [[YllGameSDK getInstance] yg_showNicknameView];
-}
+/// 展示昵称修改页面
+[[YllGameSDK getInstance] yg_showNicknameView];
 ```
 
 ### 3.7打开用户管理界面
 
 ```obj-c
-+(void) showAccountManage:(NSDictionary *)dic{
-    [[YllGameSDK getInstance] yg_showAccountManagementView];
-}
+/// 展示账户管理
+[[YllGameSDK getInstance] yg_showAccountManagementView];
 ```
 
 ### 3.8检查账号绑定
 
 ```obj-c
-+(void) showAccountManage:(NSDictionary *)dic{
-    [[YllGameSDK getInstance] yg_checkBindState];
-}
+/// 检查游客账号是否绑定第三方账号, true == 绑定, false == 未绑定
+- (BOOL)yg_checkBindState;
 ```
 
 ### 3.9设置SDK语言
 
 ```obj-c
-//设置语言
-+(void) setLanguage:(NSDictionary *)dic{
-    NSString *lan = [dic objectForKey:@"lan"];
-    [YllGameSDK getInstance].localLanguage = lan;
-}
+// languageList 语言集合  游戏支持语言集合 现支持 ar 阿语 en 英语 该集合默认第一个是SDK的默认语言
+[YllGameSDK getInstance].languageList = @[@"ar", @"en"];
+// 当前设置的语言, 不传以 languageList 的第一个值为默认语言, 若 languageList 为 null, 默认为 ar
+[YllGameSDK getInstance].localLanguage = @"ar";
 ```
 
 ### 3.10检查SDK版本(非必要)
 ```obj-c
-+(void) getSDKInfo:(NSDictionary *)dic{
-    [[YllGameSDK getInstance] yg_checkSDKVersion];
-}
+// 调用该方法, 在控制台显示当前SDK的版本信息
+[[YllGameSDK getInstance] yg_checkSDKVersion];
 ```
 ### 3.11自定义埋点
 ```obj-c
-+(void) onEvent:(NSDictionary *)dic{
++(void) onEvent:(NSDictionary *)dic {
     NSString *evName = [dic objectForKey:@"evName"];
     NSString * jsStr = [dic objectForKey:@"jsStr"];
     NSDictionary *dicstr = [[RootViewController getInstance] dictForJSONString:jsStr];
