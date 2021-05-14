@@ -18,6 +18,7 @@ SDK下载地址(https://www.baidu.com)
 ### 2.2配置项目
 
 1. cd 到 xxx.xcodeproj 目录下，pod init 创建pod管理文件
+
 2. 在podfile文件中添加以下依赖库
  和`Other Linker Flags` ，添加`$(inherited)`。然后执行 pod install
 
@@ -71,7 +72,7 @@ SDK下载地址(https://www.baidu.com)
 </array>
 ```
 
-5. SDK需要访问 Privacy - Photo Library Usage Description 和 Privacy - Tracking Usage Description 权限, 需要在info.plist添加
+5. SDK需要获取 相册权限 和 IDFA权限, 即Privacy - Photo Library Usage Description 和 Privacy - Tracking Usage Description, 需要在info.plist添加, 具体描述请自行定义
 
 ## 3.SDK初始化与API接口
 
@@ -98,12 +99,10 @@ SDK下载地址(https://www.baidu.com)
 [[YllGameSDK getInstance] yg_application:application didFinishLaunchingWithOptions:launchOptions];
 // 初始化SDK
 [[YllGameSDK getInstance] yg_init];
-//YllSDK------end
 ```
 
 - 在`AppDelegate.m`中添加以下方法
 ```obj-c
-//YllSDK-----fun Begin-------
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url options:(nonnull NSDictionary<UIApplicationOpenURLOptionsKey, id> *)options {
     return [[YllGameSDK getInstance] yg_application:application openURL:url options:options];
 }
@@ -131,10 +130,10 @@ SDK下载地址(https://www.baidu.com)
 - (void)applicationWillTerminate:(UIApplication *)application {
     [[YllGameSDK getInstance] yg_applicationWillTerminate:application];
 }
-// YllSDK---------func End
 ```
 
 ### 3.2登陆与回调
+
 - SDK为游戏方提供了两种登录获取账号信息方式, 即代理和闭包, 本文档的登录是用闭包, 如需使用代理, 请自行跳转到YllGameSDK.h文件进行查阅 
 - 在项目中需要进行登录操作的xxx.h或xxx.m文件中导入 #import <YllGameSDK/YllGameSDK.h>
 
@@ -163,9 +162,8 @@ SDK下载地址(https://www.baidu.com)
  }];
 ```
 
-登陆失败建议游戏内再调一次登陆Api重试！
+登陆失败建议游戏内再调一次登陆Api重试！</br>
 退出登录或者token过期要退出到登陆界面并且清除本地用户信息, 再调用登录Api
-
 
 ### 3.2同步角色与回调
 
@@ -186,6 +184,8 @@ SDK下载地址(https://www.baidu.com)
 ```
 
 ### 3.3 充值与回调
+
+- SDK对内购支付中出现的任何报错进行了弹窗提示，游戏方也可以从返回的失败回调内拿到具体的错误信息。
 
 ```obj-c
 /// 商品充值
@@ -259,18 +259,37 @@ SDK下载地址(https://www.baidu.com)
 [YllGameSDK getInstance].localLanguage = @"ar";
 ```
 
-### 3.11 检查SDK版本(非必要)
+### 3.11 自定义埋点
+
+```obj-c
+evName和params参照[YllSDK IOS埋点](https://github.com/yllgame2021/yllgamesdk/blob/master/%E5%9F%8B%E7%82%B9%E9%9C%80%E6%B1%82/IOS/%E7%BB%9F%E8%AE%A1%E5%9F%8B%E7%82%B9IOS.md)
+```
+
+### 3.12 获取推送token
+
+```obj-c
+[[YllGameSDK getInstance] yg_getPushToken:<#^(NSString * _Nullable, NSError * _Nullable)pushToken#>];
+```
+
+### 3.13 推送处理
+
+- 推送分为SDK推送和游戏方推送, 区分两者的方法在于主要在于返回的消息字典(userInfo)内是否含有 YllGameSDKMsgId 这个key, 包含该key表明是SDK推送, 游戏方可不用处理该条推送.
+
+1. App冷启动, 在此方法处理推送
+```obj-c
+if (launchOptions && [launchOptions.allKeys containsObject:UIApplicationLaunchOptionsRemoteNotificationKey]) {
+     NSDictionary *userInfo = launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey];
+}
+```
+2. App在前台或后台, 收到通知在此方法处理推送
+```obj-c
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler { }
+```
+
+### 3.14 检查SDK版本(非必要)
+
 ```obj-c
 // 调用该方法, 在控制台显示当前SDK的版本信息
 [[YllGameSDK getInstance] yg_checkSDKVersion];
 ```
 
-### 3.12 自定义埋点
-```obj-c
-evName和params参照[YllSDK IOS埋点](https://github.com/yllgame2021/yllgamesdk/blob/master/%E5%9F%8B%E7%82%B9%E9%9C%80%E6%B1%82/IOS/%E7%BB%9F%E8%AE%A1%E5%9F%8B%E7%82%B9IOS.md)
-```
-
-### 3.13 获取推送token
-```obj-c
-[[YllGameSDK getInstance] yg_getPushToken:<#^(NSString * _Nullable, NSError * _Nullable)pushToken#>];
-```
