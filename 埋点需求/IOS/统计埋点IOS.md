@@ -95,6 +95,6 @@
 - Info属性简写: `无`
 - 统计说明: `角色vip升级时上报`
 - 示例: 
-```java
+```obj-c
 [[YGEventManager getInstance] onEvent:“game_vip_level_up” params:@{@"vl": @"vl"}];
 ```
