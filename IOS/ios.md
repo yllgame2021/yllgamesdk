@@ -1,4 +1,4 @@
-# Cocos2d-x（iOS）接入文档
+# iOS 接入文档
 
 SDK下载地址(https://www.baidu.com)
 
@@ -82,10 +82,10 @@ SDK下载地址(https://www.baidu.com)
 
 - 在`AppController.m`的`didFinishLaunchingWithOptions`方法中添加以下代码
 ```obj-c
-//YllSDK-------Begin。appid，key这些参数需要联系游戏发行方获取，改为自己的！
-[YllGameSDK getInstance].gameAppId = @"202012031818";
-[YllGameSDK getInstance].appleAppId = @"1564017878";
-[YllGameSDK getInstance].appsFlyerDevKey = @"SXxcrcc7oqnPXV9ycDerVP";
+//YllSDK-------Begin。gameAppId, appleAppId, appsFlyerDevKey这些参数需要联系游戏发行方获取，改为自己的！
+[YllGameSDK getInstance].gameAppId = @"";
+[YllGameSDK getInstance].appleAppId = @"";
+[YllGameSDK getInstance].appsFlyerDevKey = @"";
 // languageList 语言集合  游戏支持语言集合 现支持 ar 阿语 en 英语 该集合默认第一个是SDK的默认语言
 [YllGameSDK getInstance].languageList = @[@"ar", @"en"];
 // 当前设置的语言, 不传以 languageList 的第一个值为默认语言, 若 languageList 为 null, 默认为 ar
@@ -139,51 +139,28 @@ SDK下载地址(https://www.baidu.com)
 #import <YllGameSDK/YllGameSDK.h>
 ```
 
-- 在`RootViewController.mm`文件中，实现对应的方法
-```obj-c
-//实现登陆以及回调，loginCode状态为以下枚举，根据需要做自己的处理
-//typedef NS_ENUM(NSInteger, YGState) {
-//    YGTokenOverdue, // token过期, 重新登录
-//    YGChangeNickName, // 修改昵称成功
-//    YGSwitchSuccess, // 账号切换成功
-//    YGSwitchFailure, // 账户切换失败
-//    YGLoginSuccess, // 登录成功
-//    YGLoginFailure, // 登录失败
-//    YGAccountBlock, // 账号被封
-//    YGAccountRemote, // 异地登录
-//    YGLogout, // 退出登录
-//};
-
-+(void) login:(NSDictionary *)dic{
-    [[RootViewController getInstance] loginCall:dic];
-}
--(void) loginCall:(NSDictionary *)dic{
-    self.loginCallBack = [[dic objectForKey:@"luaFun"] intValue];
-    [YllGameSDK getInstance].delegate = self;
-    [[YllGameSDK getInstance] yg_login];
-}
-//登陆回调，将回调结果以jsonString的方式传给lua层
-- (void)yg_getUserInfo:(YGUserInfoModel *)userInfoModel {
-    NSDictionary *info=@{@"accessToken":userInfoModel.accessToken,
-                         @"nickName":userInfoModel.nickname,
-                         @"openUserId":userInfoModel.userOpenId,
-                         @"loginCode":[NSString stringWithFormat:@"%d",(int)userInfoModel.state]};
-    NSError *error = nil;
-    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:info
-                                                          options:NSJSONWritingPrettyPrinted
-                                                            error:&error];
-    NSString *jsonString = [[NSString alloc] initWithData:jsonData
-    encoding:NSUTF8StringEncoding];
-
-    //将需要传递给 Lua function 的参数放入 Lua stack
-    cocos2d::LuaObjcBridge::pushLuaFunctionById(self.loginCallBack);
-    cocos2d::LuaObjcBridge::getStack()->pushString([jsonString UTF8String]);//返回json字串
-    cocos2d::LuaObjcBridge::getStack()->executeFunction(1);//1个参数
-    cocos2d::LuaObjcBridge::releaseLuaFunctionById(self.loginCallBack);//释放
-}
+- 在`ViewController.m`文件中，实现对应的方法
+```
+[[YllGameSDK getInstance] yg_loginWithUserInfo:^(YGUserInfoModel * userInfoModel) {
+    /** 
+    请根据返回 userInfoModel 内 state 的不同枚举值进行实际业务场景处理
+    当 userInfoModel.state == YGLoginSuccess || userInfoModel.state == YGChangeNickName 时, userInfoModel 里面的其他属性才有值
+    typedef NS_ENUM(NSInteger, YGState) {
+        YGTokenOverdue,   // token过期
+        YGChangeNickName, // 修改昵称成功
+        YGSwitchSuccess,  // 账号切换成功
+        YGSwitchFailure,  // 账户切换失败
+        YGLoginSuccess,   // 登录成功
+        YGLoginFailure,   // 登录失败
+        YGAccountBlock,   // 账号被封
+        YGAccountRemote,  // 异地登录
+        YGLogout,         // 退出登录
+    };
+    */
+ }];
 ```
 
-返回登陆失败和Token失效建议游戏内再调一次登陆Api重试！
+返回登陆失败或者Token失效建议游戏内再调一次登陆Api重试！
 退出登录要退出到登陆界面并且清除本地用户信息
 
 ### 3.2同步角色与回调
