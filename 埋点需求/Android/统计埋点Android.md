@@ -98,7 +98,7 @@ YGEventApi.onEvent(YGEventConstants.YG_GAME_USER_LOGIN_FAILED,gameLoginFailed);
 ```java
 //    rl：角色等级
 HashMap<String, String> data_ = new HashMap<>();
-data_.put("vl", vl);
+data_.put("rl", rl);
 YGEventApi.onEvent(YGEventConstants.YG_GAME_ROLE_LEVEL_UP, data_);
 ```
 
