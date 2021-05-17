@@ -146,13 +146,13 @@ public class YGLoginReceiver extends BroadcastReceiver {
             if (userInfoEntity.getType() == GameUserInfoEntity.TYPE_LOGIN_ACCOUNT_SUCCESS) {
                 //登陆成功
             } else if (userInfoEntity.getType() == GameUserInfoEntity.TYPE_LOGIN_ACCOUNT_FAIL) {
-                //登陆失败 建议重新调取SDK的登陆函数
+                //登陆失败
             } else if (userInfoEntity.getType() == GameUserInfoEntity.TYPE_FAIL_ACCOUNT_REMOTE) {
                 //账号异地登录 SDK内部会有弹窗 必须退出到登陆界面清除用户信息
             } else if (userInfoEntity.getType() == GameUserInfoEntity.TYPE_FAIL_ACCOUNT_BLOCKED) {
-                //账号被封 SDK内部会有弹窗 建议退出到登陆界面
+                //账号被封 SDK内部会有弹窗 退出到登陆界面
             } else if (userInfoEntity.getType() == GameUserInfoEntity.TYPE_FAIL_TOKEN_OVERDUE) {
-                //账号Token过期  建议重新调取SDK的登陆函数
+                //账号Token过期
             } else if (userInfoEntity.getType() == GameUserInfoEntity.TYPE_ACCOUNT_CHANGE_USERNAME) {
                 //修改昵称成功
             } else if (userInfoEntity.getType() == GameUserInfoEntity.TYPE_ACCOUNT_LOGIN_OUT) {
