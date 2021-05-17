@@ -65,21 +65,104 @@
 ```
 ### 2.2初始化Application
 在项目的application的onCreate函数中调用SDK的初始化函数，并且调用SDK的设置语言函数。
+- SDK初始化函数：``` YllGameSdk.getInstance().init(); ```
 ``` java 
-SDK初始化函数：YllGameSdk.getInstance().init();
-SDK 设置语言集合函数：YllGameSdk.setLanguageList();
-SDK设置语言函数函数：YllGameSdk.setLanguage();
+    /**
+     * 初始化
+     *
+     * @param application
+     * @param appId            游戏的gameAppId
+     * @param googleClientId   游戏的googleClientId
+     * @param appsFlyersDevKey 游戏的appsFlyersDevKey
+     */
+    public void init(Application application, String appId, String googleClientId, String appsFlyersDevKey)
+ ```
+ - SDK 设置语言集合函数：``` YllGameSdk.setLanguageList(); ```
+``` java 
+    /**
+     * 设置SDK支持语言
+     *
+     * @param languageList 游戏支持语言集合 现支持 ar 阿语 en英语 该集合默认第一个是SDK的默认语言
+     */
+    public static void setLanguageList(List<String> languageList) 
+ ```
+ - SDK设置语言函数函数：``` YllGameSdk.setLanguage(); ```
+``` java 
+    /**
+     * 设置SDK默认语言
+     *
+     * @param localLanguage ar 阿语 en英语
+     */
+    public static void setLanguage(String localLanguage)
+ ```
+ 
+**（注：项目的application要在AndroidManifest中注册，项目中初始化参数的key 找运营方）**
+### 2.3配置Facebook
+在项目中的AndroidManifest中添加
+``` xml
+        <activity
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="@string/app_name" />
+        <activity
+            android:name="com.facebook.CustomTabActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="@string/fb_login_protocol_scheme" />
+            </intent-filter>
+        </activity>
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" /> 
 ```
-（注：项目的application要在AndroidManifest中注册，项目中初始化参数的key 找运营方。Google登陆官方开发者地址）
-### 2.3配置Facebook（官方开发者地址）
-在项目中的AndroidManifest中添加
- 
-2.4配置登陆Receiver
-在项目中的AndroidManifest中添加
- 
- 
-注：项目中所有登陆以及切换账号都会通过广播通知并且在下发用户信息，YGLoginReceiver为固定写法，该广播放在项目包名.ygapi下
-返回登陆失败和Token失效建议游戏内再调一次登陆Api重试！
+``` xml
+    <string name="facebook_app_id" translatable="false">157932462436275</string>
+    <string name="fb_login_protocol_scheme" translatable="false">fb157932462436275</string>
+```
+**（注：facebook_app_id和fb_login_protocol_scheme 在Android项目string里，需要接入者自行变更为游戏的Facebook的APPID）**
+### 2.4注册登陆Receiver
+在项目中的AndroidManifest中注册
+``` xml
+        <receiver
+            android:name=".ygapi.YGLoginReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.yllgame.sdk.loginReceiver" />
+            </intent-filter>
+        </receiver>
+```
+``` java
+public class YGLoginReceiver extends BroadcastReceiver {
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        //Constants.BROADCAST_RECEIVER_LOGIN_ACTION SDK中登陆的action
+        if (intent.getAction() == YGConstants.BROADCAST_RECEIVER_LOGIN_ACTION) {
+            //拿到登陆之后的用户信息
+            GameUserInfoEntity userInfoEntity = (GameUserInfoEntity) intent.getExtras().getSerializable(YGConstants.BROADCAST_RECEIVER_LOGIN_INFO_KEY);
+            //该示例中通过EventBus通知并且更新主界面的更新 具体的结合自身需求修改
+            if (userInfoEntity.getType() == GameUserInfoEntity.TYPE_LOGIN_ACCOUNT_SUCCESS) {
+                //登陆成功
+            } else if (userInfoEntity.getType() == GameUserInfoEntity.TYPE_LOGIN_ACCOUNT_FAIL) {
+                //登陆失败 建议重新调取SDK的登陆函数
+            } else if (userInfoEntity.getType() == GameUserInfoEntity.TYPE_FAIL_ACCOUNT_REMOTE) {
+                //账号异地登录 SDK内部会有弹窗 必须退出到登陆界面清除用户信息
+            } else if (userInfoEntity.getType() == GameUserInfoEntity.TYPE_FAIL_ACCOUNT_BLOCKED) {
+                //账号被封 SDK内部会有弹窗 建议退出到登陆界面
+            } else if (userInfoEntity.getType() == GameUserInfoEntity.TYPE_FAIL_TOKEN_OVERDUE) {
+                //账号Token过期  建议重新调取SDK的登陆函数
+            } else if (userInfoEntity.getType() == GameUserInfoEntity.TYPE_ACCOUNT_CHANGE_USERNAME) {
+                //修改昵称成功
+            } else if (userInfoEntity.getType() == GameUserInfoEntity.TYPE_ACCOUNT_LOGIN_OUT) {
+                //退出登录
+            }
+        }
+    }
+}
+```
+注：项目中所有登陆以都会通过广播通知并且在下发用户信息，YGLoginReceiver为固定写法，该广播放在项目包名.ygapi下
 退出登录要退出到登陆界面并且清除本地用户信息
 
 
