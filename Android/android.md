@@ -199,7 +199,7 @@ public class YGLoginReceiver extends BroadcastReceiver {
      */
     public void showUpdateNickNameDialog(Activity activity, UpdateUserNameListener listener)
 ```
-4.3 同步用户角色
+### 4.3 同步用户角色
  - SDK调起同步用户角色的函数：``` YGUserApi.getInstance().syncRoleInfo(); ```
 ``` java 
     /**
@@ -223,7 +223,7 @@ public class YGLoginReceiver extends BroadcastReceiver {
 ```
 **注：建议游戏每次登陆、用户角色升级，用户VIP升级必须调用该函数**
 ### 4.4检查SDK最新版本
-SDK调起用户版本更新的函数为：`` YGUserApi.getInstance().getVersionInfo() ``
+- SDK调起用户版本更新的函数为：`` YGUserApi.getInstance().getVersionInfo() ``
  ``` java 
      /**
      * 获取版本
@@ -231,7 +231,7 @@ SDK调起用户版本更新的函数为：`` YGUserApi.getInstance().getVersionI
     public void getVersionInfo()
  ```
 ### 4.6 设置界面
-SDK调起设置界面的函数为：`` YGUserApi.getInstance().showSettingsView ``
+- SDK调起设置界面的函数为：`` YGUserApi.getInstance().showSettingsView ``
 ``` java
     /**
      * 设置界面
@@ -242,8 +242,8 @@ SDK调起设置界面的函数为：`` YGUserApi.getInstance().showSettingsView 
      */
     public void showSettingsView(Activity activity, String serviceId, String roleId)
 ```
-4.7客服&FAQ
-SDK调起客服&FAQ的函数为：YGUserApi.getInstance().showServiceChatView
+### 4.7客服&FAQ
+- SDK调起客服&FAQ的函数为：`` YGUserApi.getInstance().showServiceChatView ``
   ``` java 
       /**
      * 客服中心
@@ -254,8 +254,8 @@ SDK调起客服&FAQ的函数为：YGUserApi.getInstance().showServiceChatView
      */
     public void showServiceChatView(Activity activity, String serviceId, String roleId)
   ```
-4.8账号升级提示
-SDK调起账号升级的函数为：YGUserApi.getInstance().checkBindStat
+### 4.8账号升级提示
+- SDK调起账号升级的函数为：`` YGUserApi.getInstance().checkBindStat ``
 ``` java 
     /**
      * 检查绑定状态 如果未绑定 则会显示账户绑定弹窗
