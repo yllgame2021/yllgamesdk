@@ -230,7 +230,7 @@ public class YGLoginReceiver extends BroadcastReceiver {
      */
     public void getVersionInfo()
  ```
-### 4.6 设置界面
+### 4.5 设置界面
 - SDK调起设置界面的函数为：`` YGUserApi.getInstance().showSettingsView ``
 ``` java
     /**
@@ -242,7 +242,7 @@ public class YGLoginReceiver extends BroadcastReceiver {
      */
     public void showSettingsView(Activity activity, String serviceId, String roleId)
 ```
-### 4.7客服&FAQ
+### 4.6客服&FAQ
 - SDK调起客服&FAQ的函数为：`` YGUserApi.getInstance().showServiceChatView ``
   ``` java 
       /**
@@ -254,7 +254,7 @@ public class YGLoginReceiver extends BroadcastReceiver {
      */
     public void showServiceChatView(Activity activity, String serviceId, String roleId)
   ```
-### 4.8账号升级提示
+### 4.7账号升级提示
 - SDK调起账号升级的函数为：`` YGUserApi.getInstance().checkBindStat ``
 ``` java 
     /**
@@ -264,4 +264,28 @@ public class YGLoginReceiver extends BroadcastReceiver {
      * @return 是否绑定 true 绑定 false 未绑定
      */
     public boolean checkBindStat(Activity activity)
+```
+## 5.支付
+### 5.1 谷歌支付
+- SDK调起谷歌支付的函数为：`` YGPayApi.pay() ``
+``` java 
+    /**
+     * 支付
+     *
+     * @param activity      当前activity
+     * @param roleId        角色id
+     * @param roleServiceId 角色服务器Id
+     * @param sku           商品的sku
+     * @param cpNo          支付的订单号
+     * @param cpTime        支付订单的创建时间
+     * @param number        支付的数量 目前为1
+     * @param amount        支付的金额
+     * @param pointId       支付的充值点
+     * @param listener      支付的回调
+     */
+    public static synchronized void pay(Activity activity, String roleId,
+                                        String roleServiceId, String sku,
+                                        String cpNo, String cpTime,
+                                        String number, String amount,
+                                        String pointId, YGPaymentListener listener)
 ```
