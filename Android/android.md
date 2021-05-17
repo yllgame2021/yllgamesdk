@@ -289,3 +289,60 @@ public class YGLoginReceiver extends BroadcastReceiver {
                                         String number, String amount,
                                         String pointId, YGPaymentListener listener)
 ```
+## 6.推送
+### 6.1 配置Google 服务插件和导入google-service.json
+在项目的build.gradle配置com.google.gms.google-services插件并且导入google-service.json文件
+ ![image](https://user-images.githubusercontent.com/19358621/118480934-7ea06780-b745-11eb-94fc-d0048ef543da.png)
+![image](https://user-images.githubusercontent.com/19358621/118481332-f1a9de00-b745-11eb-9627-58079b444310.png)
+
+### 6.2清单文件配置推送Service和推送图标
+``` xml
+        <service
+            android:name=".MyFirebaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/yll_game_ic_logo" />
+```
+``` java
+public class MyFirebaseMessagingService extends FirebaseMessagingService {
+    @Override
+    public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
+        //判断是否是SDK内部消息，是的话 就返回true 返回false则表示非SDK内部消息 需游戏方自行处理
+        if (!YGMessageApi.getInstance().handlePushMessage(remoteMessage))
+            Log.d("FirebaseMessaging", "游戏内部消息");
+        super.onMessageReceived(remoteMessage);
+    }
+}
+```
+**注：com.google.firebase.messaging.default_notification_icon 图标为透明单色图标
+YGMessageApi.getInstance().handlePushMessage(remoteMessage);函数必须接入，在推送消息的service的onMessageReceived里。**
+### 6.3推送通知栏点击处理
+ ``` java
+ public class LauncherActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getIntent().getExtras() != null) {
+            YGMessageApi.getInstance().clickPushMessage(SPStaticUtils.getRoleId(), SPStaticUtils.getRoleServiceId(), getIntent().getExtras());
+        }
+        setContentView(R.layout.activity_launcher);
+    }
+}
+ ```
+**注：用户点击通知栏的时候会默认进入launch的activity，在当前界面获取传递的数据并调SDK的clickPushMessage函数**
+### 6.4获取推送token
+-调用获取token调用方式：YGMessageApi.getInstance().getPushToken() 
+ ``` java
+     /**
+     * 获取推送token
+     *
+     * @param callBack 回调的token
+     */
+    public void getPushToken(@NonNull YGCallBack<String> callBack)
+ ```
