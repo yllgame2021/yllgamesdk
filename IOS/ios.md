@@ -284,7 +284,7 @@ evName和params参照[YllSDK IOS埋点](https://github.com/yllgame2021/yllgamesd
 
 ### 3.13 推送处理
 
-- 推送分为SDK推送和游戏方推送, 区分两者的方法在于主要在于返回的消息字典(userInfo)内是否含有 YllGameSDKMsgId 这个key, 包含该key表明是SDK推送, 游戏方可不用处理该条推送.
+- 推送分为SDK推送和游戏方推送，区分两者的方法在于主要在于返回的消息字典(userInfo)内是否含有 YllGameSDKMsgId 这个key，包含该key表明是SDK推送，游戏方可不用处理该条推送.
 
 1. App冷启动, 在此方法处理推送
 ```obj-c
@@ -297,7 +297,22 @@ if (launchOptions && [launchOptions.allKeys containsObject:UIApplicationLaunchOp
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler { }
 ```
 
-### 3.14 检查SDK版本(非必要)
+### 3.14 获取SDK版本
+
+```obj-c
+// 调用该方法, 在控制台显示当前SDK的版本信息
+NSString *SDKVersion = [[YllGameSDK getInstance] yg_getSDKVersion];
+```
+
+### 3.14 获取SDKBuild
+
+```obj-c
+// 调用该方法, 在控制台显示当前SDK的版本信息
+NSString *SDKBuild = [[YllGameSDK getInstance] yg_getSDKBuild];
+```
+
+### 3.16 检查SDK版本(非必要)
+- 此方法只是在控制台打印当前SDK的版本和最新的SDK版本
 
 ```obj-c
 // 调用该方法, 在控制台显示当前SDK的版本信息
