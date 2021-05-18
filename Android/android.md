@@ -346,42 +346,24 @@ YGMessageApi.getInstance().handlePushMessage(remoteMessage);函数必须接入�
      */
     public void getPushToken(@NonNull YGCallBack<String> callBack)
  ```
-9.0数据统计
-9.1游戏通用事件埋点
-埋点函数为：
+## 7.0数据统计
+### 7.1通用事件埋点（不带参数）
+-调用埋点函数为：`` YGEventApi.onEvent() ``
+``` java
 /**
  * 不带参数埋点，只需要传入事件名称
  * @param event_name
  */
-YGEventApi.onEvent(String event_name)
-调用方式：
- 
+YGEventApi.onEvent(String event_name) 
+```
+### 7.2通用事件埋点（带参数）
+-调用埋点函数为：`` YGEventApi.onEvent() ``
+``` java
 /**
- * 带参数埋点，参数数据类型为Map
+ * 不带参数埋点，只需要传入事件名称
  * @param event_name
- * @param params
  */
-
-YGEventApi.onEvent(String event_name, Map params)
+YGEventApi.onEvent(String event_name) 
+```
 通用事件埋点event_name 都需要按规定书写
 由YGEventConstants提供，列入YGEventConstants.YG_GAME_UPDATE_BEGIN
- 
-通用事件埋点详情
-9.2 自定义埋点
-埋点函数为：
-/**
- * 不带参数埋点，只需要传入事件名称
- * @param event_name
- */
-YGEventApi.onEvent(String event_name)
-
-/**
- * 带参数埋点，参数数据类型为Map
- * @param event_name
- * @param params
- */
-
-YGEventApi.onEvent(String event_name, Map params)
-
-自定义埋点可任意传入事件名
-自定义埋点目前只生效事件名，不生效无效参数
