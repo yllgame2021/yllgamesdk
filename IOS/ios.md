@@ -261,9 +261,7 @@ SDK下载地址(https://www.baidu.com)
 
 ### 3.11 自定义埋点
 
-```obj-c
 evName和params参照[YllSDK IOS埋点](https://github.com/yllgame2021/yllgamesdk/blob/master/%E5%9F%8B%E7%82%B9%E9%9C%80%E6%B1%82/IOS/%E7%BB%9F%E8%AE%A1%E5%9F%8B%E7%82%B9IOS.md)
-```
 
 ### 3.12 获取推送token
 
