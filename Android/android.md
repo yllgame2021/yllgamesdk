@@ -348,7 +348,7 @@ YGMessageApi.getInstance().handlePushMessage(remoteMessage);函数必须接入�
  ```
 ## 7.0数据统计
 ### 7.1通用事件埋点（不带参数）
--调用埋点函数为：`` YGEventApi.onEvent() ``
+- 调用埋点函数为：`` YGEventApi.onEvent() ``
 ``` java
     /**
      * @param event_name 事件名称
@@ -356,7 +356,7 @@ YGMessageApi.getInstance().handlePushMessage(remoteMessage);函数必须接入�
     public static void onEvent(String event_name) 
 ```
 ### 7.2通用事件埋点（带参数）
--调用埋点函数为：`` YGEventApi.onEvent() ``
+- 调用埋点函数为：`` YGEventApi.onEvent() ``
 ``` java
     /**
      * @param event_name 事件名称
@@ -364,5 +364,8 @@ YGMessageApi.getInstance().handlePushMessage(remoteMessage);函数必须接入�
      */
     public static void onEvent(String event_name, Map params) 
 ```
+event_name分为游戏通用埋点和自定义埋点的事件名称
 通用事件埋点event_name 都需要按规定书写
-由YGEventConstants提供，列入YGEventConstants.YG_GAME_UPDATE_BEGIN
+由YGEventConstants提供，列如YGEventConstants.YG_GAME_UPDATE_BEGIN
+自定义事件埋点event_name 由游戏方约束
+详情文档可参考*埋点详情文档*
