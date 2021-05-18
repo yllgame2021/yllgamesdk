@@ -367,5 +367,6 @@ YGMessageApi.getInstance().handlePushMessage(remoteMessage);函数必须接入�
 event_name分为游戏通用埋点和自定义埋点的事件名称
 通用事件埋点event_name 都需要按规定书写
 由YGEventConstants提供，列如YGEventConstants.YG_GAME_UPDATE_BEGIN
+
 自定义事件埋点event_name 由游戏方约束
-详情文档可参考*埋点详情文档*
+详情文档可参考[Yll_Android埋点(https://github.com/yllgame2021/yllgamesdk/blob/master/%E5%9F%8B%E7%82%B9%E9%9C%80%E6%B1%82/Android/%E7%BB%9F%E8%AE%A1%E5%9F%8B%E7%82%B9Android.md)
