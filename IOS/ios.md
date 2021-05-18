@@ -8,6 +8,8 @@ SDK下载地址(https://www.baidu.com)
 
 **Xcode12.0+**
 
+**SDK不支持bitcode，项目请勿打开**
+
 ## 2.iOS项目修改
 
 ### 2.1添加资源
