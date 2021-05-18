@@ -350,20 +350,19 @@ YGMessageApi.getInstance().handlePushMessage(remoteMessage);函数必须接入�
 ### 7.1通用事件埋点（不带参数）
 -调用埋点函数为：`` YGEventApi.onEvent() ``
 ``` java
-/**
- * 不带参数埋点，只需要传入事件名称
- * @param event_name
- */
-YGEventApi.onEvent(String event_name) 
+    /**
+     * @param event_name 事件名称
+     */
+    public static void onEvent(String event_name) 
 ```
 ### 7.2通用事件埋点（带参数）
 -调用埋点函数为：`` YGEventApi.onEvent() ``
 ``` java
-/**
- * 不带参数埋点，只需要传入事件名称
- * @param event_name
- */
-YGEventApi.onEvent(String event_name) 
+    /**
+     * @param event_name 事件名称
+     * @param params     事件额外参数
+     */
+    public static void onEvent(String event_name, Map params) 
 ```
 通用事件埋点event_name 都需要按规定书写
 由YGEventConstants提供，列入YGEventConstants.YG_GAME_UPDATE_BEGIN
