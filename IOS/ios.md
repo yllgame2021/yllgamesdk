@@ -304,7 +304,7 @@ if (launchOptions && [launchOptions.allKeys containsObject:UIApplicationLaunchOp
 NSString *SDKVersion = [[YllGameSDK getInstance] yg_getSDKVersion];
 ```
 
-### 3.14 获取SDKBuild
+### 3.15 获取SDKBuild
 
 ```obj-c
 // 调用该方法, 在控制台显示当前SDK的版本信息
