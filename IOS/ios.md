@@ -4,7 +4,7 @@ SDK下载地址(https://www.baidu.com)
 
 ## 1.接入前环境配置
 
-**需要安装cocoapods管理工具**
+**需要安装cocoapods管理工具(参考: https://www.kancloud.cn/god-is-coder/cocoapods/617031)**
 
 **Xcode12.0+**
 
@@ -13,23 +13,33 @@ SDK下载地址(https://www.baidu.com)
 ### 2.1添加资源
 
 - 将 iOS 目录下的 YllGameSDK.framework 文件夹拷贝到项目中正确目录下
-- 右键项目，选择 Add File to "XXX" , 选择刚才添加的framework，勾选 "Copy items if needed"，选择 "Create groups"，targets勾选mobile。
+- 右键项目，选择 Add File to "XXX"，选择刚才添加的framework，勾选 "Copy items if needed"，选择 "Create groups"，targets勾选mobile。
 
 ### 2.2配置项目
 
-1. cd 到 xxx.xcodeproj 目录下，pod init 创建pod管理文件
+#### 1. cd 到 xxx.xcodeproj 目录下，pod init 创建pod管理文件
 
-2. 在podfile文件中添加以下依赖库
- 和`Other Linker Flags` ，添加`$(inherited)`。然后执行 pod install
+#### 2. 在podfile文件中添加以下依赖库
+```obj-c
+  pod 'FBSDKLoginKit', '~> 9.1.0'
+  pod 'AppsFlyerFramework', '~> 6.2.5'
+  pod 'Firebase/Analytics', '~> 6.34.0'
+  pod 'Firebase/Messaging', '~> 6.34.0'
+```
 
-3. 配置登陆、推送和内购配置
+
+去掉use_frameworks!前的#。</br>在工程的相对应的 `Targets` -> `Build Settings` 的 `Other Linker Flags` ，添加`$(inherited)`，然后执行 pod install。
+
+
+#### 3. 配置Game Center、推送和内购配置
 - 将`GoogleService-Info.plist`文件拖入项目。并配置以下选项
 
 ![配置](img/Signing&Capabilities.jpg)
 
-4. 右键`info.list`，选择`open AS`->`Scoure Code`，在dict中添加以为值,其中</br>
-**`CFBundleURLSchemes` 和 `FacebookAppID` 的 value 需要替换成SDK方提供的正确的值** 
+#### 4. Facebook 项目配置，使用包含应用数据的 XML 代码片段配置 Info.plist 文件。</br>Facebook 官网(https://developers.facebook.com/docs/facebook-login/ios/v2.2?locale=zh_CN)
 
+1. 右键点击 Info.plist，然后选择 Open As（打开方式）▸ Source Code（源代码）。
+2. 将下列 XML 代码片段复制并粘贴到文件正文中 (<dict>...</dict>)。
 ```xml
 <key>CFBundleURLTypes</key>
 <array>
@@ -38,7 +48,7 @@ SDK下载地址(https://www.baidu.com)
         <string>Editor</string>
         <key>CFBundleURLSchemes</key>
         <array>
-            <string>fb157932462436275</string>
+            <string>fb[APP_ID]</string>
         </array>
     </dict>
 </array>
@@ -46,11 +56,11 @@ SDK下载地址(https://www.baidu.com)
 <key>FacebookAdvertiserIDCollectionEnabled</key>
 <string>TRUE</string>
 <key>FacebookAppID</key>
-<string>157932462436275</string>
+<string>[APP_ID]</string>
 <key>FacebookAutoLogAppEventsEnabled</key>
 <string>TRUE</string>
 <key>FacebookDisplayName</key>
-<string>YllGameDemo</string>
+<string>[APP_NAME]</string>
 
 <key>LSApplicationQueriesSchemes</key>
 <array>
@@ -71,8 +81,11 @@ SDK下载地址(https://www.baidu.com)
     <string>fbshareextension</string>
 </array>
 ```
+3. 在 [CFBundleURLSchemes] 键内的 <array><string> 中，将 [APP_ID] 替换为应用编号。
+4. 在 FacebookAppID 键内的 <string> 中，将 [APP_ID] 替换为应用编号。
+5. 在 FacebookDisplayName 键内的 <string> 中，将 [APP_NAME] 替换为应用名称。
 
-5. SDK需要获取 相册权限 和 IDFA权限, 即Privacy - Photo Library Usage Description 和 Privacy - Tracking Usage Description, 需要在info.plist添加, 具体描述请自行定义
+#### 5. SDK需要获取 相册权限 和 IDFA权限, 即Privacy - Photo Library Usage Description 和 Privacy - Tracking Usage Description, 需要在info.plist添加, 具体描述请根据游戏的实际使用进行定义, 如果游戏没有使用, 可以向SDK方要通用的阿语描述。
 
 ## 3.SDK初始化与API接口
 
