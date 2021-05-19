@@ -1,4 +1,4 @@
-# Android接入文档
+# Android Google接入文档
 
 ## SDK结构
 支持平台：Android</br>
