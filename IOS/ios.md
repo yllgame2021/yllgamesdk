@@ -4,7 +4,7 @@ SDK下载地址(https://www.baidu.com)
 
 ## 1.接入前环境配置
 
-**需要安装cocoapods管理工具(参考: https://www.kancloud.cn/god-is-coder/cocoapods/617031)**
+**需要安装cocoapods管理工具([参考](https://www.kancloud.cn/god-is-coder/cocoapods/617031))**
 
 **Xcode12.0+**
 
@@ -27,6 +27,7 @@ SDK下载地址(https://www.baidu.com)
   pod 'AppsFlyerFramework', '~> 6.2.5'
   pod 'Firebase/Analytics', '~> 6.34.0'
   pod 'Firebase/Messaging', '~> 6.34.0'
+  pod 'Bugly', '~> 2.5.90'
 ```
 
 
@@ -38,7 +39,7 @@ SDK下载地址(https://www.baidu.com)
 
 ![配置](img/Signing&Capabilities.jpg)
 
-#### 4. Facebook 项目配置，使用包含应用数据的 XML 代码片段配置 Info.plist 文件。</br>Facebook 官网(https://developers.facebook.com/docs/facebook-login/ios/v2.2?locale=zh_CN)
+#### 4. Facebook 项目配置，使用包含应用数据的 XML 代码片段配置 Info.plist 文件([官网](https://developers.facebook.com/docs/facebook-login/ios/v2.2?locale=zh_CN))
 
 1. 右键点击 Info.plist，然后选择 Open As（打开方式）▸ Source Code（源代码）。
 2. 将下列 XML 代码片段复制并粘贴到文件正文中 (<dict>...</dict>)。
@@ -86,8 +87,25 @@ SDK下载地址(https://www.baidu.com)
 3. 在 [CFBundleURLSchemes] 键内的 <array><string> 中，将 [APP_ID] 替换为应用编号。
 4. 在 FacebookAppID 键内的 <string> 中，将 [APP_ID] 替换为应用编号。
 5. 在 FacebookDisplayName 键内的 <string> 中，将 [APP_NAME] 替换为应用名称。
+  
+#### 5. Bugly符号表配置([官网](https://bugly.qq.com/docs/user-guide/symbol-configuration-ios/?v=20200622202242))
+- SDK建议使用自动配置。
+1. 自动配置请首先下载和解压[自动配置符号表工具包](https://bugly.qq.com/v2/sdk?id=6ecfd28d-d8ea-4446-a9c8-13aed4a94f04)，然后选择上传方式并配置Xcode的编译执行脚本。
+2. 下载符号表提取工具依赖的[Java运行环境](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)(JRE或JDK版本需要>=1.6)
+3. 把工具包buglySymbollOS.jar 保存在用户主目录(Home)的bin目录下, (没有bin文件夹, 请自行创建):
+![配置](img/Signing&Capabilities.jpg)
+4. 在Xcode工程对应的Target的Build Phases中新增Run Scrpit Phase
+![配置](img/Signing&Capabilities.jpg)
+5. 打开工具包dSYM_upload.sh, 复制所有内容, 在新增的Run Scrpit Phase 中粘贴
+6. 修改新增的Run Script中的<YOUR_APP_ID>为您的App ID, <YOUR_APP_KEY>为您的App key, <YOUR_BUNDLE_ID>为App的Bundle Id
+![配置](img/Signing&Capabilities.jpg)
+7. 脚本默认的Debug模式及模拟器编译情况下不会上传符号表, 在需要上传的时候, 请修改下列选项
+Debug模式编译是否上传, 1 = 上传 0 = 不上传, 默认不上传
+UPLOAD_DEBUG_SYMBOLS=0
+模拟器编译是否上传. 1 = 上传 0 = 不上传, 默认不上传
+UPLOAD_SIMULATOR_SYMBOLS=0
 
-#### 5. SDK需要获取 相册权限 和 IDFA权限, 即Privacy - Photo Library Usage Description 和 Privacy - Tracking Usage Description, 需要在info.plist添加, 具体描述请根据游戏的实际使用进行定义, 如果游戏没有使用, 可以向SDK方要通用的阿语描述。
+#### 6. SDK需要获取 相册权限 和 IDFA权限, 即Privacy - Photo Library Usage Description 和 Privacy - Tracking Usage Description, 需要在info.plist添加, 具体描述请根据游戏的实际使用进行定义, 如果游戏没有使用, 可以向SDK方要通用的阿语描述。
 
 ## 3.SDK初始化与API接口
 
@@ -290,8 +308,10 @@ evName和params参照[YllSDK IOS埋点](https://github.com/yllgame2021/yllgamesd
 
 1. App冷启动, 在此方法处理推送
 ```obj-c
-if (launchOptions && [launchOptions.allKeys containsObject:UIApplicationLaunchOptionsRemoteNotificationKey]) {
-     NSDictionary *userInfo = launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey];
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    if (launchOptions && [launchOptions.allKeys containsObject:UIApplicationLaunchOptionsRemoteNotificationKey]) {
+         NSDictionary *userInfo = launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey];
+    }
 }
 ```
 2. App在前台或后台, 收到通知在此方法处理推送
