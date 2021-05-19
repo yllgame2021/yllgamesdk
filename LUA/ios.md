@@ -109,22 +109,17 @@ pod 'Bugly', '~> 2.5.90'
 
 ### 2.3 **新增Bugly配置**
 
-Bugly符号表配置([官网](https://bugly.qq.com/docs/user-guide/symbol-configuration-ios/?v=20200622202242))
-- SDK建议使用自动配置。
-1. 自动配置请首先下载和解压[自动配置符号表工具包](https://bugly.qq.com/v2/sdk?id=6ecfd28d-d8ea-4446-a9c8-13aed4a94f04)，然后选择上传方式并配置Xcode的编译执行脚本。
+1. 下载[自动配置符号表工具包](https://bugly.qq.com/v2/sdk?id=6ecfd28d-d8ea-4446-a9c8-13aed4a94f04)
 
-2. 下载符号表提取工具依赖的[Java运行环境](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)(JRE或JDK版本需要>=1.6)
+2. 配置[Java运行环境](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)(JRE或JDK版本需要>=1.6)
 
-3. 把工具包buglySymbollOS.jar 保存在用户主目录(Home)的bin目录下, (没有bin文件夹, 请自行创建):
-![配置](img/1.png)
+3. 把工具包buglySymbollOS.jar 保存在`~/bin`目录下, (没有bin文件夹, 请自行创建):
 
 4. 在Xcode工程对应的Target的Build Phases中新增Run Scrpit Phase
-![配置](img/2.png)
 
-5. 打开工具包dSYM_upload.sh, 复制所有内容, 在新增的Run Scrpit Phase 中粘贴
+5. 打开工具包`dSYM_upload.sh`, 复制所有内容, 在新增的Run Scrpit Phase 中粘贴
 
 6. 修改新增的Run Script中的<YOUR_APP_ID>为您的App ID, <YOUR_APP_KEY>为您的App key, <YOUR_BUNDLE_ID>为App的Bundle Id
-![配置](img/3.png)
 
 7. 脚本默认的Debug模式及模拟器编译情况下不会上传符号表, 在需要上传的时候, 请修改下列选项</br>
 Debug模式编译是否上传, 1 = 上传 0 = 不上传, 默认不上传</br>
