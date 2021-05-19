@@ -123,6 +123,7 @@ UPLOAD_SIMULATOR_SYMBOLS=0
 //YllSDK-------Begin。gameAppId, appleAppId, appsFlyerDevKey这些参数需要联系游戏发行方获取，改为自己的！
 [YllGameSDK getInstance].gameAppId = @"";
 [YllGameSDK getInstance].appleAppId = @"";
+[YllGameSDK getInstance].buglyAppId = @"";
 [YllGameSDK getInstance].appsFlyerDevKey = @"";
 // languageList 语言集合  游戏支持语言集合 现支持 ar 阿语 en 英语 该集合默认第一个是SDK的默认语言
 [YllGameSDK getInstance].languageList = @[@"ar", @"en"];
