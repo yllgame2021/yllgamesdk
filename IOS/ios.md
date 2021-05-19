@@ -31,7 +31,9 @@ SDK下载地址(https://www.baidu.com)
 ```
 
 
-去掉use_frameworks!前的#。</br>在工程的相对应的 `Targets` -> `Build Settings` 的 `Other Linker Flags` ，添加`$(inherited)`，然后执行 pod install。
+- 去掉use_frameworks!前的#
+- 在工程的相对应的 `Targets` -> `Build Settings` 的 `Other Linker Flags` ，添加`$(inherited)`
+- 然后执行 pod install。
 
 
 #### 3. 配置Game Center、推送和内购配置
@@ -120,7 +122,7 @@ UPLOAD_SIMULATOR_SYMBOLS=0
 
 - 在`AppDelegate.m`的`didFinishLaunchingWithOptions`方法中添加以下代码
 ```obj-c
-//YllSDK-------Begin。gameAppId, appleAppId, appsFlyerDevKey这些参数需要联系游戏发行方获取，改为自己的！
+//YllSDK-------Begin。gameAppId, appleAppId, buglyAppId, appsFlyerDevKey这些参数需要联系游戏发行方获取，改为自己的！
 [YllGameSDK getInstance].gameAppId = @"";
 [YllGameSDK getInstance].appleAppId = @"";
 [YllGameSDK getInstance].buglyAppId = @"";
