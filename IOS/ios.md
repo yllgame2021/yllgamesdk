@@ -91,15 +91,15 @@ SDK下载地址(https://www.baidu.com)
 5. 在 FacebookDisplayName 键内的 <string> 中，将 [APP_NAME] 替换为应用名称。
   
 #### 5. Bugly符号表配置([官网](https://bugly.qq.com/docs/user-guide/symbol-configuration-ios/?v=20200622202242))
-- SDK建议使用自动配置。
-1. 自动配置请首先下载和解压[自动配置符号表工具包](https://bugly.qq.com/v2/sdk?id=6ecfd28d-d8ea-4446-a9c8-13aed4a94f04)，然后选择上传方式并配置Xcode的编译执行脚本。
+- SDK建议使用自动配置
+1. 自动配置请首先下载和解压[自动配置符号表工具包](https://bugly.qq.com/v2/sdk?id=6ecfd28d-d8ea-4446-a9c8-13aed4a94f04)
 2. 下载符号表提取工具依赖的[Java运行环境](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)(JRE或JDK版本需要>=1.6)
 3. 把工具包buglySymbollOS.jar 保存在用户主目录(Home)的bin目录下, (没有bin文件夹, 请自行创建):
 ![配置](img/1.png)
 4. 在Xcode工程对应的Target的Build Phases中新增Run Scrpit Phase
 ![配置](img/2.png)
 5. 打开工具包dSYM_upload.sh, 复制所有内容, 在新增的Run Scrpit Phase 中粘贴
-6. 修改新增的Run Script中的<YOUR_APP_ID>为您的App ID, <YOUR_APP_KEY>为您的App key, <YOUR_BUNDLE_ID>为App的Bundle Id
+6. 修改新增的Run Script中的<YOUR_APP_ID>为您的App ID</br> <YOUR_APP_KEY>为您的App key</br> <YOUR_BUNDLE_ID>为App的Bundle Id
 ![配置](img/3.png)
 7. 脚本默认的Debug模式及模拟器编译情况下不会上传符号表, 在需要上传的时候, 请修改下列选项</br>
 Debug模式编译是否上传, 1 = 上传 0 = 不上传, 默认不上传</br>
@@ -108,7 +108,10 @@ UPLOAD_DEBUG_SYMBOLS=0</br>
 UPLOAD_SIMULATOR_SYMBOLS=0
 - 至此，自动上传符号表脚本配置完毕，Bugly 会在每次 Xcode 工程编译后自动完成符号表配置工作。
 
-#### 6. SDK需要获取 相册权限 和 IDFA权限, 即Privacy - Photo Library Usage Description 和 Privacy - Tracking Usage Description, 需要在info.plist添加, 具体描述请根据游戏的实际使用进行定义, 如果游戏没有使用, 可以向SDK方要通用的阿语描述。
+#### 6. SDK所需权限
+- 相册权限 Privacy - Photo Library Usage Description
+- IDFA权限 Privacy - Tracking Usage Description
+- 权限的具体描述请根据游戏的实际使用进行定义, 如果游戏没有使用, 可以向SDK方要通用的阿语描述
 
 ## 3.SDK初始化与API接口
 
