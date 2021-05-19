@@ -99,11 +99,12 @@ SDK下载地址(https://www.baidu.com)
 5. 打开工具包dSYM_upload.sh, 复制所有内容, 在新增的Run Scrpit Phase 中粘贴
 6. 修改新增的Run Script中的<YOUR_APP_ID>为您的App ID, <YOUR_APP_KEY>为您的App key, <YOUR_BUNDLE_ID>为App的Bundle Id
 ![配置](img/3.png)
-7. 脚本默认的Debug模式及模拟器编译情况下不会上传符号表, 在需要上传的时候, 请修改下列选项
-Debug模式编译是否上传, 1 = 上传 0 = 不上传, 默认不上传
-UPLOAD_DEBUG_SYMBOLS=0
-模拟器编译是否上传. 1 = 上传 0 = 不上传, 默认不上传
+7. 脚本默认的Debug模式及模拟器编译情况下不会上传符号表, 在需要上传的时候, 请修改下列选项</br>
+Debug模式编译是否上传, 1 = 上传 0 = 不上传, 默认不上传</br>
+UPLOAD_DEBUG_SYMBOLS=0</br>
+模拟器编译是否上传. 1 = 上传 0 = 不上传, 默认不上传</br>
 UPLOAD_SIMULATOR_SYMBOLS=0
+- 至此，自动上传符号表脚本配置完毕，Bugly 会在每次 Xcode 工程编译后自动完成符号表配置工作。
 
 #### 6. SDK需要获取 相册权限 和 IDFA权限, 即Privacy - Photo Library Usage Description 和 Privacy - Tracking Usage Description, 需要在info.plist添加, 具体描述请根据游戏的实际使用进行定义, 如果游戏没有使用, 可以向SDK方要通用的阿语描述。
 
