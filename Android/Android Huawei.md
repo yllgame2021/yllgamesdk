@@ -1,4 +1,4 @@
-# Android Google接入文档
+# Android Huawei接入文档
 
 ## SDK结构
 支持平台：Android</br>
@@ -35,11 +35,6 @@
     api 'com.google.code.gson:gson:2.8.5'
     //Facebook登陆依赖库 必须添加
     api 'com.facebook.android:facebook-login:9.0.0'
-    //Google登陆依赖库 必须添加
-    api 'com.google.android.gms:play-services-auth:19.0.0'
-    api "com.google.android.gms:play-services-ads-identifier:17.0.0"
-    //Google支付依赖库 必须添加
-    api "com.android.billingclient:billing:3.0.0"
     //数据库依赖库 必须添加
     def room_version = "2.2.5"
     api "androidx.room:room-runtime:$room_version"
