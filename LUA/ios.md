@@ -32,6 +32,7 @@ pod 'FBSDKLoginKit', '~> 9.1.0'
 pod 'AppsFlyerFramework', '~> 6.2.5'
 pod 'Firebase/Analytics', '~> 6.34.0'
 pod 'Firebase/Messaging', '~> 6.34.0'
+pod 'Bugly', '~> 2.5.90'
 ```
 
 3. 取消 `platform :ios, '9.0'`注释,并更改项目`targets->build Setting-> IOS Deployment Target`为 `ios 9.0`
@@ -51,7 +52,14 @@ pod 'Firebase/Messaging', '~> 6.34.0'
 
 ![推送配置](img/push.jpg)
 
-8. 右键`ios/info.list`，选择`open AS`->`Scoure Code`，在dict中添加以为值    
+8. 右键`ios/info.list`，选择`open AS`->`Scoure Code`，在dict中添加以为值  
+
+**注意**
+- 需要将 `CFBundleURLSchemes` 值替换为"fb"+申请的Facebook Appid(fb157932462436275)
+- 需要将 `FacebookAppID`值替换为申请的Facebook Appid(157932462436275)
+- 需要将在 `FacebookDisplayName` 值修改为应用名称。
+- `NSPhotoLibraryUsageDescription` 为调用相册权限的描述，可以自行修改
+- `NSUserTrackingUsageDescription` 为IDFA权限的描述，可以自行修改
 
 ```xml
 <key>CFBundleURLTypes</key>
@@ -64,18 +72,8 @@ pod 'Firebase/Messaging', '~> 6.34.0'
             <string>fb157932462436275</string>
         </array>
     </dict>
-    <dict>
-        <key>CFBundleTypeRole</key>
-        <string>Editor</string>
-        <key>CFBundleURLSchemes</key>
-        <array>
-            <string>com.googleusercontent.apps.301774558106-ihpd76lup5rib2bmeqjpvtqtnehlhtt7</string>
-        </array>
-    </dict>
 </array>
 
-<key>CLIENT_ID</key>
-<string>301774558106-ihpd76lup5rib2bmeqjpvtqtnehlhtt7.apps.googleusercontent.com</string>
 <key>FacebookAdvertiserIDCollectionEnabled</key>
 <string>TRUE</string>
 <key>FacebookAppID</key>
@@ -109,6 +107,26 @@ pod 'Firebase/Messaging', '~> 6.34.0'
 <string>سيتم استخدام بياناتك لتزويدك بخدمة أفضل وتجربة إعلانية مخصصة</string>
 ```
 
+### 2.3 **新增Bugly配置**
+
+Bugly符号表配置([官网](https://bugly.qq.com/docs/user-guide/symbol-configuration-ios/?v=20200622202242))
+- SDK建议使用自动配置。
+1. 自动配置请首先下载和解压[自动配置符号表工具包](https://bugly.qq.com/v2/sdk?id=6ecfd28d-d8ea-4446-a9c8-13aed4a94f04)，然后选择上传方式并配置Xcode的编译执行脚本。
+2. 下载符号表提取工具依赖的[Java运行环境](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)(JRE或JDK版本需要>=1.6)
+3. 把工具包buglySymbollOS.jar 保存在用户主目录(Home)的bin目录下, (没有bin文件夹, 请自行创建):
+![配置](img/1.png)
+4. 在Xcode工程对应的Target的Build Phases中新增Run Scrpit Phase
+![配置](img/2.png)
+5. 打开工具包dSYM_upload.sh, 复制所有内容, 在新增的Run Scrpit Phase 中粘贴
+6. 修改新增的Run Script中的<YOUR_APP_ID>为您的App ID, <YOUR_APP_KEY>为您的App key, <YOUR_BUNDLE_ID>为App的Bundle Id
+![配置](img/3.png)
+7. 脚本默认的Debug模式及模拟器编译情况下不会上传符号表, 在需要上传的时候, 请修改下列选项</br>
+Debug模式编译是否上传, 1 = 上传 0 = 不上传, 默认不上传</br>
+UPLOAD_DEBUG_SYMBOLS=0</br>
+模拟器编译是否上传. 1 = 上传 0 = 不上传, 默认不上传</br>
+UPLOAD_SIMULATOR_SYMBOLS=0
+- 至此，自动上传符号表脚本配置完毕，Bugly 会在每次 Xcode 工程编译后自动完成符号表配置工作。
+
 ## 3.SDK初始化与API接口
 
 ### 3.1 SDK初始化
@@ -125,6 +143,9 @@ pod 'Firebase/Messaging', '~> 6.34.0'
 [YllGameSDK getInstance].gameAppId = @"202012031818";
 [YllGameSDK getInstance].appleAppId = @"1547226212";
 [YllGameSDK getInstance].appsFlyerDevKey = @"SXxcrcc7oqnPXV9ycDerVP";
+
+//设置Bugly AppID，初始化会在yg_init内部调用
+[YllGameSDK getInstance].buglyAppId = @"";
 
 // languageList 语言集合  游戏支持语言集合 现支持 ar 阿语 en 英语 该集合默认第一个是SDK的默认语言
 [YllGameSDK getInstance].languageList = @[@"ar", @"en"];
@@ -333,11 +354,22 @@ pod 'Firebase/Messaging', '~> 6.34.0'
 
 ### 3.10检查SDK版本(非必要)
 ```obj-c
-+(void) getSDKInfo:(NSDictionary *)dic{
++(void) checkSDKInfo:(NSDictionary *)dic{
     [[YllGameSDK getInstance] yg_checkSDKVersion];
 }
 ```
-### 3.11自定义埋点
+
+### 3.11获取SDK版本信息(非必要)
+```obj-c
+//获取SDK版本
++(NSString*) getSDKInfo:(NSDictionary *)dic{
+    NSString *SDKBuild = [[YllGameSDK getInstance] yg_getSDKBuild];
+    return SDKBuild;
+}
+```
+
+yg_getSDKBuild
+### 3.12自定义埋点
 evName和params参照[YllSDK IOS埋点](https://github.com/yllgame2021/yllgamesdk/blob/master/%E5%9F%8B%E7%82%B9%E9%9C%80%E6%B1%82/IOS/%E7%BB%9F%E8%AE%A1%E5%9F%8B%E7%82%B9IOS.md)
 ```obj-c
 +(void) onEvent:(NSDictionary *)dic{
@@ -354,5 +386,30 @@ evName和params参照[YllSDK IOS埋点](https://github.com/yllgame2021/yllgamesd
                                                         options:NSJSONReadingMutableContainers
                                                           error:nil];
     return dic;
+}
+```
+
+## 4.消息推送
+推送分为SDK推送和游戏方推送，区分两者的方法在于主要在于返回的消息字典(userInfo)内是否含有 YllGameSDKMsgId 这个key，包含该key表明是SDK推送，游戏方可不用处理该条推送.
+### 4.1 获取推送token
+```obj-c
+[[YllGameSDK getInstance] yg_getPushToken:<#^(NSString * _Nullable, NSError * _Nullable)pushToken#>];
+```
+
+### 4.2. App冷启动, 在此方法处理推送
+在`didFinishLaunchingWithOptions`方法添加以下代码
+```obj-c
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    ****************
+    if (launchOptions && [launchOptions.allKeys containsObject:UIApplicationLaunchOptionsRemoteNotificationKey]) {
+         NSDictionary *userInfo = launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey];
+    }
+    ***************
+}
+```
+### 4.3 App在前台或后台, 收到通知在此方法处理推送
+```obj-c
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler { 
+    [[YllGameSDK getInstance] yg_application:application didReceiveRemoteNotification:userInfo fetchCompletionHandler:completionHandler];
 }
 ```
