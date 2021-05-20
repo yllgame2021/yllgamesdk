@@ -53,6 +53,8 @@
     api platform('com.google.firebase:firebase-bom:26.4.0')
     api 'com.google.firebase:firebase-messaging'
     api 'com.google.firebase:firebase-analytics'
+     //Bugly
+    api 'com.tencent.bugly:crashreport:3.3.92'
  ```
 
 ## 2.项目配置，初始化
@@ -67,15 +69,16 @@
 在项目的application的onCreate函数中调用SDK的初始化函数，并且调用SDK的设置语言函数。
 - SDK初始化函数：``` YllGameSdk.getInstance().init(); ```
 ``` java 
-    /**
+ /**
      * 初始化
      *
      * @param application
      * @param appId            游戏的gameAppId
      * @param googleClientId   游戏的googleClientId
      * @param appsFlyersDevKey 游戏的appsFlyersDevKey
+     * @param buglyId          游戏的BuglyId
      */
-    public void init(Application application, String appId, String googleClientId, String appsFlyersDevKey)
+    public void init(Application application, String appId, String googleClientId, String appsFlyersDevKey, String buglyId)
  ```
  - SDK 设置语言集合函数：``` YllGameSdk.setLanguageList(); ```
 ``` java 
