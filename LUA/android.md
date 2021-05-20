@@ -1,6 +1,6 @@
 # Cocos2d-x（Android）接入文档
 
-SDK下载地址(https://www.baidu.com)
+SDK下载地址(请联系对接人获取)
 ## 环境
 - Cocos2d-x 3.17
 - Android Studio 4.1.3

@@ -1,6 +1,6 @@
 # iOS 接入文档
 
-SDK下载地址(https://www.baidu.com)
+SDK下载地址(请联系对接人获取)
 
 ## 1.接入前环境配置
 
