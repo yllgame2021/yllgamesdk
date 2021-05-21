@@ -93,9 +93,9 @@
      * @param appId            游戏的gameAppId
      * @param googleClientId   游戏的googleClientId
      * @param appsFlyersDevKey 游戏的appsFlyersDevKey
-     * @param buglyId          游戏的BuglyId
+     * @param buglyId          游戏的buglyAppId
      */
-    public void init(Application application, String appId, String googleClientId, String appsFlyersDevKey, String buglyId)
+    public void init(Application application, String appId, String googleClientId, String appsFlyersDevKey, String buglyAppId)
  ```
  - SDK 设置语言集合函数：``` YllGameSdk.setLanguageList(); ```
 ``` java 
