@@ -208,33 +208,31 @@ UPLOAD_SIMULATOR_SYMBOLS=0
 //    YGLogout, // 退出登录
 //};
 
-//登陆
+//登陆与回调
 +(void) login:(NSDictionary *)dic{
     [[RootViewController getInstance] loginCall:dic];
 }
 -(void) loginCall:(NSDictionary *)dic{
     self.loginCallBack = [[dic objectForKey:@"luaFun"] intValue];
     [YllGameSDK getInstance].delegate = self;
-    [[YllGameSDK getInstance] yg_login];
-}
-//登陆回调
-- (void)yg_getUserInfo:(YGUserInfoModel *)userInfoModel {
-    NSDictionary *info=@{@"accessToken":userInfoModel.accessToken ,
-                         @"nickName":userInfoModel.nickname,
-                         @"openUserId":userInfoModel.userOpenId,
-                         @"loginCode":[NSString stringWithFormat:@"%d",(int)userInfoModel.state]};
-    NSError *error = nil;
-    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:info
-                                                          options:NSJSONWritingPrettyPrinted
-                                                            error:&error];
-    NSString *jsonString = [[NSString alloc] initWithData:jsonData
-    encoding:NSUTF8StringEncoding];
+    [[YllGameSDK getInstance] yg_loginWithUserInfo:^(YGUserInfoModel * userInfoModel) {
+        //将返回码传入游戏层进行处理，返回码含义参照YGUserInfoModel类中YGState枚举
+        NSDictionary *info=@{@"accessToken":userInfoModel.accessToken ,
+                             @"nickName":userInfoModel.nickname,
+                             @"openUserId":userInfoModel.userOpenId,
+                             @"loginCode":[NSString stringWithFormat:@"%d",(int)userInfoModel.state]};
+        NSError *error = nil;
+        NSData *jsonData = [NSJSONSerialization dataWithJSONObject:info
+                                                              options:NSJSONWritingPrettyPrinted
+                                                                error:&error];
+        NSString *jsonString = [[NSString alloc] initWithData:jsonData
+        encoding:NSUTF8StringEncoding];
 
-    //将需要传递给 Lua function 的参数放入 Lua stack
-    cocos2d::LuaObjcBridge::pushLuaFunctionById(self.loginCallBack);
-    cocos2d::LuaObjcBridge::getStack()->pushString([jsonString UTF8String]);//返回json字串
-    cocos2d::LuaObjcBridge::getStack()->executeFunction(1);//1个参数
-//    cocos2d::LuaObjcBridge::releaseLuaFunctionById(self.loginCallBack);//释放
+        //将需要传递给 Lua function 的参数放入 Lua stack
+        cocos2d::LuaObjcBridge::pushLuaFunctionById(self.loginCallBack);
+        cocos2d::LuaObjcBridge::getStack()->pushString([jsonString UTF8String]);//返回json字串
+        cocos2d::LuaObjcBridge::getStack()->executeFunction(1);//1个参数
+     }];
 }
 ```
 
@@ -242,8 +240,40 @@ UPLOAD_SIMULATOR_SYMBOLS=0
 
 **退出登录要退出到登陆界面并且清除本地用户信息!**
 
-### 3.2同步角色与回调
+### 3.3 静默登陆
+SDK支持游客静默登陆，根据游戏需求去选择，静默登陆不会显示登陆弹窗
+```obj-c
+//静默登陆与回调
++(void) loginGuest:(NSDictionary *)dic{
+    [[RootViewController getInstance] loginCallGuest:dic];
+}
+-(void) loginCallGuest:(NSDictionary *)dic{
+    self.loginCallBack = [[dic objectForKey:@"luaFun"] intValue];
+    [YllGameSDK getInstance].delegate = self;
+    [[YllGameSDK getInstance] yg_silentGuestLoginWithUserInfo:^(YGUserInfoModel * userInfoModel) {
+        //将返回码传入游戏层进行处理，返回码含义参照YGUserInfoModel类中YGState枚举
+        NSDictionary *info=@{@"accessToken":userInfoModel.accessToken ,
+                             @"nickName":userInfoModel.nickname,
+                             @"openUserId":userInfoModel.userOpenId,
+                             @"loginCode":[NSString stringWithFormat:@"%d",(int)userInfoModel.state]};
+        NSError *error = nil;
+        NSData *jsonData = [NSJSONSerialization dataWithJSONObject:info
+                                                              options:NSJSONWritingPrettyPrinted
+                                                                error:&error];
+        NSString *jsonString = [[NSString alloc] initWithData:jsonData
+        encoding:NSUTF8StringEncoding];
 
+        //将需要传递给 Lua function 的参数放入 Lua stack
+        cocos2d::LuaObjcBridge::pushLuaFunctionById(self.loginCallBack);
+        cocos2d::LuaObjcBridge::getStack()->pushString([jsonString UTF8String]);//返回json字串
+        cocos2d::LuaObjcBridge::getStack()->executeFunction(1);//1个参数
+     }];
+}
+
+```
+
+### 3.4同步角色与回调
+**必须在登陆成功之后调用，否则同步不会成功**
 ```obj-c
 //同步角色
 +(void) syncRoleInfo:(NSDictionary *)dic{
@@ -251,7 +281,7 @@ UPLOAD_SIMULATOR_SYMBOLS=0
 }
 -(void) syncRoleInfoCall:(NSDictionary *)dic{
     NSString *roleid = [dic objectForKey:@"rid"];
-    NSInteger serverId = [[dic objectForKey:@"sid"] integerValue];
+    NSString *serverId = [dic objectForKey:@"sid"];
     self.syncRoleCallBack = [[dic objectForKey:@"luaFun"] intValue];
     [[YllGameSDK getInstance] yg_synchroRoleWithRoleId:roleid roleName:@"5" roleLevel:5 roleVipLevel:5 serverId:serverId roleCastleLevel:999 completeHandle:^(NSError * _Nonnull error) {
         if (!error) {
@@ -266,7 +296,7 @@ UPLOAD_SIMULATOR_SYMBOLS=0
 }
 ```
 
-### 3.3 充值与回调
+### 3.5 充值与回调
 
 ```obj-c
 //商品充值
@@ -275,10 +305,10 @@ UPLOAD_SIMULATOR_SYMBOLS=0
 }
 -(void) payCall:(NSDictionary *)dic{
     NSString *roleid = [dic objectForKey:@"rid"];
-    NSInteger serverId = [[dic objectForKey:@"sid"] integerValue];
+    NSString *serverId = [dic objectForKey:@"sid"];
     NSString *sku = [dic objectForKey:@"sku"];
     NSString *price = [dic objectForKey:@"pri"];
-    double pointID = [[dic objectForKey:@"pid"] integerValue];
+    NSString *pointID = [dic objectForKey:@"pid"];
     self.payCallBack = [[dic objectForKey:@"luaFun"] intValue];
     //其他参数
     NSDate* date = [NSDate dateWithTimeIntervalSinceNow:0];
@@ -287,7 +317,7 @@ UPLOAD_SIMULATOR_SYMBOLS=0
     // 创建订单
     [[YllGameSDK getInstance] yg_createOrderWithRoleId:roleid gameServerId:serverId cpno:timeString cptime:timeString sku:sku amount:price pointId:pointID successBlock:^{
         cocos2d::LuaObjcBridge::pushLuaFunctionById(self.payCallBack);
-        cocos2d::LuaObjcBridge::getStack()->pushString([[NSString stringWithFormat:@"%.2f", pointID] UTF8String]);//返回同步成功
+        cocos2d::LuaObjcBridge::getStack()->pushString([pointID UTF8String]);//返回同步成功
         cocos2d::LuaObjcBridge::getStack()->executeFunction(1);//1个参数
 //        cocos2d::LuaObjcBridge::releaseLuaFunctionById(self.payCallBack);//释放
     } failedBlock:^(YGPaymentFailedType type, NSString * _Nonnull errorDescription) {
@@ -296,29 +326,29 @@ UPLOAD_SIMULATOR_SYMBOLS=0
 }
 ```
 
-### 3.4 打开客服界面
+### 3.6 打开客服界面
 
 ```obj-c
 //客服
 +(void) showserviceChat:(NSDictionary *)dic{
-    double   rsid = [[dic objectForKey:@"rsid"] doubleValue];
+    NSString *rsid = [dic objectForKey:@"rsid"];
     NSString *rid = [dic objectForKey:@"rid"];
     [[YllGameSDK getInstance] yg_showServiceChatViewWithRoleId:rid gameServerId:rsid];
 }
 ```
 
-### 3.5 打开SDK设置界面
+### 3.7 打开SDK设置界面
 
 ```obj-c
 //设置界面
 +(void) showSetting:(NSDictionary *)dic{
     NSString *roleid = [dic objectForKey:@"rid"];
-    double serverId = [[dic objectForKey:@"sid"] integerValue];
+    NSString *serverId = [dic objectForKey:@"sid"];
     [[YllGameSDK getInstance] yg_showSettingsViewWithRoleId:roleid gameServerId:serverId];
 }
 ```
 
-### 3.6打开修改昵称界面
+### 3.8打开修改昵称界面
 
 ```obj-c
 +(void) showModifyName:(NSDictionary *)dic{
@@ -326,7 +356,7 @@ UPLOAD_SIMULATOR_SYMBOLS=0
 }
 ```
 
-### 3.7打开用户管理界面
+### 3.9打开用户管理界面
 
 ```obj-c
 //账号管理界面
@@ -335,7 +365,7 @@ UPLOAD_SIMULATOR_SYMBOLS=0
 }
 ```
 
-### 3.8检查账号绑定
+### 3.10检查账号绑定
 
 ```obj-c
 //检查账号绑定
@@ -344,7 +374,7 @@ UPLOAD_SIMULATOR_SYMBOLS=0
 }
 ```
 
-### 3.9设置SDK语言
+### 3.11设置SDK语言
 
 ```obj-c
 //设置语言
@@ -354,14 +384,14 @@ UPLOAD_SIMULATOR_SYMBOLS=0
 }
 ```
 
-### 3.10检查SDK版本(非必要)
+### 3.12检查SDK版本(非必要)
 ```obj-c
 +(void) checkSDKInfo:(NSDictionary *)dic{
     [[YllGameSDK getInstance] yg_checkSDKVersion];
 }
 ```
 
-### 3.11获取SDK版本信息(非必要)
+### 3.13获取SDK版本信息(非必要)
 ```obj-c
 //获取SDK版本
 +(NSString*) getSDKInfo:(NSDictionary *)dic{
@@ -371,7 +401,7 @@ UPLOAD_SIMULATOR_SYMBOLS=0
 ```
 
 yg_getSDKBuild
-### 3.12自定义埋点
+### 3.14自定义埋点
 evName和params参照[YllSDK IOS埋点](https://github.com/yllgame2021/yllgamesdk/blob/master/%E5%9F%8B%E7%82%B9%E9%9C%80%E6%B1%82/IOS/%E7%BB%9F%E8%AE%A1%E5%9F%8B%E7%82%B9IOS.md)
 ```obj-c
 +(void) onEvent:(NSDictionary *)dic{
