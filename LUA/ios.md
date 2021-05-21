@@ -181,6 +181,20 @@ UPLOAD_SIMULATOR_SYMBOLS=0
 }
 // YllSDK---------func End
 ```
+- 将下列方法的实现放入对应的方法内
+```obj-c
+- (void)applicationDidBecomeActive:(UIApplication *)application {
+    [[YllGameSDK getInstance] yg_applicationDidBecomeActive:application];
+}
+
+- (void)applicationDidEnterBackground:(UIApplication *)application {
+    [[YllGameSDK getInstance] yg_applicationDidEnterBackground:application];
+}
+
+- (void)applicationWillTerminate:(UIApplication *)application {
+    [[YllGameSDK getInstance] yg_applicationWillTerminate:application];
+}
+```
 
 ### 3.2登陆与回调
 - 在`RootViewController.h`文件中，添加头文件引用，并定义回调

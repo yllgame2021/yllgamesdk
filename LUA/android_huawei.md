@@ -1,4 +1,4 @@
-# Cocos2d-x（Android）接入文档
+# Cocos2d-x（Android_HuaWei）接入文档
 
 SDK下载地址(请联系对接人获取)
 ## 环境
