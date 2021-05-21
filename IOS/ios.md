@@ -94,26 +94,26 @@ SDK下载地址(请联系对接人获取)
 - SDK建议使用自动配置
 1. 自动配置请首先下载和解压[自动配置符号表工具包](https://bugly.qq.com/v2/sdk?id=6ecfd28d-d8ea-4446-a9c8-13aed4a94f04)
 2. 下载符号表提取工具依赖的[Java运行环境](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)(JRE或JDK版本需要>=1.6)
-3. 把工具包buglySymbollOS.jar 保存在用户主目录(Home)的bin目录下, (没有bin文件夹, 请自行创建):
+3. 把工具包buglySymbollOS.jar 保存在用户主目录(Home)的bin目录下，(没有bin文件夹，请自行创建):
 ![配置](img/1.png)
 4. 在Xcode工程对应的Target的Build Phases中新增Run Scrpit Phase
 ![配置](img/2.png)
-5. 打开工具包dSYM_upload.sh, 复制所有内容, 在新增的Run Scrpit Phase 中粘贴
+5. 打开工具包dSYM_upload.sh，复制所有内容，在新增的Run Scrpit Phase 中粘贴
 6. 修改新增的Run Script中的<YOUR_APP_ID>为您的App ID</br> <YOUR_APP_KEY>为您的App key</br> <YOUR_BUNDLE_ID>为App的Bundle Id
 ![配置](img/3.png)
-7. 脚本默认的Debug模式及模拟器编译情况下不会上传符号表, 在需要上传的时候, 请修改下列选项</br>
-Debug模式编译是否上传, 1 = 上传 0 = 不上传, 默认不上传</br>
+7. 脚本默认的Debug模式及模拟器编译情况下不会上传符号表，在需要上传的时候，请修改下列选项</br>
+Debug模式编译是否上传，1 = 上传 0 = 不上传，默认不上传</br>
 UPLOAD_DEBUG_SYMBOLS=0</br>
-模拟器编译是否上传. 1 = 上传 0 = 不上传, 默认不上传</br>
+模拟器编译是否上传. 1 = 上传 0 = 不上传，默认不上传</br>
 UPLOAD_SIMULATOR_SYMBOLS=0
 - 至此，自动上传符号表脚本配置完毕，Bugly 会在每次 Xcode 工程编译后自动完成符号表配置工作。
 
 #### 6. SDK所需权限
 - 相册权限 Privacy - Photo Library Usage Description
 - IDFA权限 Privacy - Tracking Usage Description
-- 权限的具体描述请根据游戏的实际使用进行定义, 如果游戏没有使用, 可以向SDK方要通用的阿语描述
+- 权限的具体描述请根据游戏的实际使用进行定义，如果游戏没有使用，可以向SDK方要通用的阿语描述
 
-## 3.SDK初始化与API接口
+## 3. SDK初始化与API接口
 
 ### 3.1 SDK初始化
 
@@ -172,9 +172,9 @@ UPLOAD_SIMULATOR_SYMBOLS=0
 }
 ```
 
-### 3.2登陆与回调
-
-- SDK为游戏方提供了两种登录获取账号信息方式, 即代理和闭包, 本文档的登录是用闭包, 如需使用代理, 请自行跳转到YllGameSDK.h文件进行查阅 
+### 3.2 登陆与回调
+  
+- SDK为游戏方提供了两种登录获取账号信息方式，即代理和闭包，本文档的登录是用闭包，如需使用代理，请自行跳转到YllGameSDK.h文件进行查阅 
 - 在项目中需要进行登录操作的xxx.h或xxx.m文件中导入 #import <YllGameSDK/YllGameSDK.h>
 
 ```obj-c
@@ -203,8 +203,40 @@ UPLOAD_SIMULATOR_SYMBOLS=0
 ```
 - 修改昵称成功(YGChangeNickName)是SDK账户体系的昵称修改，如果不使用，可以忽略。
 - 退出登录(YGLogout)或者token过期(YGTokenOverdue)游戏方要退出到登陆界面并且清除本地用户信息，再调用登录函数。
+  
+### 3.3 游客静默登陆与回调
+  
+- SDK为游戏方提供了两种游客静默登录获取账号信息方式，即代理和闭包，本文档的登录是用闭包，如需使用代理，请自行跳转到YllGameSDK.h文件进行查阅 
+- 在项目中需要进行登录操作的xxx.h或xxx.m文件中导入 #import <YllGameSDK/YllGameSDK.h>
+  
+```obj-c
+#import <YllGameSDK/YllGameSDK.h>
+```
 
-### 3.2同步角色与回调
+- 在`ViewController.m`文件中，实现对应的方法
+```
+[[YllGameSDK getInstance] yg_silentGuestLoginWithUserInfo:^(YGUserInfoModel * userInfoModel) {
+    /** 
+    请根据返回 userInfoModel 内 state 的不同枚举值进行实际业务场景处理
+    当 userInfoModel.state == YGLoginSuccess || userInfoModel.state == YGChangeNickName 时, userInfoModel 里面的其他属性才有值
+    typedef NS_ENUM(NSInteger, YGState) {
+        YGTokenOverdue,   // token过期
+        YGChangeNickName, // 修改昵称成功
+        YGSwitchSuccess,  // 账号切换成功
+        YGSwitchFailure,  // 账户切换失败
+        YGLoginSuccess,   // 登录成功
+        YGLoginFailure,   // 登录失败
+        YGAccountBlock,   // 账号被封
+        YGAccountRemote,  // 异地登录
+        YGLogout,         // 退出登录
+    };
+    */
+ }];
+```
+- 修改昵称成功(YGChangeNickName)是SDK账户体系的昵称修改，如果不使用，可以忽略。
+- 退出登录(YGLogout)或者token过期(YGTokenOverdue)游戏方要退出到登陆界面并且清除本地用户信息，再调用登录函数。
+
+### 3.4 同步角色与回调
 - 在游戏启动之后，需要调用此方法，否则会影响内购的补单操作。
 - 在游戏使用中，函数中的任意参数发生变化，都需要调用该函数，进行数据同步。
 ```obj-c
@@ -223,7 +255,7 @@ UPLOAD_SIMULATOR_SYMBOLS=0
 }];
 ```
 
-### 3.3 充值与回调
+### 3.5 充值与回调
 
 - SDK对内购支付中出现的任何报错进行了弹窗提示，游戏方也可以从返回的失败回调内拿到具体的错误信息。
 
@@ -244,14 +276,14 @@ UPLOAD_SIMULATOR_SYMBOLS=0
 }];
 ```
 
-### 3.4 打开登录页面
+### 3.6 打开登录页面
 
 ```obj-c
 /// 展示登录页面
 [[YllGameSDK getInstance] yg_showLoginView];
 ```
 
-### 3.5 打开客服界面
+### 3.7 打开客服界面
 
 ```obj-c
 /// 展示客服中心页面
@@ -260,7 +292,7 @@ UPLOAD_SIMULATOR_SYMBOLS=0
 [[YllGameSDK getInstance] yg_showServiceChatViewWithRoleId:<#(nonnull NSString *)#> gameServerId:<#(NSInteger)#>];
 ```
 
-### 3.6 打开SDK设置界面
+### 3.8 打开SDK设置界面
 
 ```obj-c
 /// 展示设置中心
@@ -269,28 +301,28 @@ UPLOAD_SIMULATOR_SYMBOLS=0
 [[YllGameSDK getInstance] yg_showSettingsViewWithRoleId:<#(nonnull NSString *)#> gameServerId:<#(NSInteger)#>];
 ```
 
-### 3.7 打开修改昵称界面
+### 3.9 打开修改昵称界面
 
 ```obj-c
 /// 展示昵称修改页面
 [[YllGameSDK getInstance] yg_showNicknameView];
 ```
 
-### 3.8 打开用户管理界面
+### 3.10 打开用户管理界面
 
 ```obj-c
 /// 展示账户管理
 [[YllGameSDK getInstance] yg_showAccountManagementView];
 ```
 
-### 3.9 检查账号绑定
+### 3.11 检查账号绑定
 
 ```obj-c
 /// 检查游客账号是否绑定第三方账号, true == 绑定, false == 未绑定
 - (BOOL)yg_checkBindState;
 ```
 
-### 3.10 设置SDK语言
+### 3.12 设置SDK语言
 
 ```obj-c
 // languageList 语言集合  游戏支持语言集合 现支持 ar 阿语 en 英语 该集合默认第一个是SDK的默认语言
@@ -299,21 +331,21 @@ UPLOAD_SIMULATOR_SYMBOLS=0
 [YllGameSDK getInstance].localLanguage = @"ar";
 ```
 
-### 3.11 自定义埋点
+### 3.13 自定义埋点
 
 evName和params参照[YllSDK IOS埋点](https://github.com/yllgame2021/yllgamesdk/blob/master/%E5%9F%8B%E7%82%B9%E9%9C%80%E6%B1%82/IOS/%E7%BB%9F%E8%AE%A1%E5%9F%8B%E7%82%B9IOS.md)
 
-### 3.12 获取推送token
+### 3.14 获取推送token
 
 ```obj-c
 [[YllGameSDK getInstance] yg_getPushToken:<#^(NSString * _Nullable, NSError * _Nullable)pushToken#>];
 ```
 
-### 3.13 推送处理
+### 3.15 推送处理
 
 - 推送分为SDK推送和游戏方推送，区分两者的方法在于主要在于返回的消息字典(userInfo)内是否含有 YllGameSDKMsgId 这个key，包含该key表明是SDK推送，游戏方可不用处理该条推送.
 
-1. App冷启动, 在此方法处理推送
+1. App冷启动，在此方法处理推送
 ```obj-c
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     if (launchOptions && [launchOptions.allKeys containsObject:UIApplicationLaunchOptionsRemoteNotificationKey]) {
@@ -321,30 +353,51 @@ evName和params参照[YllSDK IOS埋点](https://github.com/yllgame2021/yllgamesd
     }
 }
 ```
-2. App在前台或后台, 收到通知在此方法处理推送
+2. App在前台或后台，收到通知在此方法处理推送
 ```obj-c
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler { }
 ```
 
-### 3.14 获取SDK版本
+### 3.16 获取SDK版本
 
 ```obj-c
 // 调用该方法, 在控制台显示当前SDK的版本信息
 NSString *SDKVersion = [[YllGameSDK getInstance] yg_getSDKVersion];
 ```
 
-### 3.15 获取SDKBuild
+### 3.17 获取SDKBuild
 
 ```obj-c
 // 调用该方法, 在控制台显示当前SDK的版本信息
 NSString *SDKBuild = [[YllGameSDK getInstance] yg_getSDKBuild];
 ```
 
-### 3.16 检查SDK版本(非必要)
+### 3.18 检查SDK版本(非必要)
 - 此方法只是在控制台打印当前SDK的版本和最新的SDK版本
 
 ```obj-c
 // 调用该方法, 在控制台显示当前SDK的版本信息
 [[YllGameSDK getInstance] yg_checkSDKVersion];
 ```
+</br></br></br>
+## 版本更新纪录 
+### SDK版本1.0.2.1  
+1. BuglySDK接入 
+2. 客户端埋点事件调整 
+3. FAQ增加直接跳转至在线客服的入口按钮
+4. 新增游客静默登录函数，新增获取SDKVersion和SDKBuild的函数
+          
+### SDK版本1.0.2 
+1. 增加手机号绑定登陆 
+2. 调整登陆弹窗的样式 
+3. 增加了客户端埋点统计 
+4. 去除Google登录
+  
+### SDK版本1.0.1 
+1. FAQ&在线客服模块 
+2. SDK设置界面整合 
+3. 推送功能 
+4. 增加登陆弹窗 
+5. 增加Yalla联动活动入口 
+
 
