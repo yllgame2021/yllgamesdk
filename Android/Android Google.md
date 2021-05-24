@@ -181,12 +181,12 @@ public class YGLoginReceiver extends BroadcastReceiver {
     public void login(Activity activity)
 ```
 ### 3.2 静默游客登录
-- SDK调起静默游客登陆函数：``` YGLoginApi.getInstance().silentguestLogin(); ```
+- SDK调起静默游客登陆函数：``` YGLoginApi.getInstance().silentGuestLogin(); ```
 ``` java
     /**
      * 静默游客登录
      */
-    public void silentguestLogin()
+    public void silentGuestLogin()
 ```
 ## 4.用户
 ### 4.1管理界面
