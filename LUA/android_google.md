@@ -146,6 +146,8 @@ api 'com.android.installreferrer:installreferrer:1.1'
 api platform('com.google.firebase:firebase-bom:26.4.0')
 api 'com.google.firebase:firebase-messaging'
 api 'com.google.firebase:firebase-analytics'
+//Bugly
+api 'com.tencent.bugly:crashreport:3.3.92'
 //SDK基础库,需要将名称改为libs文件夹里面的实际名称
 implementation(name: 'YllGameSdk_1.0.1.1', ext: 'aar')
 ```
@@ -212,15 +214,33 @@ copy {
 ## 3.SDK初始化与API接口
 
 ### 3.0 SDK初始化
+- SDK初始化函数：``` YllGameSdk.getInstance().init(); ```
+``` java 
+ /**
+     * 初始化
+     *
+     * @param application
+     * @param appId            游戏的gameAppId
+     * @param googleClientId   游戏的googleClientId
+     * @param appsFlyersDevKey 游戏的appsFlyersDevKey
+     * @param buglyId          游戏的buglyAppId
+     */
+    public void init(Application application, String appId, String googleClientId, String appsFlyersDevKey, String buglyAppId)
+ ```
 
 - 在`AndroidManifest.xml`的`application`中添加`android:name=“.MyAppLication"`
 - 在`MyAppLication`的`Oncreator`中，为SDK初始化函数，修改自己对应的参数，完成SDK初始化
 - 将 AppActivity继承自YllSDKActivity
 
 ### 3.1登陆与回调
-
-```java
-YGLoginApi.getInstance().login(cocos2dxActivity);
+```YGLoginApi.getInstance().login(cocos2dxActivity);```
+``` java
+    /**
+     * 登陆界面
+     *
+     * @param activity 当前Activity
+     */
+    public void login(Activity activity)
 ```
 
 如果配置正确，将会回调到**com.yllsdk.yllgame.**ygapi.YGLoginReceiver中，参照其中的状态码，通知自己游戏逻辑。(加粗部分改为实际包名)
@@ -232,23 +252,63 @@ YGLoginApi.getInstance().login(cocos2dxActivity);
 返回登陆失败和Token失效建议游戏内再调一次登陆Api重试！
 退出登录要退出到登陆界面并且清除本地用户信息
 
-### 3.2同步角色与回调
-
-```java
-YGUserApi.getInstance().syncRoleInfo(<int roleId>, <string nickname>, <string roleLv>, <string roleVipLv>, <string serverId>, [string castLv], new YGBooleanCallBack() {
-    @Override
-    public void onResult(boolean b) {
-        //回调，同步角色成功or失败，建议失败之后再次调用
-        if (b) 
-        else
-    }
-});
+### 3.2 静默游客登录
+- SDK调起静默游客登陆函数：
+``` YGLoginApi.getInstance().silentguestLogin(); ```
+``` java
+    /**
+     * 静默游客登录
+     */
+    public void silentguestLogin()
 ```
 
-### 3.3 充值与回调
+### 3.3同步角色与回调
+``` YGUserApi.getInstance().syncRoleInfo(); ```
+``` java 
+    /**
+     * 同步角色信息
+     *
+     * @param roleId：角色id              ：int 必要参数
+     * @param roleName：角色名称          ：string 必要参数
+     * @param roleLevel：角色等级         ：int 必要参数
+     * @param roleVipLevel：角色Vip等级   ：int 必要 没有默认0
+     * @param serverId：角色所在服务器id   ：int 必要参数
+     * @param roleCastleLevel：城堡等级   ：int 必要 没有默认0
+     * @param callback：同步角色回调:       true 同步成功 false 同步失败
+     */
+    public void syncRoleInfo(String roleId,
+                             String roleName,
+                             String roleLevel,
+                             String roleVipLevel,
+                             String serverId,
+                             String roleCastleLevel,
+                             new YGBooleanCallBack() {
+                                 @Override
+                                 public void onResult(boolean b) {
+                                     //回调，同步角色成功or失败，建议失败之后再次调用
+                                     if (b) 
+                                     else
+                                 }
+                             })
+```
 
+### 3.4 Google充值与回调
+- SDK调起谷歌支付的函数为：`` YGPayApi.pay() ``
 ```java
-//参数依次为：当前activity，角色id，服务器id，商品sku，订单号，订单时间，商品数量，订单价格，充值点，回调
+/**
+ * 支付
+ *
+ * @param activity      当前activity
+ * @param roleId        角色id
+ * @param roleServiceId 角色服务器Id
+ * @param sku           商品的sku
+ * @param cpNo          支付的订单号
+ * @param cpTime        支付订单的创建时间
+ * @param number        支付的数量 目前为1
+ * @param amount        支付的金额
+ * @param pointId       支付的充值点
+ * @param listener      支付的回调
+ */
 YGPayApi.pay(cocos2dxActivity, roleID,roleServiceID, sku, cpno,cptime, number, price, pointID,
     new YGPaymentListener() {
         @Override
