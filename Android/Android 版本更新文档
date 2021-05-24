@@ -11,7 +11,7 @@
   2、调整登陆弹窗的样式 
   3、增加了客户端埋点统计 
   4、华为渠道登陆、支付接入 
-  5，gradle 配置 api 'com.google.android.material:material:1.3.0'库
+  5，gradle 增加配置 api 'com.google.android.material:material:1.3.0'库
 ### SDK版本1.0.1 
   1、FAQ&在线客服模块 
   2、SDK设置界面整合 
