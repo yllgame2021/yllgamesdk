@@ -48,6 +48,11 @@
     api platform('com.google.firebase:firebase-bom:26.4.0')
     api 'com.google.firebase:firebase-messaging'
     api 'com.google.firebase:firebase-analytics'
+    //华为登陆 hms
+    api 'com.huawei.hms:hwid:5.2.0.300'
+    //华为支付 hms
+    api 'com.huawei.hms:iap:5.1.0.300'
+    api 'com.huawei.hms:ads-identifier:3.4.39.302'
  ```
 
 ## 2.项目配置，初始化
@@ -69,8 +74,9 @@
      * @param appId            游戏的gameAppId
      * @param googleClientId   游戏的googleClientId
      * @param appsFlyersDevKey 游戏的appsFlyersDevKey
+     * @param buglyAppId          游戏的buglyAppId
      */
-    public void init(Application application, String appId, String googleClientId, String appsFlyersDevKey)
+    public void init(Application application, String appId, String googleClientId, String appsFlyersDevKey,String buglyAppId)
  ```
  - SDK 设置语言集合函数：``` YllGameSdk.setLanguageList(); ```
 ``` java 
@@ -261,7 +267,9 @@ public class YGLoginReceiver extends BroadcastReceiver {
     public boolean checkBindStat(Activity activity)
 ```
 ## 5.支付
-### 5.1 谷歌支付
+### 5.1 导入华为json文件
+- 导入agconnect-services.json文件，文件需找运营方要
+![image](https://user-images.githubusercontent.com/19358621/119814490-0859ed00-bf1d-11eb-80e2-0f2fa22d5f81.png)
 - SDK调起谷歌支付的函数为：`` YGPayApi.pay() ``
 ``` java 
     /**
