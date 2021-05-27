@@ -122,6 +122,7 @@ android {
 ```js
 //Android X支持库  必须添加
 api 'androidx.appcompat:appcompat:1.2.0'
+api 'com.google.android.material:material:1.3.0'
 //okhttp网络请求库 必须添加
 api("com.squareup.okhttp3:okhttp:4.9.0")
 //gson数据解析库 必须添加
@@ -254,12 +255,12 @@ copy {
 
 ### 3.2 静默游客登录
 - SDK调起静默游客登陆函数：
-``` YGLoginApi.getInstance().silentguestLogin(); ```
+``` YGLoginApi.getInstance().silentGuestLogin(); ```
 ``` java
     /**
      * 静默游客登录
      */
-    public void silentguestLogin()
+    public void silentGuestLogin()
 ```
 
 ### 3.3同步角色与回调

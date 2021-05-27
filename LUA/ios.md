@@ -283,7 +283,6 @@ SDK支持游客静默登陆，根据游戏需求去选择，静默登陆不会�
         cocos2d::LuaObjcBridge::getStack()->executeFunction(1);//1个参数
      }];
 }
-
 ```
 
 ### 3.4同步角色与回调
@@ -297,14 +296,14 @@ SDK支持游客静默登陆，根据游戏需求去选择，静默登陆不会�
     NSString *roleid = [dic objectForKey:@"rid"];
     NSString *serverId = [dic objectForKey:@"sid"];
     self.syncRoleCallBack = [[dic objectForKey:@"luaFun"] intValue];
-    [[YllGameSDK getInstance] yg_synchroRoleWithRoleId:roleid roleName:@"5" roleLevel:5 roleVipLevel:5 serverId:serverId roleCastleLevel:999 completeHandle:^(NSError * _Nonnull error) {
+    [[YllGameSDK getInstance] yg_synchroRoleWithRoleId:roleid roleName:@"5" roleLevel:@"5" roleVipLevel:@"5" gameServerId:serverId roleCastleLevel:@"999" completeHandle:^(NSError * _Nonnull error) {
         if (!error) {
             //同步角色回调
             //将需要传递给 Lua function 的参数放入 Lua stack
             cocos2d::LuaObjcBridge::pushLuaFunctionById(self.syncRoleCallBack);
             cocos2d::LuaObjcBridge::getStack()->pushString("success");//返回同步成功
             cocos2d::LuaObjcBridge::getStack()->executeFunction(1);//1个参数
-            //cocos2d::LuaObjcBridge::releaseLuaFunctionById(self.syncRoleCallBack);//释放
+//            cocos2d::LuaObjcBridge::releaseLuaFunctionById(self.syncRoleCallBack);//释放
         }
     }];
 }
@@ -331,7 +330,7 @@ SDK支持游客静默登陆，根据游戏需求去选择，静默登陆不会�
     // 创建订单
     [[YllGameSDK getInstance] yg_createOrderWithRoleId:roleid gameServerId:serverId cpno:timeString cptime:timeString sku:sku amount:price pointId:pointID successBlock:^{
         cocos2d::LuaObjcBridge::pushLuaFunctionById(self.payCallBack);
-        cocos2d::LuaObjcBridge::getStack()->pushString([pointID UTF8String]);//返回同步成功
+        cocos2d::LuaObjcBridge::getStack()->pushString([pointID.description UTF8String]);//返回同步成功
         cocos2d::LuaObjcBridge::getStack()->executeFunction(1);//1个参数
 //        cocos2d::LuaObjcBridge::releaseLuaFunctionById(self.payCallBack);//释放
     } failedBlock:^(YGPaymentFailedType type, NSString * _Nonnull errorDescription) {
