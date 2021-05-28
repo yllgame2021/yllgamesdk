@@ -268,8 +268,32 @@ public class YGLoginReceiver extends BroadcastReceiver {
 ```
 ## 5.支付
 ### 5.1 导入华为json文件
-- 导入agconnect-services.json文件，文件需找运营方要
-![image](https://user-images.githubusercontent.com/19358621/119814490-0859ed00-bf1d-11eb-80e2-0f2fa22d5f81.png)
+- 导入agconnect-services.json文件，文件需找运营方要 </br>
+![image](https://user-images.githubusercontent.com/19358621/119936162-4a397080-bfbb-11eb-9364-55d80fee0af8.png)
+### 5.2 导入华为plugins
+- 在APP的app/build.gradle文件的plugins目录导入华为插件
+```
+id 'com.huawei.agconnect'
+```
+### 5.3 配置华为HMS Core Maven仓库
+- 在项目的build.gradle文件夹</br>
+![image](https://user-images.githubusercontent.com/19358621/119936866-68ec3700-bfbc-11eb-9db9-e725f3bc63ad.png)
+```
+classpath 'com.huawei.agconnect:agcp:1.4.2.300'
+```
+### 5.4 设置华为支付回调
+- 在当前Activity的onActivityResult函数里面调用：`` YGPayApi.onActivityResult() ``
+``` java 
+     /**
+     * 设置activity的回调
+     *
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
+    public static void onActivityResult(int requestCode, int resultCode, Intent data)
+```
+### 5.5 华为支付
 - SDK调起谷歌支付的函数为：`` YGPayApi.pay() ``
 ``` java 
     /**
