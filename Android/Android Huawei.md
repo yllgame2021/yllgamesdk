@@ -294,7 +294,7 @@ classpath 'com.huawei.agconnect:agcp:1.4.2.300'
     public static void onActivityResult(int requestCode, int resultCode, Intent data)
 ```
 ### 5.5 华为支付
-- SDK调起谷歌支付的函数为：`` YGPayApi.pay() ``
+- SDK调起华为支付的函数为：`` YGPayApi.pay() ``
 ``` java 
     /**
      * 支付
