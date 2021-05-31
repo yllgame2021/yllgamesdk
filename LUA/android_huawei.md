@@ -1,11 +1,11 @@
-# Cocos2d-x（Android_Google）接入文档
+# Cocos2d-x（Android_HuaWei）接入文档
 
 SDK下载地址(请联系对接人获取)
 ## 环境
 - Cocos2d-x 3.17
 - Android Studio 4.1.3
 - Gradle Version 5.1.1
-- Gradle Plugin Version 3.4.0
+- Gradle Plugin Version 3.4.3
 
 
 ## 1.接入前项目检查
@@ -129,11 +129,6 @@ api("com.squareup.okhttp3:okhttp:4.9.0")
 api 'com.google.code.gson:gson:2.8.5'
 //Facebook登陆依赖库 必须添加
 api 'com.facebook.android:facebook-login:9.0.0'
-//Google登陆依赖库 必须添加
-api 'com.google.android.gms:play-services-auth:19.0.0'
-api "com.google.android.gms:play-services-ads-identifier:17.0.0"
-//Google支付依赖库 必须添加
-api "com.android.billingclient:billing:3.0.0"
 //数据库依赖库 必须添加
 def room_version = "2.2.5"
 api "androidx.room:room-runtime:$room_version"
@@ -147,13 +142,32 @@ api 'com.android.installreferrer:installreferrer:1.1'
 api platform('com.google.firebase:firebase-bom:26.4.0')
 api 'com.google.firebase:firebase-messaging'
 api 'com.google.firebase:firebase-analytics'
+//华为登陆 hms
+api 'com.huawei.hms:hwid:5.2.0.300'
+//华为支付 hms
+api 'com.huawei.hms:iap:5.1.0.300'
+api 'com.huawei.hms:ads-identifier:3.4.39.302'
 //Bugly
 api 'com.tencent.bugly:crashreport:3.3.92'
 //SDK基础库,需要将名称改为libs文件夹里面的实际名称
 implementation(name: 'YllGameSdk_1.0.1.1', ext: 'aar')
 ```
 
-### 2.3升级gradle版本
+### 2.3 配置Google推送环境
+
+1. 将`google-services.json`文件(运营方提供)放入`proj.android/app`目录，并检查其中配置是否与申请的一致
+2. 修改`proj.android`文件夹下面的`build.gradle`文件，在`dependencies`中添加`classpath 'com.google.gms:google-services:4.3.3'`
+3. 修改`proj.android/app`文件夹下面的`build.gradle`文件，在`apply plugin: 'com.android.application'`下面添加`apply plugin: 'com.google.gms.google-services'`
+
+### 2.4 配置华为环境
+
+- 将`agconnect-services.json`文件(运营方提供)放入`proj.android/app`目录，并检查其中配置是否与申请的一致
+- 修改`proj.android/app`文件夹下面的`build.gradle`文件: 添加`apply plugin: 'com.huawei.agconnect'`
+- 修改`proj.android`文件夹下面的`build.gradle`文件:</br>
+1. 在`dependencies`中添加`classpath 'com.huawei.agconnect:agcp:1.4.2.300'`
+2. 分别在`buildscript` 和 `allprojects` 的`repositories` 下面添加 `maven {url 'https://developer.huawei.com/repo/'}`
+
+### 2.5升级gradle版本
 
 某些功能需要使用5.0以上的gradle版本，所以需要升级项目gradle
 
@@ -165,7 +179,7 @@ Gradle Plugin Version为对应的版本3.4.0
 
 最新的是Plugin4.1.3  && version 6.5（不建议）
 
-### 2.4常见报错
+### 2.6常见报错
 
 - ``“make: *** No rule to make target `cocos2dlua’. Stop.”``
 
@@ -293,8 +307,8 @@ copy {
                              })
 ```
 
-### 3.4 Google充值与回调
-- SDK调起谷歌支付的函数为：`` YGPayApi.pay() ``
+### 3.4 HuaWei充值与回调
+- SDK调起华为支付的函数为：`` YGPayApi.pay() ``
 ```java
 /**
  * 支付
@@ -395,12 +409,6 @@ public static Map converJsonToMap(String json) {
 ```
 
 ## 4.推送
-
-### 4.1推送环境配置
-
-1. 将`google-services.json`文件放入`proj.android/app`目录，并检查其中配置是否与申请的一致
-2. 修改`proj.android`文件夹下面的`build.gradle`文件，在`dependencies`中添加`classpath 'com.google.gms:google-services:4.3.3'`
-3. 修改`proj.android/app`文件夹下面的`build.gradle`文件，在`apply plugin: 'com.android.application'`下面添加`apply plugin: 'com.google.gms.google-services'`
 
 ### 4.2推送处理
 

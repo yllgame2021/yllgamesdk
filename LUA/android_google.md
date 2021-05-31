@@ -153,7 +153,13 @@ api 'com.tencent.bugly:crashreport:3.3.92'
 implementation(name: 'YllGameSdk_1.0.1.1', ext: 'aar')
 ```
 
-### 2.3升级gradle版本
+### 2.3 配置Google推送环境
+
+1. 将`google-services.json`文件(运营方提供)放入`proj.android/app`目录，并检查其中配置是否与申请的一致
+2. 修改`proj.android`文件夹下面的`build.gradle`文件，在`dependencies`中添加`classpath 'com.google.gms:google-services:4.3.3'`
+3. 修改`proj.android/app`文件夹下面的`build.gradle`文件，在`apply plugin: 'com.android.application'`下面添加`apply plugin: 'com.google.gms.google-services'`
+
+### 2.4升级gradle版本
 
 某些功能需要使用5.0以上的gradle版本，所以需要升级项目gradle
 
@@ -165,7 +171,7 @@ Gradle Plugin Version为对应的版本3.4.0
 
 最新的是Plugin4.1.3  && version 6.5（不建议）
 
-### 2.4常见报错
+### 2.5常见报错
 
 - ``“make: *** No rule to make target `cocos2dlua’. Stop.”``
 
@@ -396,17 +402,11 @@ public static Map converJsonToMap(String json) {
 
 ## 4.推送
 
-### 4.1推送环境配置
-
-1. 将`google-services.json`文件放入`proj.android/app`目录，并检查其中配置是否与申请的一致
-2. 修改`proj.android`文件夹下面的`build.gradle`文件，在`dependencies`中添加`classpath 'com.google.gms:google-services:4.3.3'`
-3. 修改`proj.android/app`文件夹下面的`build.gradle`文件，在`apply plugin: 'com.android.application'`下面添加`apply plugin: 'com.google.gms.google-services'`
-
-### 4.2推送处理
+### 4.1推送处理
 
 推送处理在`MyFirebaseMessagingService.java`文件中，判断是否为SDK内部消息，然后进行处理
 
-### 4.3获取推送token
+### 4.2获取推送token
 
 ```js
 GMessageApi.getInstance().getPushToken()

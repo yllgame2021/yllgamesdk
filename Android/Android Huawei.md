@@ -29,6 +29,7 @@
    ``` Groovy
    //Android X支持库  必须添加
     api 'androidx.appcompat:appcompat:1.2.0'
+    api 'com.google.android.material:material:1.3.0'
     //okhttp网络请求库 必须添加
     api("com.squareup.okhttp3:okhttp:4.9.0")
     //gson数据解析库 必须添加
@@ -53,6 +54,8 @@
     //华为支付 hms
     api 'com.huawei.hms:iap:5.1.0.300'
     api 'com.huawei.hms:ads-identifier:3.4.39.302'
+    //Bugly
+    api 'com.tencent.bugly:crashreport:3.3.92'
  ```
 
 ## 2.项目配置，初始化
