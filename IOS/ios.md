@@ -248,7 +248,7 @@ UPLOAD_SIMULATOR_SYMBOLS=0
 /// @param serverId 所在游戏服
 /// @param roleCastleLevel 城堡等级
 /// @param completeHandle  error == nil  成功 (SDKV1.0.1 版本新增结果回调)
-[[YllGameSDK getInstance] yg_synchroRoleWithRoleId:<#(nonnull NSString *)#> roleName:<#(nonnull NSString *)#> roleLevel:<#(NSInteger)#> roleVipLevel:<#(NSInteger)#> serverId:<#(NSInteger)#> roleCastleLevel:<#(NSInteger)#> completeHandle:^(NSError * _Nullable) {
+[[YllGameSDK getInstance] yg_synchroRoleWithRoleId:<#(nonnull NSString *)#> roleName:<#(nonnull NSString *)#> roleLevel:<#(nonnull NSString *)#> roleVipLevel:<#(nonnull NSString *)#> serverId:<#(nonnull NSString *)#> roleCastleLevel:<#(nonnull NSString *)#> completeHandle:^(NSError * _Nullable) {
      if (!error) {
      
      }
@@ -269,7 +269,7 @@ UPLOAD_SIMULATOR_SYMBOLS=0
 /// @param sku sku
 /// @param amount amount
 /// @param pointId 消费点Id
-[[YllGameSDK getInstance] yg_createOrderWithRoleId:<#(nonnull NSString *)#> gameServerId:<#(NSInteger)#> cpno:<#(nonnull NSString *)#> cptime:<#(nonnull NSString *)#> sku:<#(nonnull NSString *)#> amount:<#(nonnull NSString *)#> pointId:<#(NSInteger)#> successBlock:^{
+[[YllGameSDK getInstance] yg_createOrderWithRoleId:<#(nonnull NSString *)#> gameServerId:<#(nonnull NSString *)#> cpno:<#(nonnull NSString *)#> cptime:<#(nonnull NSString *)#> sku:<#(nonnull NSString *)#> amount:<#(nonnull NSString *)#> pointId:<#(nonnull NSString *)#> successBlock:^{
         <#code#>
     } failedBlock:^(YGPaymentFailedType type, NSString * _Nonnull errorDescription) {
         <#code#>
@@ -289,7 +289,7 @@ UPLOAD_SIMULATOR_SYMBOLS=0
 /// 展示客服中心页面
 /// @param roleId 游戏角色Id
 /// @param gameServerId 角色所在区服Id
-[[YllGameSDK getInstance] yg_showServiceChatViewWithRoleId:<#(nonnull NSString *)#> gameServerId:<#(NSInteger)#>];
+[[YllGameSDK getInstance] yg_showServiceChatViewWithRoleId:<#(nonnull NSString *)#> gameServerId:<#(nonnull NSString *)#>];
 ```
 
 ### 3.8 打开SDK设置界面
@@ -298,7 +298,7 @@ UPLOAD_SIMULATOR_SYMBOLS=0
 /// 展示设置中心
 /// @param roleId 游戏角色Id
 /// @param gameServerId 角色所在区服Id
-[[YllGameSDK getInstance] yg_showSettingsViewWithRoleId:<#(nonnull NSString *)#> gameServerId:<#(NSInteger)#>];
+[[YllGameSDK getInstance] yg_showSettingsViewWithRoleId:<#(nonnull NSString *)#> gameServerId:<#(nonnull NSString *)#>];
 ```
 
 ### 3.9 打开修改昵称界面
