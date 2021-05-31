@@ -245,10 +245,10 @@ UPLOAD_SIMULATOR_SYMBOLS=0
 /// @param roleName 角色名
 /// @param roleLevel 角色等级
 /// @param roleVipLevel 角色vip等级
-/// @param serverId 所在游戏服
+/// @param gameServerId 所在游戏服
 /// @param roleCastleLevel 城堡等级
-/// @param completeHandle  error == nil  成功 (SDKV1.0.1 版本新增结果回调)
-[[YllGameSDK getInstance] yg_synchroRoleWithRoleId:<#(nonnull NSString *)#> roleName:<#(nonnull NSString *)#> roleLevel:<#(nonnull NSString *)#> roleVipLevel:<#(nonnull NSString *)#> serverId:<#(nonnull NSString *)#> roleCastleLevel:<#(nonnull NSString *)#> completeHandle:^(NSError * _Nullable) {
+/// @param completeHandle  error == nil  成功 
+[[YllGameSDK getInstance] yg_synchroRoleWithRoleId:<#(nonnull NSString *)#> roleName:<#(nonnull NSString *)#> roleLevel:<#(nonnull NSString *)#> roleVipLevel:<#(nonnull NSString *)#> gameServerId:<#(nonnull NSString *)#> roleCastleLevel:<#(nonnull NSString *)#> completeHandle:^(NSError * _Nullable) {
      if (!error) {
      
      }
