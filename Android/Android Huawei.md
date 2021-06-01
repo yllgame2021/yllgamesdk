@@ -56,6 +56,7 @@
     api 'com.huawei.hms:ads-identifier:3.4.39.302'
     //Bugly
     api 'com.tencent.bugly:crashreport:3.3.92'
+    api 'com.tencent.bugly:nativecrashreport:3.9.0'
  ```
 
 ## 2.项目配置，初始化
