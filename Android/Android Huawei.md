@@ -42,9 +42,9 @@
     api "androidx.room:room-compiler:$room_version"
     api "net.zetetic:android-database-sqlcipher:4.4.2"
     //数据统计依赖库 必须添加
-    api 'com.appsflyer:af-android-sdk:5.0.0'
-    api 'com.appsflyer:af-android-sdk:5.+'
-    api 'com.android.installreferrer:installreferrer:1.1'
+    api 'com.appsflyer:af-android-sdk:6.2.3@aar'
+    api 'com.appsflyer:oaid:6.2.3'
+    api 'com.android.installreferrer:installreferrer:2.2'
     //FCM 推送相关
     api platform('com.google.firebase:firebase-bom:26.4.0')
     api 'com.google.firebase:firebase-messaging'
