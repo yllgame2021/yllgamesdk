@@ -274,7 +274,7 @@ public class YGLoginReceiver extends BroadcastReceiver {
 ### 5.1 导入华为json文件 配置清单文件信息
 - 导入agconnect-services.json文件，文件需找运营方要 </br>
 ![image](https://user-images.githubusercontent.com/19358621/119936162-4a397080-bfbb-11eb-9364-55d80fee0af8.png)
-- 在APP的AndroidManifest.xml 中配置appid和cpid，appid和cpid在json中获取填写
+- 在APP的AndroidManifest.xml 中配置appid和cpid，appid和cpid在json中获取
 ``` xml
         <meta-data
             android:name="com.huawei.hms.client.appid"
