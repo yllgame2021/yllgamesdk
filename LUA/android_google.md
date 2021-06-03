@@ -5,7 +5,7 @@ SDK下载地址(请联系对接人获取)
 - Cocos2d-x 3.17
 - Android Studio 4.1.3
 - Gradle Version 5.1.1
-- Gradle Plugin Version 3.4.0
+- Gradle Plugin Version 3.4.3
 
 
 ## 1.接入前项目检查
