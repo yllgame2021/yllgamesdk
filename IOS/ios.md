@@ -24,6 +24,7 @@ SDK下载地址(请联系对接人获取)
 #### 2. 在podfile文件中添加以下依赖库
 ```obj-c
   pod 'FBSDKLoginKit', '~> 9.1.0'
+  pod 'GoogleSignIn', '~> 5.0.2'
   pod 'AppsFlyerFramework', '~> 6.2.5'
   pod 'Firebase/Analytics', '~> 6.34.0'
   pod 'Firebase/Messaging', '~> 6.34.0'
@@ -90,7 +91,32 @@ SDK下载地址(请联系对接人获取)
 4. 在 FacebookAppID 键内的 <string> 中，将 [APP_ID] 替换为应用编号。
 5. 在 FacebookDisplayName 键内的 <string> 中，将 [APP_NAME] 替换为应用名称。
   
-#### 5. Bugly符号表配置([官网](https://bugly.qq.com/docs/user-guide/symbol-configuration-ios/?v=20200622202242))
+#### 5. Google 项目配置，使用包含应用数据的 XML 代码片段配置 Info.plist 文件([官网](https://developers.google.com/identity/sign-in/ios/start))
+1. 右键点击 Info.plist，然后选择 Open As（打开方式）▸ Source Code（源代码）。
+2. 将下列 XML 代码片段复制并粘贴到文件正文中 (<dict>...</dict>)。
+```xml
+<key>CFBundleURLTypes</key>
+<array>
+    <dict>
+        <key>CFBundleTypeRole</key>
+        <string>Editor</string>
+        <key>CFBundleURLSchemes</key>
+        <array>
+            <string>[REVERSED_CLIENT_ID]</string>
+        </array>
+    </dict>
+</array>
+<key>CLIENT_ID</key>
+<string>[CLIENT_ID]</string>
+<key>REVERSED_CLIENT_ID</key>
+<string>[REVERSED_CLIENT_ID]</string>
+```
+3. 在 [CFBundleURLSchemes] 键内的 <array><string> 中，将 [REVERSED_CLIENT_ID] 替换为反向的客户ID
+4. 在 CLIENT_ID 键内的 <string> 中，将 [CLIENT_ID] 替换为客户端ID
+4. 在 REVERSED_CLIENT_ID 键内的 <string> 中，将 [REVERSED_CLIENT_ID] 替换为反向的客户ID
+5. 在工程的相对应的 `Targets` -> `info` 的 `URL Types`, 点击 + 按钮, 然后添加反向的客户ID作为URL方案
+  
+#### 6. Bugly符号表配置([官网](https://bugly.qq.com/docs/user-guide/symbol-configuration-ios/?v=20200622202242))
 - SDK建议使用自动配置
 1. 自动配置请首先下载和解压[自动配置符号表工具包](https://bugly.qq.com/v2/sdk?id=6ecfd28d-d8ea-4446-a9c8-13aed4a94f04)
 2. 下载符号表提取工具依赖的[Java运行环境](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)(JRE或JDK版本需要>=1.6)
@@ -108,7 +134,7 @@ UPLOAD_DEBUG_SYMBOLS=0</br>
 UPLOAD_SIMULATOR_SYMBOLS=0
 - 至此，自动上传符号表脚本配置完毕，Bugly 会在每次 Xcode 工程编译后自动完成符号表配置工作。
 
-#### 6. SDK所需权限
+#### 7. SDK所需权限
 - 相册权限 Privacy - Photo Library Usage Description
 - IDFA权限 Privacy - Tracking Usage Description
 - 权限的具体描述请根据游戏的实际使用进行定义，如果游戏没有使用，可以向SDK方要通用的阿语描述
@@ -245,10 +271,10 @@ UPLOAD_SIMULATOR_SYMBOLS=0
 /// @param roleName 角色名
 /// @param roleLevel 角色等级
 /// @param roleVipLevel 角色vip等级
-/// @param serverId 所在游戏服
+/// @param gameServerId 所在游戏服
 /// @param roleCastleLevel 城堡等级
-/// @param completeHandle  error == nil  成功 (SDKV1.0.1 版本新增结果回调)
-[[YllGameSDK getInstance] yg_synchroRoleWithRoleId:<#(nonnull NSString *)#> roleName:<#(nonnull NSString *)#> roleLevel:<#(NSInteger)#> roleVipLevel:<#(NSInteger)#> serverId:<#(NSInteger)#> roleCastleLevel:<#(NSInteger)#> completeHandle:^(NSError * _Nullable) {
+/// @param completeHandle  error == nil  成功 
+[[YllGameSDK getInstance] yg_synchroRoleWithRoleId:<#(nonnull NSString *)#> roleName:<#(nonnull NSString *)#> roleLevel:<#(nonnull NSString *)#> roleVipLevel:<#(nonnull NSString *)#> gameServerId:<#(nonnull NSString *)#> roleCastleLevel:<#(nonnull NSString *)#> completeHandle:^(NSError * _Nullable) {
      if (!error) {
      
      }
@@ -269,7 +295,7 @@ UPLOAD_SIMULATOR_SYMBOLS=0
 /// @param sku sku
 /// @param amount amount
 /// @param pointId 消费点Id
-[[YllGameSDK getInstance] yg_createOrderWithRoleId:<#(nonnull NSString *)#> gameServerId:<#(NSInteger)#> cpno:<#(nonnull NSString *)#> cptime:<#(nonnull NSString *)#> sku:<#(nonnull NSString *)#> amount:<#(nonnull NSString *)#> pointId:<#(NSInteger)#> successBlock:^{
+[[YllGameSDK getInstance] yg_createOrderWithRoleId:<#(nonnull NSString *)#> gameServerId:<#(nonnull NSString *)#> cpno:<#(nonnull NSString *)#> cptime:<#(nonnull NSString *)#> sku:<#(nonnull NSString *)#> amount:<#(nonnull NSString *)#> pointId:<#(nonnull NSString *)#> successBlock:^{
         <#code#>
     } failedBlock:^(YGPaymentFailedType type, NSString * _Nonnull errorDescription) {
         <#code#>
@@ -289,7 +315,7 @@ UPLOAD_SIMULATOR_SYMBOLS=0
 /// 展示客服中心页面
 /// @param roleId 游戏角色Id
 /// @param gameServerId 角色所在区服Id
-[[YllGameSDK getInstance] yg_showServiceChatViewWithRoleId:<#(nonnull NSString *)#> gameServerId:<#(NSInteger)#>];
+[[YllGameSDK getInstance] yg_showServiceChatViewWithRoleId:<#(nonnull NSString *)#> gameServerId:<#(nonnull NSString *)#>];
 ```
 
 ### 3.8 打开SDK设置界面
@@ -298,7 +324,7 @@ UPLOAD_SIMULATOR_SYMBOLS=0
 /// 展示设置中心
 /// @param roleId 游戏角色Id
 /// @param gameServerId 角色所在区服Id
-[[YllGameSDK getInstance] yg_showSettingsViewWithRoleId:<#(nonnull NSString *)#> gameServerId:<#(NSInteger)#>];
+[[YllGameSDK getInstance] yg_showSettingsViewWithRoleId:<#(nonnull NSString *)#> gameServerId:<#(nonnull NSString *)#>];
 ```
 
 ### 3.9 打开修改昵称界面

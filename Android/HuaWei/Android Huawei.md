@@ -42,9 +42,9 @@
     api "androidx.room:room-compiler:$room_version"
     api "net.zetetic:android-database-sqlcipher:4.4.2"
     //数据统计依赖库 必须添加
-    api 'com.appsflyer:af-android-sdk:5.0.0'
-    api 'com.appsflyer:af-android-sdk:5.+'
-    api 'com.android.installreferrer:installreferrer:1.1'
+    api 'com.appsflyer:af-android-sdk:6.2.3@aar'
+    api 'com.appsflyer:oaid:6.2.4'
+    api 'com.android.installreferrer:installreferrer:2.2'
     //FCM 推送相关
     api platform('com.google.firebase:firebase-bom:26.4.0')
     api 'com.google.firebase:firebase-messaging'
@@ -56,6 +56,7 @@
     api 'com.huawei.hms:ads-identifier:3.4.39.302'
     //Bugly
     api 'com.tencent.bugly:crashreport:3.3.92'
+    api 'com.tencent.bugly:nativecrashreport:3.9.0'
  ```
 
 ## 2.项目配置，初始化
@@ -270,9 +271,18 @@ public class YGLoginReceiver extends BroadcastReceiver {
     public boolean checkBindStat(Activity activity)
 ```
 ## 5.支付
-### 5.1 导入华为json文件
+### 5.1 导入华为json文件 配置清单文件信息
 - 导入agconnect-services.json文件，文件需找运营方要 </br>
 ![image](https://user-images.githubusercontent.com/19358621/119936162-4a397080-bfbb-11eb-9364-55d80fee0af8.png)
+- 在APP的AndroidManifest.xml 中配置appid和cpid，appid和cpid在json中获取
+``` xml
+        <meta-data
+            android:name="com.huawei.hms.client.appid"
+            android:value="appid=xxx"></meta-data>
+        <meta-data
+            android:name="com.huawei.hms.client.cpid"
+            android:value="cpid=xxx"></meta-data>
+```
 ### 5.2 导入华为plugins
 - 在APP的app/build.gradle文件的plugins目录导入华为插件
 ```

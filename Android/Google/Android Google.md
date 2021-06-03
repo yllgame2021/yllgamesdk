@@ -56,6 +56,7 @@
     api 'com.google.firebase:firebase-analytics'
      //Bugly
     api 'com.tencent.bugly:crashreport:3.3.92'
+    api 'com.tencent.bugly:nativecrashreport:3.9.0'
  ```
 
 ## 2.项目配置，初始化
