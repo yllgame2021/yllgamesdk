@@ -6,6 +6,12 @@
 2. 客户端埋点事件调整 
 3. FAQ增加直接跳转至在线客服的入口按钮 
 4. 增加静默游客登录接口
+5. 数据统计SDK版本更新 
+```
+api 'com.appsflyer:af-android-sdk:6.2.3@aar' 
+api 'com.appsflyer:oaid:6.2.4' 
+api 'com.android.installreferrer:installreferrer:2.2'
+```
 ## SDK版本1.0.2 
 1. 增加手机号绑定登陆 
 2. 调整登陆弹窗的样式 
