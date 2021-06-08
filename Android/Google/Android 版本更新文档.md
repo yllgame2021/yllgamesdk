@@ -1,7 +1,10 @@
 
 ## 版本更新纪录
 ### SDK版本1.0.2.2
-   1、BuglySDK接入 
+   1、数据统计SDK版本更新
+   api 'com.appsflyer:af-android-sdk:6.2.3@aar' 
+   api 'com.appsflyer:oaid:6.2.4' 
+   api 'com.android.installreferrer:installreferrer:2.2'
 ### SDK版本1.0.2.1  
    1、BuglySDK接入 
    2、客户端埋点事件调整 
