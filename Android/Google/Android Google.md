@@ -401,4 +401,15 @@ event_name分为游戏通用埋点和自定义埋点的事件名称
     public static int getSDKVersionCode()
 ```
 
+## 9.0弱联网
+### 9.1设置弱联网模式
+- 调用设置弱联网函数为：``  YllGameSdk.setNetMode(int mode); ``
+``` java
+     /**
+     * 设置SDK联网默认模式 默认强联网模式
+     *
+     * @param mode  YGConstants.SDK_STRONG_NET 强联网 YGConstants.SDK_WEAK_NET 弱联网
+     */
+    public static void setNetMode(int mode)
+```
 
