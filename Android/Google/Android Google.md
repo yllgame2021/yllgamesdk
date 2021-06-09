@@ -302,6 +302,7 @@ public class YGLoginReceiver extends BroadcastReceiver {
                                         String number, String amount,
                                         String pointId, YGPaymentListener listener)
 ```
+注：支付需要角色信息和网络支持，如果没有登录，需要先调用登录（详情见模块三）并同步角色（4.3）
 ## 6.推送
 ### 6.1 配置Google 服务插件和导入google-service.json
 在项目的build.gradle配置com.google.gms.google-services插件并且导入google-service.json文件
