@@ -15,7 +15,7 @@ SDK下载地址(请联系对接人获取)
 ### 2.1添加资源
 
 - 将 iOS 目录下的 YllGameSDK.framework 文件夹拷贝到项目中正确目录下
-- 右键项目，选择 Add File to "XXX"，选择刚才添加的framework，勾选 "Copy items if needed"，选择 "Create groups"，targets勾选mobile。
+- 右键项目，选择 Add File to "XXX"，选择刚才添加的framework，勾选 "Copy items if needed"，选择 "Create groups"，targets勾选mobile
 
 ### 2.2配置项目
 
@@ -34,18 +34,18 @@ SDK下载地址(请联系对接人获取)
 
 - 去掉use_frameworks!前的#
 - 在工程的相对应的 `Targets` -> `Build Settings` 的 `Other Linker Flags` ，添加`$(inherited)`
-- 然后执行 pod install。
+- 然后执行 pod install
 
 
 #### 3. 配置Game Center、推送和内购配置
-- 将`GoogleService-Info.plist`文件拖入项目。并配置以下选项
+- 将`GoogleService-Info.plist`文件拖入项目，并配置以下选项
 
 ![配置](img/Signing&Capabilities.jpg)
 
 #### 4. Facebook 项目配置，使用包含应用数据的 XML 代码片段配置 Info.plist 文件([官网](https://developers.facebook.com/docs/facebook-login/ios/v2.2?locale=zh_CN))
 
-1. 右键点击 Info.plist，然后选择 Open As（打开方式）▸ Source Code（源代码）。
-2. 将下列 XML 代码片段复制并粘贴到文件正文中 (<dict>...</dict>)。
+1. 右键点击 Info.plist，然后选择 Open As(打开方式) ▸ Source Code(源代码)
+2. 将下列 XML 代码片段复制并粘贴到文件正文中(<dict>...</dict>)
 ```xml
 <key>CFBundleURLTypes</key>
 <array>
@@ -87,13 +87,13 @@ SDK下载地址(请联系对接人获取)
     <string>fbshareextension</string>
 </array>
 ```
-3. 在 [CFBundleURLSchemes] 键内的 <array><string> 中，将 [APP_ID] 替换为应用编号。
-4. 在 FacebookAppID 键内的 <string> 中，将 [APP_ID] 替换为应用编号。
-5. 在 FacebookDisplayName 键内的 <string> 中，将 [APP_NAME] 替换为应用名称。
+3. 在 [CFBundleURLSchemes] 键内的 <array><string> 中，将 [APP_ID] 替换为应用编号
+4. 在 FacebookAppID 键内的 <string> 中，将 [APP_ID] 替换为应用编号
+5. 在 FacebookDisplayName 键内的 <string> 中，将 [APP_NAME] 替换为应用名称
   
 #### 5. Google 项目配置，使用包含应用数据的 XML 代码片段配置 Info.plist 文件([官网](https://developers.google.com/identity/sign-in/ios/start))
-1. 右键点击 Info.plist，然后选择 Open As（打开方式）▸ Source Code（源代码）。
-2. 将下列 XML 代码片段复制并粘贴到文件正文中 (<dict>...</dict>)。
+1. 右键点击 Info.plist，然后选择 Open As(打开方式) ▸ Source Code(源代码)
+2. 将下列 XML 代码片段复制并粘贴到文件正文中(<dict>...</dict>)
 ```xml
 <key>CFBundleURLTypes</key>
 <array>
@@ -132,7 +132,7 @@ Debug模式编译是否上传，1 = 上传 0 = 不上传，默认不上传</br>
 UPLOAD_DEBUG_SYMBOLS=0</br>
 模拟器编译是否上传. 1 = 上传 0 = 不上传，默认不上传</br>
 UPLOAD_SIMULATOR_SYMBOLS=0
-- 至此，自动上传符号表脚本配置完毕，Bugly 会在每次 Xcode 工程编译后自动完成符号表配置工作。
+- 至此，自动上传符号表脚本配置完毕，Bugly 会在每次 Xcode 工程编译后自动完成符号表配置工作
 
 #### 7. SDK所需权限
 - 相册权限 Privacy - Photo Library Usage Description
@@ -151,7 +151,7 @@ UPLOAD_SIMULATOR_SYMBOLS=0
 
 - 在`AppDelegate.m`的`didFinishLaunchingWithOptions`方法中添加以下代码
 ```obj-c
-//YllSDK-------Begin。gameAppId, appleAppId, buglyAppId, appsFlyerDevKey这些参数需要联系游戏发行方获取，改为自己的！
+//YllSDK-------Begin------gameAppId, appleAppId, buglyAppId, appsFlyerDevKey这些参数需要联系游戏发行方获取，改为自己的！
 [YllGameSDK getInstance].gameAppId = @"";
 [YllGameSDK getInstance].appleAppId = @"";
 [YllGameSDK getInstance].buglyAppId = @"";
@@ -227,8 +227,8 @@ UPLOAD_SIMULATOR_SYMBOLS=0
     */
  }];
 ```
-- 修改昵称成功(YGChangeNickName)是SDK账户体系的昵称修改，如果不使用，可以忽略。
-- 退出登录(YGLogout)或者token过期(YGTokenOverdue)游戏方要退出到登陆界面并且清除本地用户信息，再调用登录函数。
+- 修改昵称成功(YGChangeNickName)是SDK账户体系的昵称修改，如果不使用，可以忽略
+- 退出登录(YGLogout)或者token过期(YGTokenOverdue)游戏方要退出到登陆界面并且清除本地用户信息，再调用登录函数
   
 ### 3.3 游客静默登陆与回调
   
@@ -259,12 +259,12 @@ UPLOAD_SIMULATOR_SYMBOLS=0
     */
  }];
 ```
-- 修改昵称成功(YGChangeNickName)是SDK账户体系的昵称修改，如果不使用，可以忽略。
-- 退出登录(YGLogout)或者token过期(YGTokenOverdue)游戏方要退出到登陆界面并且清除本地用户信息，再调用登录函数。
+- 修改昵称成功(YGChangeNickName)是SDK账户体系的昵称修改，如果不使用，可以忽略
+- 退出登录(YGLogout)或者token过期(YGTokenOverdue)游戏方要退出到登陆界面并且清除本地用户信息，再调用登录函数
 
 ### 3.4 同步角色与回调
-- 在游戏启动之后，需要调用此方法，否则会影响内购的补单操作。
-- 在游戏使用中，函数中的任意参数发生变化，都需要调用该函数，进行数据同步。
+- 在游戏启动之后，需要调用此方法，否则会影响内购的补单操作
+- 在游戏使用中，函数中的任意参数发生变化，都需要调用该函数，进行数据同步
 ```obj-c
 /// 同步游戏角色(游戏登录之后必须调用)
 /// @param roleId 游戏角色
@@ -282,8 +282,9 @@ UPLOAD_SIMULATOR_SYMBOLS=0
 ```
 
 ### 3.5 充值与回调
-
-- SDK对内购支付中出现的任何报错进行了弹窗提示，游戏方也可以从返回的失败回调内拿到具体的错误信息。
+  
+- 使用SDK充值功能，需要先登录获取SDK的用户信息(文档3.2或3.3)且同步角色(文档3.4)成功之后
+- SDK对内购支付中出现的任何报错进行了弹窗提示，游戏方也可以从返回的失败回调内拿到具体的错误信息
 
 ```obj-c
 /// 商品充值
@@ -311,6 +312,8 @@ UPLOAD_SIMULATOR_SYMBOLS=0
 
 ### 3.7 打开客服界面
 
+- 使用客服功能，需要先登录获取SDK的用户信息(文档3.2或3.3)且同步角色(文档3.4)成功之后
+
 ```obj-c
 /// 展示客服中心页面
 /// @param roleId 游戏角色Id
@@ -319,6 +322,8 @@ UPLOAD_SIMULATOR_SYMBOLS=0
 ```
 
 ### 3.8 打开SDK设置界面
+      
+- 使用SDK设置界面，需要先登录获取SDK的用户信息(文档3.2或3.3)且同步角色(文档3.4)成功之后
 
 ```obj-c
 /// 展示设置中心
@@ -328,6 +333,8 @@ UPLOAD_SIMULATOR_SYMBOLS=0
 ```
 
 ### 3.9 打开修改昵称界面
+          
+- 使用SDK修改昵称界面，需要先登录获取SDK的用户信息(文档3.2或3.3)且同步角色(文档3.4)成功之后
 
 ```obj-c
 /// 展示昵称修改页面
@@ -335,6 +342,8 @@ UPLOAD_SIMULATOR_SYMBOLS=0
 ```
 
 ### 3.10 打开用户管理界面
+          
+- 使用SDK用户管理界面，需要先登录获取SDK的用户信息(文档3.2或3.3)且同步角色(文档3.4)成功之后
 
 ```obj-c
 /// 展示账户管理
