@@ -149,9 +149,9 @@ public class YGLoginReceiver extends BroadcastReceiver {
             GameUserInfoEntity userInfoEntity = (GameUserInfoEntity) intent.getExtras().getSerializable(YGConstants.BROADCAST_RECEIVER_LOGIN_INFO_KEY);
             //该示例中通过EventBus通知并且更新主界面的更新 具体的结合自身需求修改
             if (userInfoEntity.getType() == GameUserInfoEntity.TYPE_LOGIN_ACCOUNT_SUCCESS) {
-                //登陆成功
+                //登陆成功和切换账号成功
             } else if (userInfoEntity.getType() == GameUserInfoEntity.TYPE_LOGIN_ACCOUNT_FAIL) {
-                //登陆失败
+                //登陆失败和切换账号失败
             } else if (userInfoEntity.getType() == GameUserInfoEntity.TYPE_FAIL_ACCOUNT_REMOTE) {
                 //账号异地登录 SDK内部会有弹窗 必须退出到登陆界面清除用户信息
             } else if (userInfoEntity.getType() == GameUserInfoEntity.TYPE_FAIL_ACCOUNT_BLOCKED) {
@@ -426,6 +426,17 @@ event_name分为游戏通用埋点和自定义埋点的事件名称
      * @return 返回版本号
      */
     public static int getSDKVersionCode()
+```
+## 9.0弱联网
+### 9.1设置弱联网模式
+- 调用设置弱联网函数为：``  YllGameSdk.setNetMode(int mode); ``
+``` java
+     /**
+     * 设置SDK联网默认模式 默认强联网模式
+     *
+     * @param mode  YGConstants.SDK_STRONG_NET 强联网 YGConstants.SDK_WEAK_NET 弱联网
+     */
+    public static void setNetMode(int mode)
 ```
 
 
