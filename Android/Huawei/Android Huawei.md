@@ -149,9 +149,9 @@ public class YGLoginReceiver extends BroadcastReceiver {
             GameUserInfoEntity userInfoEntity = (GameUserInfoEntity) intent.getExtras().getSerializable(YGConstants.BROADCAST_RECEIVER_LOGIN_INFO_KEY);
             //该示例中通过EventBus通知并且更新主界面的更新 具体的结合自身需求修改
             if (userInfoEntity.getType() == GameUserInfoEntity.TYPE_LOGIN_ACCOUNT_SUCCESS) {
-                //登陆成功和切换账号成功
+                //登陆成功
             } else if (userInfoEntity.getType() == GameUserInfoEntity.TYPE_LOGIN_ACCOUNT_FAIL) {
-                //登陆失败和切换账号失败
+                //登陆失败
             } else if (userInfoEntity.getType() == GameUserInfoEntity.TYPE_FAIL_ACCOUNT_REMOTE) {
                 //账号异地登录 SDK内部会有弹窗 必须退出到登陆界面清除用户信息
             } else if (userInfoEntity.getType() == GameUserInfoEntity.TYPE_FAIL_ACCOUNT_BLOCKED) {
