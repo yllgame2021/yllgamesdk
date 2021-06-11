@@ -160,6 +160,8 @@ UPLOAD_SIMULATOR_SYMBOLS=0
 [YllGameSDK getInstance].languageList = @[@"ar", @"en"];
 // 当前设置的语言, 不传以 languageList 的第一个值为默认语言, 若 languageList 为 null, 默认为 ar
 [YllGameSDK getInstance].localLanguage = @"ar";
+// 设置SDK的网络模式, 默认是 YGStrongNet 强网模式
+[YllGameSDK getInstance].netMode = YGStrongNet;
     
 // 设置完以上属性之后再调用该方法, 不然对于语区统计会有影响
 [[YllGameSDK getInstance] yg_application:application didFinishLaunchingWithOptions:launchOptions];
@@ -213,11 +215,10 @@ UPLOAD_SIMULATOR_SYMBOLS=0
     /** 
     请根据返回 userInfoModel 内 state 的不同枚举值进行实际业务场景处理
     当 userInfoModel.state == YGLoginSuccess || userInfoModel.state == YGChangeNickName 时, userInfoModel 里面的其他属性才有值
+    弱网模式下的切换账号的成功或失败发送的 state 也是 YGLoginSuccess 和 YGLoginFailure
     typedef NS_ENUM(NSInteger, YGState) {
         YGTokenOverdue,   // token过期
         YGChangeNickName, // 修改昵称成功
-        YGSwitchSuccess,  // 账号切换成功
-        YGSwitchFailure,  // 账户切换失败
         YGLoginSuccess,   // 登录成功
         YGLoginFailure,   // 登录失败
         YGAccountBlock,   // 账号被封
@@ -245,11 +246,10 @@ UPLOAD_SIMULATOR_SYMBOLS=0
     /** 
     请根据返回 userInfoModel 内 state 的不同枚举值进行实际业务场景处理
     当 userInfoModel.state == YGLoginSuccess || userInfoModel.state == YGChangeNickName 时, userInfoModel 里面的其他属性才有值
+    弱网模式下的切换账号的成功或失败发送的 state 也是 YGLoginSuccess 和 YGLoginFailure
     typedef NS_ENUM(NSInteger, YGState) {
         YGTokenOverdue,   // token过期
         YGChangeNickName, // 修改昵称成功
-        YGSwitchSuccess,  // 账号切换成功
-        YGSwitchFailure,  // 账户切换失败
         YGLoginSuccess,   // 登录成功
         YGLoginFailure,   // 登录失败
         YGAccountBlock,   // 账号被封
@@ -413,4 +413,12 @@ NSString *SDKBuild = [[YllGameSDK getInstance] yg_getSDKBuild];
 ```obj-c
 // 调用该方法, 在控制台显示当前SDK的版本信息
 [[YllGameSDK getInstance] yg_checkSDKVersion];
+```
+          
+### 3.19 设置SDK网络模式
+- 提供了 YGStrongNet 和 YGWeakNet 两种网络模式, SDK 默认为 YGStrongNet
+- 当设置为 YGWeakNet 模式, 在 SDK 登录且同步角色未成功 或 无网络情况下, SDK 除登录页面以外的功能将受到限制使用
+
+```obj-c
+[YllGameSDK getInstance].netMode = YGStrongNet;
 ```
