@@ -36,11 +36,11 @@ PROP_BUILD_TOOLS_VERSION=28.0.1
 
 ### 2.2配置清单文件
 
-- 在`res/string.xml`中添加自己的Facebook APPID和登陆ID,联系发行方提供。如:
+- 在`res/string.xml`中添加自己的Facebook APPID和登陆ID,联系发行方提供。举例如果APPID为**15734567891011** 则:
 
 ```xml
-<string name="facebook_app_id" translatable="false">157932462436275</string>
-<string name="fb_login_protocol_scheme" translatable="false">fb157932462436275</string>
+<string name="facebook_app_id" translatable="false">15734567891011</string>
+<string name="fb_login_protocol_scheme" translatable="false">fb15734567891011</string>
 ```
 
 - 在项目中的`AndroidManifest`中`application`key中添加以下代码，并将相关信息改为自己实际的内容

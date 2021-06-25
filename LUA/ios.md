@@ -52,11 +52,11 @@ pod 'Bugly', '~> 2.5.90'
 
 ![推送配置](img/push.jpg)
 
-8. 右键`ios/info.list`，选择`open AS`->`Scoure Code`，在dict中添加以为值  
+8. 右键`ios/info.list`，选择`open AS`->`Scoure Code`，在dict中添加以下值(举例如果FB AppID为**15734567891011**)
 
 **注意**
-- 需要将 `CFBundleURLSchemes` 值替换为"fb"+申请的Facebook Appid(fb157932462436275)
-- 需要将 `FacebookAppID`值替换为申请的Facebook Appid(157932462436275)
+- 需要将 `CFBundleURLSchemes` 值替换为"fb"+申请的Facebook Appid(fb15734567891011)
+- 需要将 `FacebookAppID`值替换为申请的Facebook Appid(15734567891011)
 - 需要将在 `FacebookDisplayName` 值修改为应用名称。
 - `NSPhotoLibraryUsageDescription` 为调用相册权限的描述，可以自行修改
 - `NSUserTrackingUsageDescription` 为IDFA权限的描述，可以自行修改
@@ -69,7 +69,7 @@ pod 'Bugly', '~> 2.5.90'
         <string>Editor</string>
         <key>CFBundleURLSchemes</key>
         <array>
-            <string>fb157932462436275</string>
+            <string>fb15734567891011</string>
         </array>
     </dict>
 </array>
@@ -77,7 +77,7 @@ pod 'Bugly', '~> 2.5.90'
 <key>FacebookAdvertiserIDCollectionEnabled</key>
 <string>TRUE</string>
 <key>FacebookAppID</key>
-<string>157932462436275</string>
+<string>15734567891011</string>
 <key>FacebookAutoLogAppEventsEnabled</key>
 <string>TRUE</string>
 <key>FacebookDisplayName</key>
