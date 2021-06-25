@@ -124,8 +124,8 @@
             android:value="@string/facebook_app_id" /> 
 ```
 ``` xml
-    <string name="facebook_app_id" translatable="false">157932462436275</string>
-    <string name="fb_login_protocol_scheme" translatable="false">fb157932462436275</string>
+    <string name="facebook_app_id" translatable="false">157932462xxxxxx</string>
+    <string name="fb_login_protocol_scheme" translatable="false">fb157932462xxxxxx</string>
 ```
 **（注：facebook_app_id和fb_login_protocol_scheme 在Android项目string里，需要接入者自行变更为游戏的Facebook的APPID）**
 ### 2.4注册登陆Receiver
