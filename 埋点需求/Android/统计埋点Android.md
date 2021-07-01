@@ -73,7 +73,7 @@ YGEventApi.onEvent(YGEventConstants.YG_GAME_USER_LOGIN_FAILED,gameLoginFailed);
 - 上报时机：`创建角色成功`
 - EventName(事件名): `Android:YGEventConstants.YG_GAME_ROLE_CREATE`
 - 事件参数: `无`
-- 统计说明: `创角上报`
+- 统计说明: `创角上报`,此埋点需要在同步角色之后上报。
 - 示例: 
 ```java
  YGEventApi.onEvent(YGEventConstants.YG_GAME_ROLE_CREATE);
