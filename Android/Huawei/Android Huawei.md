@@ -35,7 +35,9 @@
     //gson数据解析库 必须添加
     api 'com.google.code.gson:gson:2.8.5'
     //Facebook登陆依赖库 必须添加
-    api 'com.facebook.android:facebook-login:9.0.0'
+    api 'com.facebook.android:facebook-login:11.0.0'
+    //Facebook分享
+    api 'com.facebook.android:facebook-share:11.0.0'
     //数据库依赖库 必须添加
     def room_version = "2.2.5"
     api "androidx.room:room-runtime:$room_version"
