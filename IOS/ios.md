@@ -23,11 +23,12 @@ SDK下载地址(请联系对接人获取)
 
 #### 2. 在podfile文件中添加以下依赖库
 ```obj-c
-  pod 'FBSDKLoginKit', '~> 9.1.0'
-  pod 'GoogleSignIn', '~> 5.0.2'
-  pod 'AppsFlyerFramework', '~> 6.2.5'
   pod 'Firebase/Analytics', '~> 6.34.0'
   pod 'Firebase/Messaging', '~> 6.34.0'
+  pod 'FBSDKLoginKit', '~> 9.1.0'
+  pod 'FBSDKShareKit', '~> 9.1.0'
+  pod 'AppsFlyerFramework', '~> 6.2.5'
+  pod 'GoogleSignIn', '~> 5.0.2'
   pod 'Bugly', '~> 2.5.90'
 ```
 
@@ -287,7 +288,6 @@ UPLOAD_SIMULATOR_SYMBOLS=0
 - SDK对内购支付中出现的任何报错进行了弹窗提示，游戏方也可以从返回的失败回调内拿到具体的错误信息
 
 ```obj-c
-/// 商品充值
 /// 创建支付清单
 /// @param roleId 游戏角色Id
 /// @param gameServerId 角色所在区服Id
@@ -296,7 +296,8 @@ UPLOAD_SIMULATOR_SYMBOLS=0
 /// @param sku sku
 /// @param amount amount
 /// @param pointId 消费点Id
-[[YllGameSDK getInstance] yg_createOrderWithRoleId:<#(nonnull NSString *)#> gameServerId:<#(nonnull NSString *)#> cpno:<#(nonnull NSString *)#> cptime:<#(nonnull NSString *)#> sku:<#(nonnull NSString *)#> amount:<#(nonnull NSString *)#> pointId:<#(nonnull NSString *)#> successBlock:^{
+/// @param payType 商品类型, 消耗型还是订阅型
+[[YllGameSDK getInstance] yg_createOrderWithRoleId:<#(nonnull NSString *)#> gameServerId:<#(nonnull NSString *)#> cpno:<#(nonnull NSString *)#> cptime:<#(nonnull NSString *)#> sku:<#(nonnull NSString *)#> amount:<#(nonnull NSString *)#> pointId:<#(nonnull NSString *)#> payType:<#(YGPayType)#> successBlock:^{
         <#code#>
     } failedBlock:^(YGPaymentFailedType type, NSString * _Nonnull errorDescription) {
         <#code#>
@@ -421,4 +422,37 @@ NSString *SDKBuild = [[YllGameSDK getInstance] yg_getSDKBuild];
 
 ```obj-c
 [YllGameSDK getInstance].netMode = YGStrongNet;
+```
+          
+### 3.20 Facebook 分享
+- 提供了 链接 和 图片 两种分享, 并返回了 成功/取消/失败 相对应的回调
+
+```obj-c
+/// 链接分享
+[[YGShareManager getInstance] shareLinkContentWithQuote:<#(nullable NSString *)#> linkContent:<#(nonnull NSString *)#> success:^{
+    <#code#>
+} cancel:^{
+    <#code#>
+} failed:^(NSError * _Nonnull) {
+    <#code#>
+}];
+```
+```obj-c
+/// 图片分享
+[[YGShareManager getInstance] sharePhotoWithPhotoArray:<#(nonnull NSArray<FBSDKSharePhoto *> *)#> success:^{
+    <#code#>
+} cancel:^{
+    <#code#>
+} failed:^(NSError * _Nonnull) {
+    <#code#>
+}];
+```
+      
+ ### 3.21 获取 Facebook 好友列表
+- 提供了返回共同登录该应用的 facebook 好友列表接口
+
+```obj-c
+[[YllGameSDK getInstance] yg_getFacebookFriendsWithCompleteHandle:^(NSArray<YGFBFriendInfoModel *> * _Nonnull list) {
+      <#code#>
+ }];
 ```
