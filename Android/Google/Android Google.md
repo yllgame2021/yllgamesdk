@@ -40,7 +40,7 @@
     api 'com.google.android.gms:play-services-auth:19.0.0'
     api "com.google.android.gms:play-services-ads-identifier:17.0.0"
     //Google支付依赖库 必须添加
-    api "com.android.billingclient:billing:3.0.0"
+    api "com.android.billingclient:billing:4.0.0"
     //数据库依赖库 必须添加
     def room_version = "2.2.5"
     api "androidx.room:room-runtime:$room_version"
@@ -286,6 +286,7 @@ public class YGLoginReceiver extends BroadcastReceiver {
      * 支付
      *
      * @param activity      当前activity
+     * @param skuType       支付类型 一次性购买商品传 YGConstants.PAY_INAPP 订阅商品传 YGConstants.PAY_SUBS
      * @param roleId        角色id
      * @param roleServiceId 角色服务器Id
      * @param sku           商品的sku
@@ -296,7 +297,7 @@ public class YGLoginReceiver extends BroadcastReceiver {
      * @param pointId       支付的充值点
      * @param listener      支付的回调
      */
-    public static synchronized void pay(Activity activity, String roleId,
+    public static synchronized void pay(Activity activity, String roleId,String skuType,
                                         String roleServiceId, String sku,
                                         String cpNo, String cpTime,
                                         String number, String amount,
