@@ -5,6 +5,7 @@
  api "com.android.billingclient:billing:4.0.0"
 ```
 2. 增加谷歌支付订阅功能
+3. 修改支付pay方法增加支付类型skuType
 ## 版本更新纪录
 ### SDK版本1.0.2.2
 1. 数据统计SDK版本更新
