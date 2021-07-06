@@ -34,7 +34,7 @@
     api("com.squareup.okhttp3:okhttp:4.9.0")
     //gson数据解析库 必须添加
     api 'com.google.code.gson:gson:2.8.5'
-    //Facebook登陆依赖库 必须添加
+    //Facebook登陆依赖库 必须添加 
     api 'com.facebook.android:facebook-login:9.0.0'
     //Google登陆依赖库 必须添加
     api 'com.google.android.gms:play-services-auth:19.0.0'
