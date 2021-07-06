@@ -427,6 +427,26 @@ event_name分为游戏通用埋点和自定义埋点的事件名称
      */
     public static int getSDKVersionCode()
 ```
+### 8.3设置activity回调（必接）
+- 调用设置activity函数为：``YGCommonApi.setCallback() `` 
+``` java
+    /**
+     * 设置回调
+     *
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
+    public static void setCallback(int requestCode, int resultCode, Intent data)
+```
+注：该函数必须接入，有些第三方依赖库必须依赖Activity的onActivityResult的回调来传值和回调。在Activity 重写onActivityResult
+``` java
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        YGCommonApi.setCallback(requestCode, resultCode, data);
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+```
 ## 9.0弱联网
 ### 9.1设置弱联网模式
 - 调用设置弱联网函数为：``  YllGameSdk.setNetMode(int mode); ``
@@ -438,9 +458,9 @@ event_name分为游戏通用埋点和自定义埋点的事件名称
      */
     public static void setNetMode(int mode)
 ```
-## 10 Facebook好友列表和分享
+## 10 Facebook好友列表和分享（必须接入8.3）
 ### 10.1获取Facebook好友列表
-- SDK调起账号升级的函数为：`` YGTripartiteApi.getInstance().getFacebookFriends ``
+- 获取Facebook好友列表的函数为：`` YGTripartiteApi.getInstance().getFacebookFriends ``
 ``` java 
     /**
      * 获取Facebook好友
@@ -451,7 +471,7 @@ event_name分为游戏通用埋点和自定义埋点的事件名称
     public void getFacebookFriends(Activity activity, YGCallBack<List<GameFacebookFriendEntity>> callBack)
 ```
 ### 10.2Facebook分享链接
-- SDK调起账号升级的函数为：`` YGTripartiteApi.getInstance().shareLink ``
+- Facebook分享链接的函数为：`` YGTripartiteApi.getInstance().shareLink ``
 ``` java 
     /**
      * 分享链接
@@ -464,7 +484,7 @@ event_name分为游戏通用埋点和自定义埋点的事件名称
     public void shareLink(Activity activity, String quote, String url, FacebookCallback<Sharer.Result> callback)
 ```
 ### 10.3Facebook分享链接
-- SDK调起账号升级的函数为：`` YGTripartiteApi.getInstance().sharePhoto ``
+- Facebook分享链接的函数为：`` YGTripartiteApi.getInstance().sharePhoto ``
 ``` java 
     /**
      * 分享图片
