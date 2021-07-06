@@ -9,7 +9,7 @@ api 'com.facebook.android:facebook-login:11.0.0'
 //新增Facebook分享 
 api 'com.facebook.android:facebook-share:11.0.0'
 ```
-2.新增Facebook好友列表和分享
+2. 新增Facebook好友列表和分享
 3. 增加谷歌支付订阅功能
 4. 修改支付pay方法增加支付类型skuType
 5. SDK回调设置统一接口
