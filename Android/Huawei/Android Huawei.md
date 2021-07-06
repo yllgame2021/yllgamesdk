@@ -438,5 +438,40 @@ event_name分为游戏通用埋点和自定义埋点的事件名称
      */
     public static void setNetMode(int mode)
 ```
-
-
+## 10 Facebook好友列表和分享
+### 10.1获取Facebook好友列表
+- SDK调起账号升级的函数为：`` YGTripartiteApi.getInstance().getFacebookFriends ``
+``` java 
+    /**
+     * 获取Facebook好友
+     *
+     * @param activity 当前的activity
+     * @param callBack 好友列表回调
+     */
+    public void getFacebookFriends(Activity activity, YGCallBack<List<GameFacebookFriendEntity>> callBack)
+```
+### 10.2Facebook分享链接
+- SDK调起账号升级的函数为：`` YGTripartiteApi.getInstance().shareLink ``
+``` java 
+    /**
+     * 分享链接
+     *
+     * @param activity 当前的activity
+     * @param quote    分享的标题
+     * @param url      分享的url
+     * @param callback 分享回调
+     */
+    public void shareLink(Activity activity, String quote, String url, FacebookCallback<Sharer.Result> callback)
+```
+### 10.3Facebook分享链接
+- SDK调起账号升级的函数为：`` YGTripartiteApi.getInstance().sharePhoto ``
+``` java 
+    /**
+     * 分享图片
+     *
+     * @param activity 当前的activity
+     * @param list     分享图片的集合
+     * @param callback
+     */
+    public void sharePhoto(Activity activity, List<SharePhoto> list, FacebookCallback<Sharer.Result> callback)
+```
