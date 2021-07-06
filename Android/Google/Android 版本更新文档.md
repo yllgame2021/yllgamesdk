@@ -1,11 +1,18 @@
 ## 版本更新纪录
 ### SDK版本1.0.3
-1. 谷歌支付版本升级（原3.0.0版本升级到4.0.0）
+1. 第三方依赖库升级
 ```
- api "com.android.billingclient:billing:4.0.0"
+//谷歌支付（原3.0.0版本升级到4.0.0）
+api "com.android.billingclient:billing:4.0.0"
+//Facebook登陆（9.0.0版本升级到11.0.0）
+api 'com.facebook.android:facebook-login:11.0.0'
+//新增Facebook分享 
+api 'com.facebook.android:facebook-share:11.0.0'
 ```
-2. 增加谷歌支付订阅功能
-3. 修改支付pay方法增加支付类型skuType
+2.新增Facebook好友列表和分享
+3. 增加谷歌支付订阅功能
+4. 修改支付pay方法增加支付类型skuType
+5. SDK回调设置统一接口
 ## 版本更新纪录
 ### SDK版本1.0.2.2
 1. 数据统计SDK版本更新
