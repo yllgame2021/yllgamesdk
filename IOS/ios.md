@@ -453,6 +453,6 @@ NSString *SDKBuild = [[YllGameSDK getInstance] yg_getSDKBuild];
 
 ```obj-c
 [[YllGameSDK getInstance] yg_getFacebookFriendsWithCompleteHandle:^(NSArray<YGFBFriendInfoModel *> * _Nonnull list) {
-      <#code#>
- }];
+    <#code#>
+}];
 ```
