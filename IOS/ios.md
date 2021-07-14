@@ -114,8 +114,7 @@ SDK下载地址(请联系对接人获取)
 ```
 3. 在 [CFBundleURLSchemes] 键内的 <array><string> 中，将 [REVERSED_CLIENT_ID] 替换为反向的客户ID
 4. 在 CLIENT_ID 键内的 <string> 中，将 [CLIENT_ID] 替换为客户端ID
-4. 在 REVERSED_CLIENT_ID 键内的 <string> 中，将 [REVERSED_CLIENT_ID] 替换为反向的客户ID
-5. 在工程的相对应的 `Targets` -> `info` 的 `URL Types`, 点击 + 按钮, 然后添加反向的客户ID作为URL方案
+5. 在 REVERSED_CLIENT_ID 键内的 <string> 中，将 [REVERSED_CLIENT_ID] 替换为反向的客户ID
   
 #### 6. Bugly符号表配置([官网](https://bugly.qq.com/docs/user-guide/symbol-configuration-ios/?v=20200622202242))
 - SDK建议使用自动配置
